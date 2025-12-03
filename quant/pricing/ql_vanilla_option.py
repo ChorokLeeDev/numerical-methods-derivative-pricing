@@ -1,7 +1,7 @@
 
 #%%
 import QuantLib as ql
-from src.pricing.blackscholes import bsprice
+from quant.pricing.blackscholes import bsprice
 
 def ql_vanilla_option(S, K, r, q, maturity, vol, evalDate, option_flag, dc=ql.ActualActual(ql.ActualActual.ISMA)):
     ql.Settings.evaluationDate = evalDate

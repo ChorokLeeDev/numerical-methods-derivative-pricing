@@ -29,8 +29,47 @@ fn quant_core(m: &Bound<'_, PyModule>) -> PyResult<()> {
     // Black-Litterman
     m.add_class::<optimizer::BlackLitterman>()?;
 
-    // Risk utilities
+    // Constrained Optimization
+    m.add_function(wrap_pyfunction!(optimizer::min_variance_constrained_py, m)?)?;
+    m.add_function(wrap_pyfunction!(optimizer::max_sharpe_constrained_py, m)?)?;
+
+    // Advanced Optimization
+    m.add_function(wrap_pyfunction!(optimizer::minimize_cvar_py, m)?)?;
+    m.add_function(wrap_pyfunction!(optimizer::robust_optimize_py, m)?)?;
+    m.add_function(wrap_pyfunction!(optimizer::multiperiod_optimize_py, m)?)?;
+    m.add_function(wrap_pyfunction!(optimizer::estimate_factor_model_py, m)?)?;
+    m.add_function(wrap_pyfunction!(optimizer::factor_min_variance_py, m)?)?;
+
+    // Risk utilities - Covariance Estimation
     m.add_function(wrap_pyfunction!(risk::sample_covariance_py, m)?)?;
+    m.add_function(wrap_pyfunction!(risk::ledoit_wolf_py, m)?)?;
+    m.add_function(wrap_pyfunction!(risk::shrink_to_identity_py, m)?)?;
+
+    // Risk utilities - Risk Decomposition
+    m.add_function(wrap_pyfunction!(risk::mcr_py, m)?)?;
+    m.add_function(wrap_pyfunction!(risk::ccr_py, m)?)?;
+    m.add_function(wrap_pyfunction!(risk::pct_py, m)?)?;
+    m.add_function(wrap_pyfunction!(risk::risk_parity_py, m)?)?;
+
+    // Risk utilities - VaR and CVaR
+    m.add_function(wrap_pyfunction!(risk::parametric_var_py, m)?)?;
+    m.add_function(wrap_pyfunction!(risk::historical_var_py, m)?)?;
+    m.add_function(wrap_pyfunction!(risk::parametric_cvar_py, m)?)?;
+    m.add_function(wrap_pyfunction!(risk::historical_cvar_py, m)?)?;
+
+    // Risk utilities - Hierarchical Risk Parity
+    m.add_function(wrap_pyfunction!(risk::hrp_weights_py, m)?)?;
+
+    // Risk utilities - Factor Risk Models
+    m.add_function(wrap_pyfunction!(risk::estimate_factor_risk_model_py, m)?)?;
+    m.add_function(wrap_pyfunction!(risk::factor_risk_decomposition_py, m)?)?;
+
+    // Risk utilities - Extreme Value Theory (EVT)
+    m.add_function(wrap_pyfunction!(risk::fit_gpd_py, m)?)?;
+    m.add_function(wrap_pyfunction!(risk::evt_var_py, m)?)?;
+    m.add_function(wrap_pyfunction!(risk::evt_es_py, m)?)?;
+    m.add_function(wrap_pyfunction!(risk::hill_tail_index_py, m)?)?;
+    m.add_function(wrap_pyfunction!(risk::tail_risk_analysis_py, m)?)?;
 
     Ok(())
 }

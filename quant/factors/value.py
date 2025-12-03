@@ -8,9 +8,9 @@ Based on Fama-French (1992).
 import numpy as np
 import pandas as pd
 
-from data.fundamental import fetch_financial_statements, calculate_book_value
-from data.price import get_market_cap
-from portfolio.rebalance import get_latest_available_fiscal_year
+from quant.data.fundamental import fetch_financial_statements, calculate_book_value
+from quant.data.price import get_market_cap
+from quant.portfolio.rebalance import get_latest_available_fiscal_year
 
 
 def get_value_factor_for_backtest(

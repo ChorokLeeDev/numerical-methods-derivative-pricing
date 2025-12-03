@@ -8,8 +8,8 @@ Based on Novy-Marx (2013) and Fama-French (2015).
 import numpy as np
 import pandas as pd
 
-from data.fundamental import fetch_financial_statements
-from portfolio.rebalance import get_latest_available_fiscal_year
+from quant.data.fundamental import fetch_financial_statements
+from quant.portfolio.rebalance import get_latest_available_fiscal_year
 
 
 def get_quality_factor_for_backtest(

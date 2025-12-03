@@ -238,7 +238,7 @@ impl MeanVarianceOptimizer {
             }
         }
 
-        let n_valid = returns.len();
+        let _n_valid = returns.len();  // For debugging
         let returns_arr = PyArray1::from_slice_bound(py, &returns);
         let vols_arr = PyArray1::from_slice_bound(py, &volatilities);
         let weights_arr = PyArray2::from_vec2_bound(
