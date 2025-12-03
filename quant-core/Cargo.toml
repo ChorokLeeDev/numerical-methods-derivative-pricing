@@ -1,0 +1,27 @@
+[package]
+name = "quant_core"
+version = "0.1.0"
+edition = "2021"
+description = "Portfolio optimization library: Mean-Variance and Black-Litterman"
+
+[lib]
+name = "quant_core"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+# Linear algebra
+nalgebra = "0.33"
+
+# Python bindings
+pyo3 = { version = "0.22", features = ["extension-module"] }
+numpy = "0.22"
+
+# Error handling
+thiserror = "1.0"
+
+[dev-dependencies]
+approx = "0.5"
+
+[profile.release]
+opt-level = 3
+lto = true

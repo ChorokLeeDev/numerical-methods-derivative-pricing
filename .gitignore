@@ -46,3 +46,12 @@ Thumbs.db
 
 # Claude
 .claude/
+.env
+
+# Data cache and output
+data/cache/
+data/output/
+docs_cache/
+
+# Rust build artifacts
+quant-core/target/
