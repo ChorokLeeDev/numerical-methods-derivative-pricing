@@ -205,13 +205,24 @@ class DANNTrainer:
         # Iterate over both loaders
         target_iter = iter(target_loader)
 
-        for source_x, source_y, source_domain in source_loader:
+        for source_data in source_loader:
+            # Handle both 3-tuple and 4-tuple datasets
+            if len(source_data) == 3:
+                source_x, source_y, source_domain = source_data
+            else:
+                source_x, source_y, _, source_domain = source_data
+
             # Get target batch (cycle if needed)
             try:
-                target_x, _, target_domain = next(target_iter)
+                target_data = next(target_iter)
             except StopIteration:
                 target_iter = iter(target_loader)
-                target_x, _, target_domain = next(target_iter)
+                target_data = next(target_iter)
+
+            if len(target_data) == 3:
+                target_x, _, target_domain = target_data
+            else:
+                target_x, _, _, target_domain = target_data
 
             # Move to device
             source_x = source_x.to(self.device)

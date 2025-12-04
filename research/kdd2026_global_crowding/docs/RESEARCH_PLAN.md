@@ -82,6 +82,46 @@ See `docs/THEORETICAL_ANALYSIS.md`:
 
 ---
 
+## Honest Assessment & Limitations
+
+### Current Weaknesses
+
+| Issue | Severity | Mitigation |
+|-------|----------|------------|
+| Modest improvement (+2.1% over MMD) | High | Add stronger baselines (CDAN, MCD) |
+| Weak baselines (only RF, MMD) | High | Implement CDAN, CORAL, MCD |
+| Synthetic traffic data | Medium | Use real traffic dataset |
+| Manual regime detection | Medium | Justify as interpretable design choice |
+| Only binary regimes | Low | Ablation shows 2 is optimal |
+| No significance tests | Medium | Add bootstrap confidence intervals |
+
+### Reviewer Concerns to Address
+
+1. **"Why not compare with SOTA domain adaptation?"**
+   - Need to add: CDAN (Long et al., 2018), MCD (Saito et al., 2018)
+
+2. **"Is +2.1% improvement significant?"**
+   - Add bootstrap confidence intervals
+   - Show when T-MMD helps most (high regime imbalance)
+
+3. **"Why not learn regimes end-to-end?"**
+   - Answer: Interpretability - practitioners need to understand regimes
+   - Future work: learnable regime detection
+
+4. **"Synthetic traffic data is not convincing"**
+   - Replace with real dataset (PEMS-BAY, METR-LA)
+
+### Acceptance Probability Estimate
+
+| State | Probability | Notes |
+|-------|-------------|-------|
+| Current | ~50% | Borderline - novel idea but weak validation |
+| + CDAN/MCD baselines | ~60% | Shows T-MMD beats SOTA |
+| + Real traffic data | ~65% | More convincing experiments |
+| + Significance tests | ~70% | Statistical rigor |
+
+---
+
 ## NEW Methodology: Domain Adaptation
 
 ### Problem Formulation
