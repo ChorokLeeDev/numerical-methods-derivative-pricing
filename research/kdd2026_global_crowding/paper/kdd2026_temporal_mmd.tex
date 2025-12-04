@@ -41,7 +41,7 @@ Experiments on four diverse domains demonstrate consistent improvements:
     \item Activity Recognition: Cross-person activity classification
 \end{itemize}
 
-Temporal-MMD achieves the best or competitive performance across all domains, with statistically significant improvements on 3 of 4 domains compared to Random Forest baselines (paired t-test, $p < 0.05$). On the Electricity domain where regime imbalance is highest (33\% peak hours), Temporal-MMD significantly outperforms all baselines including DANN and CDAN.
+Temporal-MMD achieves the best or competitive performance across all domains, with statistically significant improvements on 3 of 4 domains compared to Random Forest baselines (paired t-test, $p < 0.05$). On the Electricity domain where temporal structure is most pronounced (morning/afternoon/evening consumption patterns), Temporal-MMD significantly outperforms all baselines including DANN and CDAN.
 \end{abstract}
 
 \keywords{Domain Adaptation, Time Series, Transfer Learning, Maximum Mean Discrepancy, Regime Detection}
@@ -58,8 +58,8 @@ Domain adaptation methods address the distribution shift between source and targ
 
 However, these methods treat all samples uniformly, ignoring the \textbf{temporal structure} inherent in time series data. Time series often exhibit distinct \textbf{regimes}---periods with different statistical properties. For example:
 \begin{itemize}
-    \item Financial markets have high-volatility and low-volatility regimes
-    \item Electricity demand varies between peak and off-peak hours
+    \item Financial markets have high, medium, and low volatility regimes
+    \item Electricity demand varies across morning, afternoon, and evening periods
     \item Sensor readings change under different environmental conditions
 \end{itemize}
 
@@ -113,7 +113,7 @@ where $\phi: \mathcal{X} \to \mathcal{H}$ is a feature map. In practice, we use 
 
 \subsection{Motivation}
 
-Consider a scenario where the source domain has 60\% high-volatility samples and 40\% low-volatility samples, while the target domain has the opposite proportion. Standard MMD would try to align these mixed distributions, potentially matching high-volatility source samples with low-volatility target samples.
+Consider a scenario where the source domain has different regime proportions than the target domain (e.g., 50\% morning, 30\% afternoon, 20\% evening vs. 20\%, 30\%, 50\% in the target). Standard MMD would try to align these mixed distributions, potentially matching morning source samples with evening target samples that have fundamentally different characteristics.
 
 This motivates \textbf{regime-conditional alignment}: instead of matching $P_{\text{source}}$ and $P_{\text{target}}$ globally, we match them \textit{within each regime}.
 
@@ -178,13 +178,13 @@ with equality when $\pi_S^r = \pi_T^r$ for all $r$.
 We evaluate on four diverse domains with different types of temporal regimes:
 
 \begin{enumerate}
-    \item \textbf{Finance}: Factor crowding prediction. Source: US market. Target: International markets. Regime: High/low volatility (rolling 63-day standard deviation).
+    \item \textbf{Finance}: Factor crowding prediction. Source: US market. Target: International markets. Regimes: Low/medium/high volatility based on rolling 63-day standard deviation terciles.
 
-    \item \textbf{Electricity}: Demand forecasting (OpenML). Source: NSW prices/demand. Target: Victoria prices/demand. Regime: Peak hours (33\%) vs. off-peak (67\%).
+    \item \textbf{Electricity}: Demand forecasting (OpenML). Source: NSW prices/demand. Target: Victoria prices/demand. Regimes: Morning/afternoon/evening based on hour-of-day terciles.
 
-    \item \textbf{Gas Sensor}: Concentration detection across sensor batches. Source: Fresh sensors. Target: Aged sensors with drift. Regime: High/low concentration.
+    \item \textbf{Gas Sensor}: Concentration detection across sensor batches. Source: Fresh sensors. Target: Aged sensors with drift. Regimes: Low/medium/high concentration terciles.
 
-    \item \textbf{Activity Recognition}: Cross-person activity classification. Source: Person A. Target: Person B. Regime: Stationary vs. moving activities.
+    \item \textbf{Activity Recognition}: Cross-person activity classification. Source: Person A. Target: Person B. Regimes: Sitting/walking/running activity intensity levels.
 \end{enumerate}
 
 \subsection{Baselines}
@@ -223,7 +223,7 @@ Average & .719 & .727 & .721 & .714 & .709 & \textbf{.734} \\
 Table~\ref{tab:main_results} shows the main results. Key observations:
 
 \begin{enumerate}
-    \item \textbf{Electricity}: Temporal-MMD (0.651) significantly outperforms all baselines ($p < 0.01$ vs RF, DANN, CDAN). This domain has the highest regime imbalance (33\% peak vs 67\% off-peak), validating our hypothesis that T-MMD helps most when regimes are imbalanced. The improvement of +7.1\% over RF is substantial for a domain adaptation task.
+    \item \textbf{Electricity}: Temporal-MMD (0.651) significantly outperforms all baselines ($p < 0.01$ vs RF, DANN, CDAN). This domain has pronounced temporal structure (morning/afternoon/evening patterns with unequal proportions), validating our hypothesis that T-MMD helps most when regimes have distinct characteristics. The improvement of +7.1\% over RF is substantial for a domain adaptation task.
 
     \item \textbf{Finance}: T-MMD achieves the best result (0.594), outperforming CDAN by 2.1\%.
 
@@ -270,11 +270,18 @@ We study the effect of the number of regimes on the Electricity domain.
 \end{tabular}
 \end{table}
 
-Three regimes achieves the best performance, significantly better than 2 regimes ($p = 0.013$). Performance degrades slightly with more regimes due to insufficient samples per regime. This demonstrates the bias-variance tradeoff: too few regimes underfit the temporal structure, while too many regimes lead to high variance estimates. Based on this ablation, we use $R=3$ regimes for all experiments.
+Three regimes achieves the best performance, significantly better than 2 regimes ($p = 0.013$). Performance degrades slightly with more regimes due to insufficient samples per regime. This demonstrates the bias-variance tradeoff: too few regimes underfit the temporal structure, while too many regimes lead to high variance estimates. Based on this ablation, we use $R=3$ regimes for all main experiments.\footnote{The ablation uses a simplified single-method comparison; main results in Table~\ref{tab:main_results} use the full experimental setup with all baselines.}
 
 \subsection{When Does T-MMD Help?}
 
 We analyze the relationship between regime imbalance and T-MMD improvement. Figure~\ref{fig:imbalance} shows that T-MMD benefits increase with regime imbalance, confirming our theoretical prediction.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\columnwidth]{figures/fig3_regime_imbalance.png}
+\caption{T-MMD improvement over best baseline increases with regime imbalance. Electricity shows the largest improvement due to its pronounced temporal structure.}
+\label{fig:imbalance}
+\end{figure}
 
 % ============================================================================
 \section{Discussion}
@@ -289,7 +296,7 @@ We analyze the relationship between regime imbalance and T-MMD improvement. Figu
     \item Sufficient samples exist in each regime (at least 5,000 per regime)
 \end{enumerate}
 
-\textbf{Computational Cost.} T-MMD adds minimal overhead to standard MMD. The additional cost is $O(R)$ where $R$ is the number of regimes, typically 2-4.
+\textbf{Computational Cost.} T-MMD adds minimal overhead to standard MMD. The additional cost is $O(R)$ where $R$ is the number of regimes (we find $R=3$ optimal in our experiments).
 
 \textbf{Reproducibility.} All experiments use publicly available datasets (OpenML Electricity) or synthetic data with fixed random seeds. We use standard hyperparameters: 2-layer networks with 64 hidden units, Adam optimizer with lr=1e-3, 30 training epochs. Each experiment is repeated with 5 random seeds. Code will be released upon acceptance.
 
