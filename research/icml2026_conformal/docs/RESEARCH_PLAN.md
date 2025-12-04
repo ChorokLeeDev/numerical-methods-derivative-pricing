@@ -405,16 +405,103 @@ class CrowdingAdaptiveOnline:
 
 **Main Finding:** CrowdingWeightedCP achieves **97.1% coverage in high-crowding regimes** - an 11.3% improvement over Split CP baseline.
 
-### Remaining Tasks
+---
 
-1. Download official ICML 2026 template
-2. Finalize theorem proofs
-3. Add appendix with additional experiments
-4. Polish paper writing
+## 11. Honest Assessment & Limitations (December 4, 2025)
+
+### Strengths ✓
+
+1. **Novel combination**: First integration of market microstructure (crowding) into conformal prediction
+2. **Strong conditional result**: 97.1% coverage in high-crowding (vs 85.8% baseline)
+3. **Practical relevance**: High-crowding regimes are where coverage matters most (tail risk)
+4. **Complete story**: Theory + empirics + paper draft
+
+### Critical Limitations ⚠️
+
+#### 1. Coverage Trade-off Problem
+```
+CrowdingWeightedCP (λ=5):
+  Low crowding:  67.3% coverage ← FAILS target (bad)
+  High crowding: 97.1% coverage ← EXCEEDS target (good)
+```
+- We sacrifice low-crowding coverage for high-crowding coverage
+- Reviewer concern: "Why not just use larger sets everywhere?"
+
+#### 2. Marginal Coverage NOT Improved
+```
+Overall coverage:
+  Split:    85.8%
+  ACI:      89.8%
+  CWCP:     86.6%  ← Worse than ACI!
+  CAO:      89.7%  ← Same as ACI
+```
+- Our method doesn't improve marginal coverage
+- Only improves conditional coverage in specific regime
+
+#### 3. Crowding-Shift Assumption VIOLATED
+From experiment 03_theory_verification.py:
+```
+Crowding-Gap Correlation: -0.901 (NEGATIVE!)
+Supports Theory: ✗
+```
+- Empirical data shows OPPOSITE relationship to our assumption
+- High crowding → BETTER baseline coverage (not worse as assumed)
+- This undermines the theoretical motivation
+
+#### 4. Theory is Informal
+- Theorems stated but not rigorously proven
+- Bounds are loose (empirical coverage far exceeds theoretical bound)
+- May not pass ICML theory standards
+
+#### 5. Limited Novelty Concern
+- CrowdingWeightedCP = weighted conformal with crowding as weight
+- CAO = ACI with variable step size
+- Reviewers may view as straightforward extensions
+
+### ICML Readiness Assessment
+
+| Aspect | Rating | Note |
+|--------|--------|------|
+| Novelty | Medium | Combination is new, methods are incremental |
+| Theory | Weak | Informal, assumption violated empirically |
+| Empirics | Medium | Good conditional result, but trade-off issue |
+| ICML fit | Uncertain | Borderline - needs strengthening |
+
+### Required Improvements for Submission
+
+1. **Fix the trade-off**: Develop adaptive λ selection that maintains coverage across ALL regimes
+   - Idea: λ(c) = λ_base × f(c) where f adapts to local coverage performance
+
+2. **Reframe or validate assumption**:
+   - Option A: Find dataset/factors where crowding DOES predict poor coverage
+   - Option B: Reframe contribution as "targeted coverage" not "shift prediction"
+
+3. **Rigorous proofs**:
+   - Formalize Theorem 1 with proper probability bounds
+   - Use techniques from Barber et al. (2023)
+
+4. **Additional baselines**:
+   - Weighted conformal prediction (Tibshirani et al.)
+   - MAPIE implementations
+   - Other distribution-shift methods
+
+5. **Consider alternative venues**:
+   - AISTATS 2026 (theory + application)
+   - UAI 2026 (uncertainty quantification focus)
+   - Finance venues (JFE, RFS, JF) where domain expertise valued
+
+### Decision Point
+
+**Current status**: Promising idea, incomplete execution
+
+**Options**:
+1. **Push for ICML** (deadline Jan 28): Address limitations aggressively in next 7 weeks
+2. **Pivot to AISTATS/UAI**: More time, lower bar for theory
+3. **Focus on ICAIF**: Finance venue, domain expertise valued
 
 ---
 
-## 11. Key References
+## 12. Key References
 
 ### Conformal Prediction Theory
 - Vovk et al. (2005) "Algorithmic Learning in a Random World"
