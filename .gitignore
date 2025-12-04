@@ -55,3 +55,18 @@ docs_cache/
 
 # Rust build artifacts
 quant-core/target/
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+missfont.log
+
+# Research data (large files)
+research/*/data/
+!research/*/data/*.py
