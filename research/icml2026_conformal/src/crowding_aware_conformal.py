@@ -874,6 +874,130 @@ class CrowdingWeightedACI:
 
         return sets, thresholds
 
+    @staticmethod
+    def select_lambda(
+        X_train: np.ndarray,
+        y_train: np.ndarray,
+        X_calib: np.ndarray,
+        y_calib: np.ndarray,
+        crowding_calib: np.ndarray,
+        alpha: float = 0.1,
+        gamma: float = 0.1,
+        lambda_candidates: List[float] = None,
+        n_folds: int = 3,
+        criterion: str = 'min_variance'
+    ) -> Tuple[float, Dict]:
+        """
+        Principled λ selection via cross-validation on calibration set.
+
+        Criteria:
+        - 'min_variance': Minimize variance of conditional coverage across crowding bins
+        - 'max_min': Maximize minimum coverage across crowding bins
+        - 'combined': Balance both (weighted combination)
+
+        Returns:
+            (optimal_lambda, selection_stats)
+        """
+        if lambda_candidates is None:
+            lambda_candidates = [0.0, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0]
+
+        n_calib = len(X_calib)
+        fold_size = n_calib // n_folds
+
+        results = []
+
+        for lam in lambda_candidates:
+            fold_coverages = []
+            fold_bin_coverages = {'low': [], 'medium': [], 'high': []}
+
+            for fold in range(n_folds):
+                # Split calibration into train/validation
+                val_start = fold * fold_size
+                val_end = val_start + fold_size if fold < n_folds - 1 else n_calib
+
+                val_mask = np.zeros(n_calib, dtype=bool)
+                val_mask[val_start:val_end] = True
+                train_mask = ~val_mask
+
+                X_calib_train = X_calib[train_mask]
+                y_calib_train = y_calib[train_mask]
+                crowding_train = crowding_calib[train_mask]
+
+                X_calib_val = X_calib[val_mask]
+                y_calib_val = y_calib[val_mask]
+                crowding_val = crowding_calib[val_mask]
+
+                # Fit CW-ACI on this fold
+                cwaci = CrowdingWeightedACI(
+                    alpha=alpha,
+                    gamma=gamma,
+                    lambda_weight=lam
+                )
+                cwaci.fit(X_train, y_train, X_calib_train, y_calib_train, crowding_train)
+
+                # Evaluate on validation fold
+                pred_sets, _ = cwaci.predict_sets_online(
+                    X_calib_val, y_calib_val, crowding_val
+                )
+
+                # Overall coverage
+                coverage = np.mean([int(y_calib_val[i] in pred_sets[i])
+                                   for i in range(len(y_calib_val))])
+                fold_coverages.append(coverage)
+
+                # Coverage by crowding bin
+                bins = np.quantile(crowding_val, [0, 1/3, 2/3, 1])
+                for i, label in enumerate(['low', 'medium', 'high']):
+                    if i == 2:
+                        mask = (crowding_val >= bins[i]) & (crowding_val <= bins[i+1])
+                    else:
+                        mask = (crowding_val >= bins[i]) & (crowding_val < bins[i+1])
+
+                    if mask.sum() > 0:
+                        bin_cov = np.mean([int(y_calib_val[j] in pred_sets[j])
+                                          for j in range(len(y_calib_val)) if mask[j]])
+                        fold_bin_coverages[label].append(bin_cov)
+
+            # Aggregate across folds
+            mean_coverage = np.mean(fold_coverages)
+            bin_means = {k: np.mean(v) if v else 0.5 for k, v in fold_bin_coverages.items()}
+            bin_values = list(bin_means.values())
+
+            variance = np.var(bin_values)
+            min_bin = min(bin_values)
+
+            results.append({
+                'lambda': lam,
+                'mean_coverage': mean_coverage,
+                'bin_coverage': bin_means,
+                'variance': variance,
+                'min_bin': min_bin,
+                'score_variance': -variance,  # Lower is better
+                'score_max_min': min_bin,     # Higher is better
+                'score_combined': min_bin - 0.5 * variance  # Balance both
+            })
+
+        # Select optimal λ based on criterion
+        results_df = results
+        if criterion == 'min_variance':
+            best = max(results_df, key=lambda x: x['score_variance'])
+        elif criterion == 'max_min':
+            best = max(results_df, key=lambda x: x['score_max_min'])
+        else:  # combined
+            best = max(results_df, key=lambda x: x['score_combined'])
+
+        optimal_lambda = best['lambda']
+
+        selection_stats = {
+            'criterion': criterion,
+            'optimal_lambda': optimal_lambda,
+            'optimal_variance': best['variance'],
+            'optimal_min_bin': best['min_bin'],
+            'all_results': results
+        }
+
+        return optimal_lambda, selection_stats
+
 
 class CrowdingAwareConformalEnsemble:
     """
