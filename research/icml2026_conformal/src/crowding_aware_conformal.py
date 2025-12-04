@@ -471,6 +471,410 @@ class CrowdingAdaptiveOnline:
         return sets, thresholds
 
 
+class UncertaintyWeightedCP:
+    """
+    Uncertainty-Weighted Conformal Prediction (FIXED VERSION).
+
+    Key insight from empirical analysis:
+    - Our crowding signal correlates POSITIVELY with coverage
+    - High crowding = stable regime = good coverage
+    - Low crowding = uncertain regime = poor coverage
+
+    Solution: Use UNCERTAINTY = (1 - crowding) as the weighting signal
+
+    score_weighted = score / (1 + λ × uncertainty)
+                   = score / (1 + λ × (1 - crowding))
+
+    Effect:
+    - Low crowding (high uncertainty) → scores DOWN-weighted → LARGER sets
+    - High crowding (low uncertainty) → scores NOT weighted → smaller sets
+
+    This gives better coverage where it's needed most (low crowding regimes).
+    """
+
+    def __init__(
+        self,
+        base_model: Optional[RandomForestClassifier] = None,
+        lambda_weight: float = 1.0,
+        n_estimators: int = 100,
+    ):
+        if base_model is None:
+            base_model = RandomForestClassifier(
+                n_estimators=n_estimators,
+                max_depth=5,
+                min_samples_leaf=10,
+                class_weight='balanced',
+                random_state=42,
+                n_jobs=-1
+            )
+        self.base_model = base_model
+        self.lambda_weight = lambda_weight
+        self.calibration_scores = None
+        self._is_fitted = False
+
+    def fit(
+        self,
+        X_train: np.ndarray,
+        y_train: np.ndarray,
+        X_calib: np.ndarray,
+        y_calib: np.ndarray,
+        crowding_calib: np.ndarray
+    ):
+        """Fit base model and compute uncertainty-weighted calibration scores."""
+        self.base_model.fit(X_train, y_train)
+
+        proba = self.base_model.predict_proba(X_calib)[:, 1]
+
+        base_scores = np.where(
+            y_calib == 1,
+            1 - proba,
+            proba
+        )
+
+        # KEY FIX: Use uncertainty = 1 - crowding
+        uncertainty = 1 - crowding_calib
+        weight = 1 + self.lambda_weight * uncertainty
+        self.calibration_scores = base_scores / weight
+
+        self._is_fitted = True
+
+    def predict_sets(
+        self,
+        X_test: np.ndarray,
+        crowding_test: np.ndarray,
+        alpha: float = 0.1
+    ) -> ConformalResult:
+        """Construct prediction sets with uncertainty-aware coverage."""
+        if not self._is_fitted:
+            raise RuntimeError("Must call fit() before predict_sets()")
+
+        proba = self.base_model.predict_proba(X_test)[:, 1]
+
+        n_calib = len(self.calibration_scores)
+        q_level = np.ceil((n_calib + 1) * (1 - alpha)) / n_calib
+        q_level = min(q_level, 1.0)
+        threshold = np.quantile(self.calibration_scores, q_level)
+
+        sets = []
+        for i, p in enumerate(proba):
+            # KEY FIX: Use uncertainty = 1 - crowding
+            uncertainty = 1 - crowding_test[i]
+            weight = 1 + self.lambda_weight * uncertainty
+
+            pred_set = set()
+            if (1 - p) / weight <= threshold:
+                pred_set.add(1)
+            if p / weight <= threshold:
+                pred_set.add(0)
+            sets.append(pred_set)
+
+        return ConformalResult(
+            prediction_sets=sets,
+            probabilities=proba,
+            threshold=threshold,
+            crowding_levels=crowding_test
+        )
+
+
+class AdaptiveLambdaCP:
+    """
+    Adaptive λ Conformal Prediction.
+
+    Addresses the coverage trade-off by adapting λ based on local coverage performance.
+
+    Key idea: Learn which regimes need more/less conservatism.
+    - If coverage is poor in a regime → increase λ for that regime
+    - If coverage is good → decrease λ
+
+    This achieves good coverage across ALL regimes, not just high crowding.
+    """
+
+    def __init__(
+        self,
+        base_model: Optional[RandomForestClassifier] = None,
+        lambda_init: float = 1.0,
+        learning_rate: float = 0.5,
+        n_bins: int = 3,
+        n_estimators: int = 100,
+    ):
+        if base_model is None:
+            base_model = RandomForestClassifier(
+                n_estimators=n_estimators,
+                max_depth=5,
+                min_samples_leaf=10,
+                class_weight='balanced',
+                random_state=42,
+                n_jobs=-1
+            )
+        self.base_model = base_model
+        self.lambda_init = lambda_init
+        self.learning_rate = learning_rate
+        self.n_bins = n_bins
+
+        # Per-bin lambda values
+        self.bin_lambdas = None
+        self.bin_boundaries = None
+        self.calibration_scores = None
+        self._is_fitted = False
+
+    def fit(
+        self,
+        X_train: np.ndarray,
+        y_train: np.ndarray,
+        X_calib: np.ndarray,
+        y_calib: np.ndarray,
+        crowding_calib: np.ndarray
+    ):
+        """Fit and learn per-bin lambda values."""
+        self.base_model.fit(X_train, y_train)
+
+        # Define crowding bins
+        self.bin_boundaries = np.quantile(
+            crowding_calib,
+            np.linspace(0, 1, self.n_bins + 1)
+        )
+
+        # Initialize per-bin lambdas
+        self.bin_lambdas = {i: self.lambda_init for i in range(self.n_bins)}
+
+        # Compute base scores
+        proba = self.base_model.predict_proba(X_calib)[:, 1]
+        base_scores = np.where(
+            y_calib == 1,
+            1 - proba,
+            proba
+        )
+
+        self.calibration_scores = base_scores
+        self.crowding_calib = crowding_calib
+        self._is_fitted = True
+
+    def _get_bin(self, crowding: float) -> int:
+        """Map crowding to bin index."""
+        for i in range(self.n_bins - 1):
+            if crowding < self.bin_boundaries[i + 1]:
+                return i
+        return self.n_bins - 1
+
+    def predict_sets(
+        self,
+        X_test: np.ndarray,
+        crowding_test: np.ndarray,
+        alpha: float = 0.1
+    ) -> ConformalResult:
+        """Predict with per-bin adaptive lambdas."""
+        if not self._is_fitted:
+            raise RuntimeError("Must call fit() before predict_sets()")
+
+        proba = self.base_model.predict_proba(X_test)[:, 1]
+
+        # Compute per-bin thresholds
+        bin_thresholds = {}
+        for bin_idx in range(self.n_bins):
+            lam = self.bin_lambdas[bin_idx]
+            low = self.bin_boundaries[bin_idx]
+            high = self.bin_boundaries[bin_idx + 1]
+
+            # Get calibration samples in this bin
+            mask = (self.crowding_calib >= low) & (self.crowding_calib < high)
+            if bin_idx == self.n_bins - 1:
+                mask = (self.crowding_calib >= low)
+
+            if mask.sum() > 0:
+                bin_crowding = self.crowding_calib[mask]
+                bin_scores = self.calibration_scores[mask]
+                uncertainty = 1 - bin_crowding
+                weighted_scores = bin_scores / (1 + lam * uncertainty)
+
+                n = len(weighted_scores)
+                q_level = min(np.ceil((n + 1) * (1 - alpha)) / n, 1.0)
+                bin_thresholds[bin_idx] = np.quantile(weighted_scores, q_level)
+            else:
+                bin_thresholds[bin_idx] = 0.5
+
+        # Construct prediction sets
+        sets = []
+        for i, p in enumerate(proba):
+            bin_idx = self._get_bin(crowding_test[i])
+            lam = self.bin_lambdas[bin_idx]
+            threshold = bin_thresholds[bin_idx]
+
+            uncertainty = 1 - crowding_test[i]
+            weight = 1 + lam * uncertainty
+
+            pred_set = set()
+            if (1 - p) / weight <= threshold:
+                pred_set.add(1)
+            if p / weight <= threshold:
+                pred_set.add(0)
+            sets.append(pred_set)
+
+        return ConformalResult(
+            prediction_sets=sets,
+            probabilities=proba,
+            threshold=np.mean(list(bin_thresholds.values())),
+            crowding_levels=crowding_test
+        )
+
+    def update_lambdas(
+        self,
+        y_test: np.ndarray,
+        pred_sets: List[Set[int]],
+        crowding_test: np.ndarray,
+        alpha: float = 0.1
+    ):
+        """Update per-bin lambdas based on coverage performance."""
+        for bin_idx in range(self.n_bins):
+            low = self.bin_boundaries[bin_idx]
+            high = self.bin_boundaries[bin_idx + 1]
+
+            mask = (crowding_test >= low) & (crowding_test < high)
+            if bin_idx == self.n_bins - 1:
+                mask = crowding_test >= low
+
+            if mask.sum() > 0:
+                bin_y = y_test[mask]
+                bin_sets = [pred_sets[j] for j in range(len(y_test)) if mask[j]]
+
+                coverage = np.mean([int(bin_y[k]) in bin_sets[k] for k in range(len(bin_y))])
+                target = 1 - alpha
+
+                # If coverage < target, increase lambda (more conservative)
+                # If coverage > target, decrease lambda (more efficient)
+                error = target - coverage
+                self.bin_lambdas[bin_idx] += self.learning_rate * error
+                self.bin_lambdas[bin_idx] = max(0, self.bin_lambdas[bin_idx])
+
+
+class CrowdingWeightedACI:
+    """
+    Crowding-Weighted ACI: Best of both worlds.
+
+    Key insight: ACI wins because it adapts ONLINE.
+    Our crowding-weighted methods fail because they use STATIC thresholds.
+
+    Solution: Combine them!
+    - Use crowding-weighted nonconformity scores (like UWCP)
+    - Apply ACI's online threshold adaptation
+
+    Formula:
+        score_weighted = base_score / (1 + λ × (1 - crowding))
+        τ_{t+1} = τ_t + γ × (err_t - α)
+
+    This gives:
+    - Larger sets when crowding is low (through weighting)
+    - Adaptive threshold when coverage drifts (through ACI)
+    """
+
+    def __init__(
+        self,
+        base_model: Optional[RandomForestClassifier] = None,
+        alpha: float = 0.1,
+        gamma: float = 0.1,
+        lambda_weight: float = 1.0,
+        n_estimators: int = 100,
+    ):
+        if base_model is None:
+            base_model = RandomForestClassifier(
+                n_estimators=n_estimators,
+                max_depth=5,
+                min_samples_leaf=10,
+                class_weight='balanced',
+                random_state=42,
+                n_jobs=-1
+            )
+        self.base_model = base_model
+        self.alpha = alpha
+        self.gamma = gamma
+        self.lambda_weight = lambda_weight
+        self.threshold = 0.5
+        self._is_fitted = False
+        self.threshold_history = []
+
+    def fit(
+        self,
+        X_train: np.ndarray,
+        y_train: np.ndarray,
+        X_calib: np.ndarray,
+        y_calib: np.ndarray,
+        crowding_calib: np.ndarray
+    ):
+        """Fit and initialize threshold from crowding-weighted calibration scores."""
+        self.base_model.fit(X_train, y_train)
+
+        proba = self.base_model.predict_proba(X_calib)[:, 1]
+
+        # Base scores
+        base_scores = np.where(
+            y_calib == 1,
+            1 - proba,
+            proba
+        )
+
+        # Crowding-weighted scores (use uncertainty = 1 - crowding)
+        uncertainty = 1 - crowding_calib
+        weight = 1 + self.lambda_weight * uncertainty
+        weighted_scores = base_scores / weight
+
+        # Initialize threshold
+        n = len(weighted_scores)
+        q_level = min(np.ceil((n + 1) * (1 - self.alpha)) / n, 1.0)
+        self.threshold = np.quantile(weighted_scores, q_level)
+
+        self._is_fitted = True
+        self.threshold_history = [self.threshold]
+
+    def predict_set(self, x: np.ndarray, crowding: float) -> Set[int]:
+        """Predict set for a single sample with crowding weighting."""
+        if not self._is_fitted:
+            raise RuntimeError("Must call fit() first")
+
+        x = x.reshape(1, -1)
+        p = self.base_model.predict_proba(x)[0, 1]
+
+        # Weight by uncertainty
+        uncertainty = 1 - crowding
+        weight = 1 + self.lambda_weight * uncertainty
+
+        pred_set = set()
+        if (1 - p) / weight <= self.threshold:
+            pred_set.add(1)
+        if p / weight <= self.threshold:
+            pred_set.add(0)
+
+        return pred_set
+
+    def update(self, y_true: int, pred_set: Set[int]) -> float:
+        """ACI-style threshold update."""
+        covered = int(y_true in pred_set)
+        error = (1 - covered) - self.alpha
+
+        self.threshold += self.gamma * error
+        self.threshold = np.clip(self.threshold, 0.01, 0.99)
+
+        self.threshold_history.append(self.threshold)
+        return self.threshold
+
+    def predict_sets_online(
+        self,
+        X_test: np.ndarray,
+        y_test: np.ndarray,
+        crowding_test: np.ndarray
+    ) -> Tuple[List[Set[int]], List[float]]:
+        """Online prediction with crowding weighting + ACI adaptation."""
+        sets = []
+        thresholds = []
+
+        for i in range(len(X_test)):
+            pred_set = self.predict_set(X_test[i], crowding_test[i])
+            sets.append(pred_set)
+            thresholds.append(self.threshold)
+
+            self.update(y_test[i], pred_set)
+
+        return sets, thresholds
+
+
 class CrowdingAwareConformalEnsemble:
     """
     Ensemble combining multiple crowding-aware methods.
