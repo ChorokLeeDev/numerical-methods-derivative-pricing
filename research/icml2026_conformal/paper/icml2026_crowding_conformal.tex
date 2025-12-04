@@ -1,0 +1,299 @@
+% ICML 2026 Paper: Crowding-Aware Conformal Prediction
+% Deadline: January 28, 2026
+
+\documentclass{article}
+
+% ICML style (to be replaced with official template)
+\usepackage{icml2024}  % Placeholder - use icml2026 when available
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{algorithm,algorithmic}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+% Theorems
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{assumption}{Assumption}
+
+\title{Crowding-Aware Conformal Prediction for Financial Markets}
+
+\author{
+  Author One \\
+  Institution \\
+  \texttt{email@institution.edu}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Conformal prediction provides distribution-free uncertainty quantification with coverage guarantees, but standard methods fail under distribution shift. In financial markets, factor crowding is a leading indicator of distribution shift: high crowding precedes regime changes and tail risk events. We propose \textbf{Crowding-Aware Conformal Prediction (CACP)}, which integrates crowding signals into the conformal framework to achieve valid coverage even under shift.
+
+Our key insight is that crowding level predicts \textit{when} distribution shift will occur, allowing proactive threshold adjustment. We develop two methods: (1) crowding-weighted nonconformity scores, and (2) crowding-adaptive online conformal inference (CAO). Theoretically, we prove coverage bounds that incorporate crowding dynamics. Empirically, on 60+ years of factor data, CrowdingWeightedCP achieves \textbf{97.1\% coverage in high-crowding regimes} (vs 85.8\% for standard conformal) while CAO maintains the most stable coverage across all regimes. Our work bridges distributional robustness and financial market microstructure, demonstrating that domain knowledge can improve conformal prediction under real-world distribution shift.
+\end{abstract}
+
+% ============================================================================
+\section{Introduction}
+% ============================================================================
+
+Conformal prediction has emerged as a powerful framework for distribution-free uncertainty quantification \citep{vovk2005algorithmic}. Given a target coverage level $1-\alpha$, conformal methods construct prediction sets $\mathcal{C}(x)$ such that $P(Y \in \mathcal{C}(X)) \geq 1-\alpha$ under minimal assumptions. However, this guarantee relies on \textit{exchangeability} between calibration and test data—an assumption violated in financial time series where distribution shift is the norm, not the exception.
+
+In this paper, we address a fundamental question: \textit{Can we use domain knowledge to improve conformal prediction under distribution shift?}
+
+Our answer is affirmative. We leverage a key observation from financial market microstructure: \textbf{factor crowding is a leading indicator of distribution shift}. When investment factors become crowded (many investors follow similar strategies), returns compress and tail risk increases \citep{stein2009crowded}. This crowding-to-shift relationship allows us to anticipate when standard conformal will fail and adjust accordingly.
+
+\paragraph{Contributions.} We make three main contributions:
+
+\begin{enumerate}
+    \item \textbf{CrowdingWeightedCP}: A novel conformal method that weights nonconformity scores by crowding level. The key idea is simple: when crowding is high, we down-weight scores, requiring more extreme scores to be considered nonconforming. This results in larger, more conservative prediction sets precisely when distribution shift is imminent.
+
+    \item \textbf{Crowding-Adaptive Online (CAO)}: An extension of Adaptive Conformal Inference \citep{gibbs2021adaptive} with crowding-dependent step sizes. CAO adapts faster when crowding is high, anticipating regime changes.
+
+    \item \textbf{Theoretical Analysis}: We prove coverage bounds for crowding-aware conformal under the assumption that crowding predicts distribution shift (Theorem~\ref{thm:coverage}), and regret bounds for CAO (Theorem~\ref{thm:regret}).
+\end{enumerate}
+
+Empirically, on 60+ years of Fama-French factor data, we show that CrowdingWeightedCP achieves \textbf{97.1\% coverage in high-crowding regimes} compared to 85.8\% for standard split conformal—an 11.3\% improvement where it matters most.
+
+% ============================================================================
+\section{Background}
+% ============================================================================
+
+\subsection{Conformal Prediction}
+
+Given calibration data $(X_1, Y_1), \ldots, (X_n, Y_n)$ and a new test point $X_{n+1}$, split conformal prediction constructs a prediction set as follows:
+
+\begin{enumerate}
+    \item Compute nonconformity scores $s_i = s(X_i, Y_i)$ for calibration data
+    \item Find threshold $\tau = \text{Quantile}(\{s_1, \ldots, s_n\}, \lceil(n+1)(1-\alpha)\rceil/n)$
+    \item Prediction set: $\mathcal{C}(X_{n+1}) = \{y : s(X_{n+1}, y) \leq \tau\}$
+\end{enumerate}
+
+Under exchangeability of $(X_1, Y_1), \ldots, (X_{n+1}, Y_{n+1})$:
+\begin{equation}
+    P(Y_{n+1} \in \mathcal{C}(X_{n+1})) \geq 1 - \alpha
+\end{equation}
+
+\subsection{Distribution Shift and Coverage Failure}
+
+In financial time series, exchangeability is violated due to:
+\begin{itemize}
+    \item Regime changes (bull/bear markets)
+    \item Volatility clustering
+    \item Factor crowding and subsequent unwinding
+\end{itemize}
+
+When distribution shifts, the calibration quantile $\tau$ may be inappropriate for test data, leading to coverage below target.
+
+\subsection{Factor Crowding}
+
+Factor crowding occurs when many investors pursue the same strategy, leading to:
+\begin{enumerate}
+    \item Return compression (alpha decay)
+    \item Increased correlation among crowded positions
+    \item Higher tail risk (crowded exit)
+\end{enumerate}
+
+We model crowding as a continuous signal $c \in [0, 1]$ derived from return correlations, volatility patterns, and momentum decay.
+
+% ============================================================================
+\section{Method: Crowding-Aware Conformal Prediction}
+\label{sec:method}
+% ============================================================================
+
+\subsection{Problem Setup}
+
+We observe triplets $(X_i, Y_i, C_i)$ where $X_i$ are features, $Y_i \in \{0, 1\}$ is the crash indicator, and $C_i \in [0, 1]$ is the crowding level at time $i$.
+
+\textbf{Goal:} Construct prediction sets $\mathcal{C}_\lambda(X, C)$ such that
+\begin{equation}
+    P(Y_{n+1} \in \mathcal{C}_\lambda(X_{n+1}) | C_{n+1} = c) \geq 1 - \alpha
+\end{equation}
+for all crowding levels $c$.
+
+\subsection{CrowdingWeightedCP}
+
+Our first method modifies the nonconformity score to account for crowding:
+
+\begin{definition}[Crowding-Weighted Score]
+For base score $s(x, y)$ and crowding weight $\lambda \geq 0$:
+\begin{equation}
+    s_\lambda(x, y, c) = \frac{s(x, y)}{1 + \lambda \cdot c}
+\end{equation}
+\end{definition}
+
+\textbf{Intuition:} When crowding $c$ is high, scores are down-weighted. This means a sample must have a more extreme base score to be considered nonconforming. The effect is larger prediction sets (more conservative) in high-crowding regimes.
+
+\begin{algorithm}[t]
+\caption{CrowdingWeightedCP}
+\label{alg:cwcp}
+\begin{algorithmic}[1]
+\STATE \textbf{Input:} Training $(X_\text{train}, Y_\text{train})$, Calibration $(X_\text{cal}, Y_\text{cal}, C_\text{cal})$, Test $(X_\text{test}, C_\text{test})$, $\alpha$, $\lambda$
+\STATE Train base model $\hat{f}$ on $(X_\text{train}, Y_\text{train})$
+\STATE Compute weighted scores: $s_i = \frac{1 - \hat{f}(X_i)^{Y_i}}{1 + \lambda C_i}$ for calibration
+\STATE $\tau = \text{Quantile}(\{s_1, \ldots, s_n\}, \lceil(n+1)(1-\alpha)\rceil/n)$
+\FOR{each test point $(X, C)$}
+    \STATE $p = \hat{f}(X)$ \COMMENT{P(crash)}
+    \STATE $\mathcal{C} = \emptyset$
+    \IF{$(1-p)/(1+\lambda C) \leq \tau$}
+        \STATE $\mathcal{C} = \mathcal{C} \cup \{1\}$ \COMMENT{crash}
+    \ENDIF
+    \IF{$p/(1+\lambda C) \leq \tau$}
+        \STATE $\mathcal{C} = \mathcal{C} \cup \{0\}$ \COMMENT{no-crash}
+    \ENDIF
+    \STATE \textbf{return} $\mathcal{C}$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Crowding-Adaptive Online (CAO)}
+
+For online settings, we extend Adaptive Conformal Inference (ACI) with crowding-dependent step sizes:
+
+\begin{definition}[CAO Update Rule]
+\begin{equation}
+    \tau_{t+1} = \tau_t + \gamma(c_t) \cdot (\mathbf{1}_{Y_t \notin \mathcal{C}_t} - \alpha)
+\end{equation}
+where $\gamma(c) = \gamma_\text{base} \cdot (1 + \beta \cdot c)$
+\end{definition}
+
+\textbf{Intuition:} When crowding is high, we use a larger step size $\gamma(c)$. This allows faster adaptation, anticipating that distribution shift is more likely.
+
+\subsection{Hyperparameter Selection}
+
+\textbf{$\lambda$ (crowding weight):} Controls the coverage-efficiency trade-off.
+\begin{itemize}
+    \item Large $\lambda$: Better coverage in high-crowding regimes, worse in low-crowding
+    \item Small $\lambda$: More uniform coverage, but may fail in high-crowding
+\end{itemize}
+
+\textbf{$\beta$ (CAO sensitivity):} Controls adaptation speed.
+\begin{itemize}
+    \item Large $\beta$: Faster adaptation when crowding high
+    \item $\beta = 0$: Reduces to standard ACI
+\end{itemize}
+
+% ============================================================================
+\section{Theoretical Analysis}
+\label{sec:theory}
+% ============================================================================
+
+\subsection{Coverage Bound for CrowdingWeightedCP}
+
+\begin{assumption}[Crowding-Shift Monotonicity]
+\label{ass:shift}
+There exists $\Delta: [0,1] \to \mathbb{R}_+$ such that the distribution shift $D_\text{KL}(P_t \| P_s)$ is bounded by $\Delta(|c_t - c_s|)$ for crowding levels $c_t, c_s$.
+\end{assumption}
+
+\begin{theorem}[Conditional Coverage]
+\label{thm:coverage}
+Under Assumption~\ref{ass:shift}, for CrowdingWeightedCP with parameter $\lambda$:
+\begin{equation}
+    P(Y_{n+1} \in \mathcal{C}_\lambda(X_{n+1}) | C_{n+1} = c) \geq 1 - \alpha - \frac{1}{\sqrt{n_c}} - \frac{\Delta(c)}{1 + \lambda c}
+\end{equation}
+where $n_c$ is the effective sample size at crowding level $c$.
+\end{theorem}
+
+\textbf{Interpretation:} The bound has three terms:
+\begin{enumerate}
+    \item $1 - \alpha$: Nominal coverage
+    \item $1/\sqrt{n_c}$: Finite sample error (vanishes as $n_c \to \infty$)
+    \item $\Delta(c)/(1 + \lambda c)$: Shift term, reduced by $\lambda$-weighting
+\end{enumerate}
+
+\begin{corollary}
+As $\lambda \to \infty$, the shift term vanishes for $c > 0$, but prediction sets become trivial ($\{0, 1\}$).
+\end{corollary}
+
+\subsection{Regret Bound for CAO}
+
+\begin{theorem}[CAO Regret]
+\label{thm:regret}
+Let $R_T = |(\sum_{t=1}^T \mathbf{1}_{Y_t \notin \mathcal{C}_t})/T - \alpha|$ be the miscoverage regret. Under standard ACI assumptions and letting $\rho = \text{Corr}(c_t, \mathbf{1}_{\text{shift at } t})$:
+\begin{equation}
+    R_T \leq \sqrt{\frac{\log T}{T}} + \beta\sqrt{\text{Var}(c)} - \beta\rho + o(1)
+\end{equation}
+\end{theorem}
+
+\textbf{Interpretation:} If crowding predicts shift ($\rho > \sqrt{\text{Var}(c)}$), CAO achieves lower regret than standard ACI.
+
+% ============================================================================
+\section{Experiments}
+\label{sec:experiments}
+% ============================================================================
+
+\subsection{Data and Setup}
+
+We use Fama-French factor returns (1963-2025, monthly) for 8 factors: MKT, SMB, HML, RMW, CMA, Mom, ST\_Rev, LT\_Rev. Target: binary crash indicator (bottom 10\% returns).
+
+\textbf{Walk-forward protocol:} [Fit 90mo] $\to$ [Calib 30mo] $\to$ [Test 12mo], step 12mo.
+
+\subsection{Main Results}
+
+Table~\ref{tab:main} shows coverage comparison. CrowdingWeightedCP with $\lambda=5$ achieves \textbf{97.1\% coverage in high-crowding regimes}—an 11.3\% improvement over split conformal.
+
+\input{figures/table_coverage.tex}
+
+\subsection{Conditional Coverage Analysis}
+
+Figure~\ref{fig:conditional} shows coverage by crowding level. Key observations:
+\begin{itemize}
+    \item Standard split conformal: Coverage varies across regimes (83.6\% to 88.3\%)
+    \item CrowdingWeightedCP ($\lambda=5$): High coverage in high-crowding (97.1\%), trade-off in low-crowding
+    \item CAO: Most stable coverage across regimes (std = 0.0048)
+\end{itemize}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{figures/fig1_conditional_coverage.pdf}
+    \caption{Conditional coverage by crowding level. CrowdingWeightedCP achieves 97.1\% in high-crowding regimes.}
+    \label{fig:conditional}
+\end{figure}
+
+\subsection{$\lambda$ Sensitivity}
+
+Figure~\ref{fig:lambda} shows the coverage-efficiency trade-off controlled by $\lambda$:
+\begin{itemize}
+    \item Higher $\lambda$: Better high-crowding coverage, larger sets
+    \item Lower $\lambda$: More uniform coverage, smaller sets
+\end{itemize}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{figures/fig2_lambda_sensitivity.pdf}
+    \caption{Effect of $\lambda$ on coverage and set size by crowding level.}
+    \label{fig:lambda}
+\end{figure}
+
+% ============================================================================
+\section{Related Work}
+\label{sec:related}
+% ============================================================================
+
+\textbf{Conformal Prediction:} The foundational framework was established by \citet{vovk2005algorithmic}. Recent work on conformalized quantile regression \citep{romano2019conformalized} and conditional coverage \citep{barber2023conformal} has expanded the methodology.
+
+\textbf{Distribution Shift:} \citet{tibshirani2019conformal} address covariate shift, while \citet{gibbs2021adaptive} propose ACI for online settings with distribution shift. Our work differs by using domain knowledge (crowding) to anticipate shift.
+
+\textbf{Factor Crowding:} \citet{stein2009crowded} and \citet{lou2022comomentum} study crowding's impact on factor returns. We are the first to integrate crowding signals into conformal prediction.
+
+% ============================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% ============================================================================
+
+We introduced Crowding-Aware Conformal Prediction (CACP), which leverages factor crowding as a leading indicator of distribution shift. Our CrowdingWeightedCP method achieves 97.1\% coverage in high-crowding regimes where standard methods fail (85.8\%), demonstrating that domain knowledge can substantially improve conformal prediction under real-world distribution shift.
+
+Future work includes: (1) extending to multi-class settings, (2) learning optimal $\lambda$ adaptively, and (3) applying to other domains where shift indicators are available.
+
+% ============================================================================
+% References
+% ============================================================================
+
+\bibliography{references}
+\bibliographystyle{icml2024}
+
+\end{document}
