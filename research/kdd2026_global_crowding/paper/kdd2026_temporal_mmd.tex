@@ -194,6 +194,7 @@ We evaluate on four diverse domains with different types of temporal regimes:
     \item \textbf{MMD}: Standard MMD domain adaptation~\cite{long2015learning}
     \item \textbf{DANN}: Domain Adversarial Neural Network~\cite{ganin2016domain}
     \item \textbf{CDAN}: Conditional Domain Adversarial Network~\cite{long2018conditional}
+    \item \textbf{MCD}: Maximum Classifier Discrepancy~\cite{saito2018maximum}
 \end{itemize}
 
 \subsection{Experimental Setup}
@@ -205,16 +206,16 @@ All neural network methods use a 2-layer feature extractor (64 hidden units) wit
 \begin{table}[t]
 \caption{Domain Adaptation Results (Target AUC, mean $\pm$ std over 5 seeds). Best results in \textbf{bold}.}
 \label{tab:main_results}
-\begin{tabular}{lccccc}
+\begin{tabular}{lcccccc}
 \toprule
-Domain & RF & MMD & DANN & CDAN & \textbf{T-MMD} \\
+Domain & RF & MMD & DANN & CDAN & MCD & \textbf{T-MMD} \\
 \midrule
-Finance & .593$\pm$.004 & .590$\pm$.011 & .587$\pm$.006 & .582$\pm$.006 & \textbf{.594}$\pm$.008 \\
-Electricity & .608$\pm$.005 & .625$\pm$.027 & .606$\pm$.011 & .583$\pm$.025 & \textbf{.634}$\pm$.014 \\
-GasSensor & .996$\pm$.001 & .997$\pm$.000 & .997$\pm$.000 & .997$\pm$.000 & .997$\pm$.000 \\
-Activity & .692$\pm$.002 & \textbf{.707}$\pm$.001 & .707$\pm$.001 & .706$\pm$.000 & .706$\pm$.001 \\
+Finance & .593$\pm$.004 & .590$\pm$.011 & .587$\pm$.006 & .582$\pm$.006 & .533$\pm$.015 & \textbf{.594}$\pm$.008 \\
+Electricity & .608$\pm$.005 & .625$\pm$.027 & .606$\pm$.011 & .583$\pm$.025 & .614$\pm$.041 & \textbf{.651}$\pm$.004 \\
+GasSensor & .996$\pm$.001 & .997$\pm$.000 & .997$\pm$.000 & .997$\pm$.000 & .997$\pm$.000 & .997$\pm$.000 \\
+Activity & .679$\pm$.002 & \textbf{.694}$\pm$.001 & .693$\pm$.000 & .694$\pm$.001 & .691$\pm$.002 & .693$\pm$.001 \\
 \midrule
-Average & .722 & .730 & .724 & .717 & \textbf{.733} \\
+Average & .719 & .727 & .721 & .714 & .709 & \textbf{.734} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -222,11 +223,11 @@ Average & .722 & .730 & .724 & .717 & \textbf{.733} \\
 Table~\ref{tab:main_results} shows the main results. Key observations:
 
 \begin{enumerate}
-    \item \textbf{Electricity}: Temporal-MMD (0.634) significantly outperforms all baselines. This domain has the highest regime imbalance (33\% peak vs 67\% off-peak), validating our hypothesis that T-MMD helps most when regimes are imbalanced.
+    \item \textbf{Electricity}: Temporal-MMD (0.651) significantly outperforms all baselines ($p < 0.01$ vs RF, DANN, CDAN). This domain has the highest regime imbalance (33\% peak vs 67\% off-peak), validating our hypothesis that T-MMD helps most when regimes are imbalanced. The improvement of +7.1\% over RF is substantial for a domain adaptation task.
 
     \item \textbf{Finance}: T-MMD achieves the best result (0.594), outperforming CDAN by 2.1\%.
 
-    \item \textbf{GasSensor \& Activity}: All methods achieve similar high performance. GasSensor is nearly saturated (AUC $\approx$ 0.997), while Activity shows MMD-based methods perform similarly.
+    \item \textbf{GasSensor \& Activity}: All methods achieve similar high performance. GasSensor is nearly saturated (AUC $\approx$ 0.997), while Activity shows MMD-based methods perform similarly. T-MMD significantly beats RF on both ($p < 0.01$).
 \end{enumerate}
 
 \subsection{Statistical Significance}
@@ -236,14 +237,14 @@ We conduct paired t-tests comparing T-MMD against each baseline across the 5 see
 \begin{table}[t]
 \caption{Paired t-test p-values (T-MMD vs. baselines). * $p < 0.05$, ** $p < 0.01$.}
 \label{tab:significance}
-\begin{tabular}{lcccc}
+\begin{tabular}{lccccc}
 \toprule
-Domain & vs RF & vs MMD & vs DANN & vs CDAN \\
+Domain & vs RF & vs MMD & vs DANN & vs CDAN & vs MCD \\
 \midrule
-Finance & 0.819 & 0.612 & 0.322 & 0.113 \\
-Electricity & \textbf{0.034*} & 0.618 & \textbf{0.050*} & \textbf{0.034*} \\
-GasSensor & \textbf{0.006**} & 0.802 & \textbf{0.007**} & \textbf{0.022*} \\
-Activity & \textbf{0.000**} & 0.178 & 0.069 & 0.178 \\
+Finance & 0.819 & 0.612 & 0.322 & 0.113 & \textbf{0.003**} \\
+Electricity & \textbf{0.000**} & 0.135 & \textbf{0.002**} & \textbf{0.009**} & 0.153 \\
+GasSensor & \textbf{0.005**} & 0.201 & 0.053 & 0.053 & \textbf{0.038*} \\
+Activity & \textbf{0.000**} & 0.479 & 0.930 & 0.875 & 0.089 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -269,7 +270,7 @@ We study the effect of the number of regimes on the Electricity domain.
 \end{tabular}
 \end{table}
 
-Three regimes achieves the best performance, significantly better than 2 regimes ($p = 0.013$). Performance degrades slightly with more regimes due to insufficient samples per regime. This demonstrates the bias-variance tradeoff: too few regimes underfit the temporal structure, while too many regimes lead to high variance estimates.
+Three regimes achieves the best performance, significantly better than 2 regimes ($p = 0.013$). Performance degrades slightly with more regimes due to insufficient samples per regime. This demonstrates the bias-variance tradeoff: too few regimes underfit the temporal structure, while too many regimes lead to high variance estimates. Based on this ablation, we use $R=3$ regimes for all experiments.
 
 \subsection{When Does T-MMD Help?}
 
@@ -289,6 +290,8 @@ We analyze the relationship between regime imbalance and T-MMD improvement. Figu
 \end{enumerate}
 
 \textbf{Computational Cost.} T-MMD adds minimal overhead to standard MMD. The additional cost is $O(R)$ where $R$ is the number of regimes, typically 2-4.
+
+\textbf{Reproducibility.} All experiments use publicly available datasets (OpenML Electricity) or synthetic data with fixed random seeds. We use standard hyperparameters: 2-layer networks with 64 hidden units, Adam optimizer with lr=1e-3, 30 training epochs. Each experiment is repeated with 5 random seeds. Code will be released upon acceptance.
 
 % ============================================================================
 \section{Conclusion}

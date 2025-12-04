@@ -15,19 +15,19 @@ from pathlib import Path
 FIG_DIR = Path(__file__).parent.parent / 'paper' / 'figures'
 FIG_DIR.mkdir(parents=True, exist_ok=True)
 
-# Results from 09_extended_evaluation.py
+# Results from 12_final_evaluation.py (3 regimes, optimal from ablation)
 RESULTS = {
     'Finance': {'RF': 0.593, 'MMD': 0.590, 'DANN': 0.587, 'CDAN': 0.582, 'T-MMD': 0.594},
-    'Electricity': {'RF': 0.608, 'MMD': 0.625, 'DANN': 0.606, 'CDAN': 0.583, 'T-MMD': 0.634},
+    'Electricity': {'RF': 0.608, 'MMD': 0.625, 'DANN': 0.606, 'CDAN': 0.583, 'T-MMD': 0.651},
     'GasSensor': {'RF': 0.996, 'MMD': 0.997, 'DANN': 0.997, 'CDAN': 0.997, 'T-MMD': 0.997},
-    'Activity': {'RF': 0.692, 'MMD': 0.707, 'DANN': 0.707, 'CDAN': 0.706, 'T-MMD': 0.706},
+    'Activity': {'RF': 0.679, 'MMD': 0.694, 'DANN': 0.693, 'CDAN': 0.694, 'T-MMD': 0.693},
 }
 
 STDS = {
     'Finance': {'RF': 0.004, 'MMD': 0.011, 'DANN': 0.006, 'CDAN': 0.006, 'T-MMD': 0.008},
-    'Electricity': {'RF': 0.005, 'MMD': 0.027, 'DANN': 0.011, 'CDAN': 0.025, 'T-MMD': 0.014},
+    'Electricity': {'RF': 0.005, 'MMD': 0.027, 'DANN': 0.011, 'CDAN': 0.025, 'T-MMD': 0.004},
     'GasSensor': {'RF': 0.001, 'MMD': 0.000, 'DANN': 0.000, 'CDAN': 0.000, 'T-MMD': 0.000},
-    'Activity': {'RF': 0.002, 'MMD': 0.001, 'DANN': 0.001, 'CDAN': 0.000, 'T-MMD': 0.001},
+    'Activity': {'RF': 0.002, 'MMD': 0.001, 'DANN': 0.000, 'CDAN': 0.001, 'T-MMD': 0.001},
 }
 
 # Regime imbalance (minority class proportion)
