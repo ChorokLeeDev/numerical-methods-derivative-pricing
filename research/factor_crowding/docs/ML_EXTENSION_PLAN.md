@@ -196,3 +196,67 @@ xgboost>=2.0
 
 3. **Convert to ACM sigconf format**
    - ICAIF uses ACM template
+
+---
+
+# ICML 2026: Conformal Prediction Extension
+
+## Goal
+Add conformal prediction for distribution-free uncertainty quantification on factor crash predictions.
+
+## Phase 5: Basic Conformal Prediction ✅ COMPLETE
+
+**Implementation:** `src/conformal_ml.py`
+- Split conformal wrapper for binary classification
+- Walk-forward backtest with fit/calib/test splits
+- Coverage metrics: coverage, set size, singleton rate
+
+**Results (α=0.1, target 90%):**
+
+| Factor | Coverage | Target | Gap | Avg Size |
+|--------|----------|--------|-----|----------|
+| MKT | 84.7% | 90% | -5.3% | 1.11 |
+| SMB | 87.5% | 90% | -2.5% | 1.14 |
+| HML | 87.7% | 90% | -2.3% | 1.29 |
+| Mom | 82.8% | 90% | -7.2% | 1.12 |
+| **Mean** | **85.6%** | **90%** | **-4.4%** | **1.22** |
+
+**Finding:** Standard conformal fails to meet coverage target due to exchangeability violation (distribution shift in financial time series).
+
+## Phase 6: Advanced Conformal Methods (IN PROGRESS)
+
+### 6.1 ACI (Adaptive Conformal Inference) - Gibbs & Candes 2021
+- Online threshold update: q_{t+1} = q_t + γ × (coverage - (1-α))
+- O(1) per update, handles distribution shift
+- Works with 1-month delayed labels
+
+### 6.2 Adaptive Conformal (Exponential Weighting)
+- Weight recent calibration samples more heavily
+- decay=0.98 → ~23 month half-life
+- Balances stability and adaptation
+
+### 6.3 Regime-Specific (Mondrian) Conformal
+- Separate calibration by market regime
+- Regimes: Volatility (VIX), HMM states, Correlation
+- Conditional coverage: P(Y ∈ C | regime=g) ≥ 1-α
+
+## File Structure (Conformal)
+
+```
+src/
+├── conformal_ml.py           # Basic split conformal (done)
+└── conformal_advanced.py     # ACI, Adaptive, Mondrian (new)
+
+experiments/
+├── 17_conformal_prediction.py     # Basic evaluation (done)
+└── 18_advanced_conformal.py       # ACI vs Adaptive vs Mondrian (new)
+```
+
+## ICML Contribution
+
+1. **Problem:** Standard conformal prediction fails in financial time series
+2. **Solution:** Adaptive/regime-aware conformal methods
+3. **Contribution:**
+   - ACI for online calibration with delayed feedback
+   - Regime-conditional coverage guarantees
+   - Empirical validation on 60+ years of factor data
