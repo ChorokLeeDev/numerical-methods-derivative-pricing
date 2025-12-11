@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.30)  3 DEC 2025 19:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.30)  11 DEC 2025 17:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -460,34 +460,27 @@ so I will ignore the font specification.
 You might try inserting a different font spec;
 e.g., type `I\font<same font id>=<substitute font name>'.
 
-Missing character: There is no a in font nullfont!
-Missing character: There is no n in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no h in font nullfont!
 Missing character: There is no o in font nullfont!
-Missing character: There is no n in font nullfont!
-Missing character: There is no y in font nullfont!
-Missing character: There is no m in font nullfont!
+Missing character: There is no r in font nullfont!
 Missing character: There is no o in font nullfont!
-Missing character: There is no u in font nullfont!
-Missing character: There is no s in font nullfont!
-Missing character: There is no @ in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no n in font nullfont!
-Missing character: There is no s in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no u in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no o in font nullfont!
-Missing character: There is no n in font nullfont!
-Missing character: There is no . in font nullfont!
+Missing character: There is no k in font nullfont!
+Missing character: There is no l in font nullfont!
 Missing character: There is no e in font nullfont!
-Missing character: There is no d in font nullfont!
-Missing character: There is no u in font nullfont!
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
+Missing character: There is no e in font nullfont!
+Missing character: There is no @ in font nullfont!
+Missing character: There is no k in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no k in font nullfont!
+Missing character: There is no r in font nullfont!
 
 
 
@@ -524,125 +517,109 @@ Underfull \hbox (badness 2529) in paragraph at lines 72--73
 
 
 
+Underfull \hbox (badness 1038) in paragraph at lines 80--81
+\OT1/ptm/m/n/10.95 show that av-er-age re-turns are ef-fi-ciently priced---
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 
 [2]
-Underfull \hbox (badness 1571) in paragraph at lines 107--108
+Underfull \hbox (badness 1571) in paragraph at lines 109--110
 []\OT1/ptm/b/n/10.95 Result 1: \OT1/ptm/m/it/10.95 Al-pha per agent de-cays as 
 $\OT1/cmr/m/n/10.95 1\OML/cmm/m/it/10.95 =N$\OT1/ptm/m/it/10.95 ---
  []
 
 
+
+<figures/icaif_fig1_model_fit.png, id=150, 1001.6622pt x 352.1958pt>
+File: figures/icaif_fig1_model_fit.png Graphic file (type png)
+<use figures/icaif_fig1_model_fit.png>
+Package pdftex.def Info: figures/icaif_fig1_model_fit.png  used on input line 1
+79.
+(pdftex.def)             Requested size: 225.24896pt x 79.19763pt.
+
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-
-
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
-79.
+90.
 (/usr/local/texlive/2025basic/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-<figures/icaif_fig3_taxonomy.png, id=156, 714.9912pt x 426.393pt>
-File: figures/icaif_fig3_taxonomy.png Graphic file (type png)
-<use figures/icaif_fig3_taxonomy.png>
-Package pdftex.def Info: figures/icaif_fig3_taxonomy.png  used on input line 19
-5.
-(pdftex.def)             Requested size: 225.24896pt x 134.32751pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
 
 [3]
-<figures/icaif_fig2_etf_correlation.png, id=171, 859.0494pt x 424.9476pt>
+<figures/icaif_fig3_taxonomy.png, id=169, 712.5822pt x 424.9476pt>
+File: figures/icaif_fig3_taxonomy.png Graphic file (type png)
+<use figures/icaif_fig3_taxonomy.png>
+Package pdftex.def Info: figures/icaif_fig3_taxonomy.png  used on input line 20
+6.
+(pdftex.def)             Requested size: 225.24896pt x 134.32605pt.
+
+
+<figures/icaif_fig2_etf_correlation.png, id=171, 857.1222pt x 423.984pt>
 File: figures/icaif_fig2_etf_correlation.png Graphic file (type png)
 <use figures/icaif_fig2_etf_correlation.png>
 Package pdftex.def Info: figures/icaif_fig2_etf_correlation.png  used on input 
-line 221.
-(pdftex.def)             Requested size: 225.24896pt x 111.42397pt.
+line 232.
+(pdftex.def)             Requested size: 225.24896pt x 111.41714pt.
 
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 244--245
+Underfull \hbox (badness 10000) in paragraph at lines 255--256
 []\OT1/ptm/m/n/10.95 Mean resid-ual: $\OMS/cmsy/m/n/10.95 ^^@\OT1/cmr/m/n/10.95
  0\OML/cmm/m/it/10.95 :\OT1/cmr/m/n/10.95 41$ \OT1/ptm/m/n/10.95 (sys-tem-atic 
 over-
  []
 
 
-Overfull \hbox (22.44365pt too wide) in paragraph at lines 258--268
+
+[4 <./figures/icaif_fig1_model_fit.png> <./figures/icaif_fig3_taxonomy.png> <./
+figures/icaif_fig2_etf_correlation.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 280--281
+[]\OT1/ptm/m/n/10.95 Factor mo-men-tum (0.39) out-per-forms both
+ []
+
+
+
+
+Underfull \hbox (badness 3302) in paragraph at lines 308--309
+[]\OT1/ptm/m/n/10.95 Crowding thresh-old: training-period me-dian
+ []
+
+
+Overfull \hbox (55.98866pt too wide) in paragraph at lines 319--331
  [][] 
  []
 
 
 
-[4 <./figures/icaif_fig3_taxonomy.png> <./figures/icaif_fig2_etf_correlation.pn
-g>]
-Underfull \hbox (badness 2469) in paragraph at lines 334--335
-[]\OT1/ptm/m/n/10.95 Reducing ex-po-sure when crowd-ing is ex-treme
- []
-
-
-
-
-Underfull \hbox (badness 6625) in paragraph at lines 356--357
-[]\OT1/ptm/m/n/10.95 Conditioning ex-ist-ing strate-gies (mo-men-tum
- []
-
-
-Underfull \hbox (badness 1558) in paragraph at lines 363--364
-[]\OT1/ptm/m/n/10.95 Cross-sectional fac-tor se-lec-tion (pick-ing ``un-
- []
-
-
-Underfull \hbox (badness 1308) in paragraph at lines 372--373
-\OT1/ptm/m/n/10.95 tors crowd fastest---monitor ca-pac-ity. (2) Aban-
- []
-
-
-
 [5]
-Underfull \hbox (badness 5771) in paragraph at lines 376--377
-[]\OT1/ptm/b/n/10.95 Limitations. \OT1/ptm/m/n/10.95 Only 8 fac-tors (more woul
-d
- []
-
-
-Underfull \hbox (badness 1092) in paragraph at lines 376--377
-\OT1/ptm/m/n/10.95 as-sump-tion. Regime con-di-tion-ing re-sults use in-
- []
-
-
-Underfull \hbox (badness 1005) in paragraph at lines 384--385
-\OT1/ptm/m/n/10.95 crowd-ing in-for-ma-tion im-proves ex-ist-ing strate-gies:
- []
-
-
-Underfull \hbox (badness 1281) in paragraph at lines 388--389
-\OT1/ptm/m/n/10.95 se-lec-tion and use-ful con-di-tion-ing de-serves fur-ther
- []
 
 
 
+[6]
 
 
-[6] (./icaif2026_factor_crowding.aux)
+
+[7
+
+] (./icaif2026_factor_crowding.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `icaif2026_factor_crowding.out' has not chang
 ed.
-(rerunfilecheck)             Checksum: B8AB7942B1520448B2E565391B03F9B1;3979.
+(rerunfilecheck)             Checksum: 38A6CCF9DD1D85F435F5E96DFCEB36CE;3919.
  ) 
 Here is how much of TeX's memory you used:
- 11306 strings out of 474662
- 171786 string characters out of 5751108
- 588649 words of memory out of 5000000
- 34134 multiletter control sequences out of 15000+600000
+ 11318 strings out of 474662
+ 172141 string characters out of 5751108
+ 588795 words of memory out of 5000000
+ 34144 multiletter control sequences out of 15000+600000
  584310 words of font info for 91 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 75i,10n,79p,1734b,514s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,10n,79p,1551b,555s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmex1
 0.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mmi10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/
@@ -658,10 +635,10 @@ s/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2025basic/texmf-
 dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025basic/texmf-dist/
 fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025basic/texmf-dist/fonts
 /type1/urw/times/utmri8a.pfb>
-Output written on icaif2026_factor_crowding.pdf (6 pages, 364703 bytes).
+Output written on icaif2026_factor_crowding.pdf (7 pages, 528715 bytes).
 PDF statistics:
- 275 PDF objects out of 1000 (max. 8388607)
- 232 compressed objects within 3 object streams
- 59 named destinations out of 1000 (max. 500000)
- 211 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 287 PDF objects out of 1000 (max. 8388607)
+ 241 compressed objects within 3 object streams
+ 61 named destinations out of 1000 (max. 500000)
+ 216 words of extra memory for PDF output out of 10000 (max. 10000000)
 

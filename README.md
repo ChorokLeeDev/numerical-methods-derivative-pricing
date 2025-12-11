@@ -1,6 +1,22 @@
-# Quant - 금융공학 수치해석 라이브러리
+# Quant - 금융공학 연구 & 수치해석 라이브러리
 
-파생상품 가격결정과 금융 수치해석을 위한 Python 구현체입니다.
+금융공학 연구 논문과 파생상품 가격결정 수치해석 Python 구현체입니다.
+
+## Research Papers
+
+### Factor Crowding (ICAIF 2026 Submission)
+**"Not All Factors Crowd Equally: Modeling, Measuring, and Trading on Alpha Decay"**
+- 게임이론 균형에서 hyperbolic decay 모델 유도: α(t) = K/(1+λt)
+- Fama-French 8개 팩터 실증 (1963-2024): 모멘텀 R²=0.65
+- 핵심 발견: Crowding은 평균 수익률이 아닌 tail risk를 예측
+- [Paper (PDF)](research/factor_crowding/paper/icaif2026_factor_crowding.pdf)
+
+### Regime-Dependent Causality (arXiv)
+**"Causal Structure Changes Across Market Regimes: Evidence from Factor Returns"**
+- Student-t HMM 기반 시장 regime 탐지
+- Regime별 팩터 간 Granger causality 방향 역전 발견
+- 2008년 리먼 붕괴 2개월 전 위기 감지
+- [Paper (PDF)](research/kdd2026_global_crowding/paper/kdd2026_temporal_mmd.pdf)
 
 ## 주요 기능
 
