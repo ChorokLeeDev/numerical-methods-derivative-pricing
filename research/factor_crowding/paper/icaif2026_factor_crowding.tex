@@ -29,7 +29,7 @@
 \maketitle
 
 \begin{abstract}
-We derive a specific functional form for factor alpha decay---hyperbolic decay $\alpha(t) = K/(1+\lambda t)$---from a game-theoretic equilibrium model, and test it against linear and exponential alternatives. Using eight Fama-French factors (1963--2024), we find: (1) \textbf{Hyperbolic decay fits mechanical factors.} Momentum exhibits clear hyperbolic decay ($R^2 = 0.65$), outperforming linear (0.51) and exponential (0.61) baselines---validating the equilibrium foundation. (2) \textbf{Not all factors crowd equally.} Mechanical factors (momentum, reversal) fit the model; judgment-based factors (value, quality) do not---consistent with a signal-ambiguity taxonomy paralleling Hua and Sun's ``barriers to entry.'' (3) \textbf{Crowding accelerated post-2015.} Out-of-sample, the model over-predicts remaining alpha (0.30 vs.\ 0.15), correlating with factor ETF growth ($\rho = -0.63$). (4) \textbf{Average returns are efficiently priced.} Crowding-based factor selection fails to generate alpha (Sharpe: 0.19 vs.\ 0.77 benchmark). (5) \textbf{Crowding predicts tail risk.} Out-of-sample (2001--2024), crowded reversal factors show 1.7--1.8$\times$ higher crash probability (bottom decile returns), while crowded momentum shows \textit{lower} crash risk (0.38$\times$, $p = 0.006$). Our findings extend equilibrium crowding models (DeMiguel et al.) to temporal dynamics and show that crowding predicts crashes, not means---useful for risk management, not alpha generation.
+We derive a specific functional form for factor alpha decay---hyperbolic decay $\alpha(t) = K/(1+\lambda t)$---from a game-theoretic equilibrium model, and test it against linear and exponential alternatives. Using eight Fama-French factors (1963--2024), we find: (1) \textbf{Hyperbolic decay fits mechanical factors.} Momentum exhibits clear hyperbolic decay ($R^2 = 0.65$), outperforming linear (0.51) and exponential (0.61) baselines---validating the equilibrium foundation. (2) \textbf{Not all factors crowd equally.} Mechanical factors (momentum, reversal) fit the model; judgment-based factors (value, quality) do not---consistent with a signal-ambiguity taxonomy paralleling Hua and Sun's ``barriers to entry.'' (3) \textbf{Crowding accelerated post-2015.} Out-of-sample, the model over-predicts remaining alpha (0.30 vs.\ 0.15), correlating with factor ETF growth ($\rho = -0.63$). (4) \textbf{Average returns are efficiently priced.} Crowding-based factor selection fails to generate alpha (Sharpe: 0.22 vs.\ 0.39 factor momentum benchmark). (5) \textbf{Crowding predicts tail risk.} Out-of-sample (2001--2024), crowded reversal factors show 1.7--1.8$\times$ higher crash probability (bottom decile returns), while crowded momentum shows \textit{lower} crash risk (0.38$\times$, $p = 0.006$). Our findings extend equilibrium crowding models (DeMiguel et al.) to temporal dynamics and show that crowding predicts crashes, not means---useful for risk management, not alpha generation.
 \end{abstract}
 
 \noindent\textbf{Keywords:} factor investing, alpha decay, crowding, game theory, market efficiency
@@ -57,7 +57,7 @@ This model yields four testable predictions, which we evaluate using data on eig
 
 \textbf{3. Crowding accelerated post-2015.} Training on 1995--2015 and predicting 2016--2024, the model over-estimates remaining alpha (0.30 predicted vs.\ 0.15 actual). This over-prediction correlates with factor ETF volume growth ($\rho = -0.63$), suggesting that democratization of factor investing through ETFs accelerated crowding beyond historical rates.
 
-\textbf{4. Crowding is detectable but efficiently priced.} We construct a real-time crowding signal based on prediction residuals. While the signal correctly identifies that 7 of 8 factors are systematically crowded, factor timing strategies based on the signal fail to outperform naive benchmarks (Sharpe: 0.19 vs.\ 0.77 for equal weight).
+\textbf{4. Crowding is detectable but efficiently priced.} We construct a real-time crowding signal based on prediction residuals. While the signal correctly identifies that 7 of 8 factors are systematically crowded, factor timing strategies based on the signal fail to outperform naive benchmarks (Sharpe: 0.22 vs.\ 0.39 for factor momentum).
 
 This last finding---a negative result---is itself informative. It suggests that crowding, once established, is incorporated into prices quickly enough that public signals offer no trading advantage. The signal's value lies in regime detection (identifying when factor investing faces headwinds) rather than alpha generation.
 
@@ -172,6 +172,15 @@ CMA & 0.01 & 0.01 & 0.01 \\
 
 For momentum, hyperbolic decay achieves $R^2 = 0.65$, outperforming linear (0.51) by 27\% and exponential (0.61) by 7\%. Long-term reversal also shows a clear hyperbolic pattern ($R^2 = 0.30$). However, judgment-based factors (HML, RMW, CMA) show poor fits across all models ($R^2 < 0.10$).
 
+Figure~\ref{fig:model_fit} illustrates this contrast visually. For momentum (left panel), the hyperbolic curve tracks the rolling Sharpe ratio's decline from $\sim$1.5 in the mid-1990s to $\sim$0.25 today. For value (right panel), no model captures the erratic pattern---the factor oscillates without systematic decay.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\columnwidth]{figures/icaif_fig1_model_fit.png}
+\caption{Model fit comparison: Momentum (mechanical) exhibits clear hyperbolic decay ($R^2 = 0.65$); Value (judgment) shows no systematic decay pattern ($R^2 = 0.05$).}
+\label{fig:model_fit}
+\end{figure}
+
 \subsection{Mechanical vs.\ Judgment Taxonomy}
 
 We propose a taxonomy based on signal ambiguity:
@@ -250,26 +259,25 @@ Across 8 factors (2006--2024):
 
 \subsection{Trading Strategies}
 
-We test four strategies (Table~\ref{tab:strategies}):
+We test three strategies (Table~\ref{tab:strategies}):
 
 \begin{table}[h]
 \centering
 \small
-\caption{Strategy performance (2000--2024)}
+\caption{Strategy performance (2017--2025)}
 \label{tab:strategies}
-\begin{tabular}{lcccc}
+\begin{tabular}{lc}
 \toprule
-Strategy & Sharpe & Ann.\ Ret & Vol & Max DD \\
+Strategy & Sharpe \\
 \midrule
-Factor Momentum & \textbf{0.80} & 4.4\% & 5.4\% & $-$12\% \\
-Equal Weight & 0.77 & 3.2\% & 4.2\% & $-$13\% \\
-Crowding-Timed & 0.19 & 0.9\% & 4.4\% & $-$15\% \\
-Long-Short & $-$0.18 & $-$2.4\% & 13.2\% & $-$38\% \\
+Factor Momentum & \textbf{0.39} \\
+Crowding-Timed & 0.22 \\
+Equal Weight & 0.17 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Crowding-based strategies fail to outperform. Factor momentum (0.80) beats equal weight (0.77), but crowding-timed (0.19) underperforms dramatically.
+Factor momentum (0.39) outperforms both crowding-timed (0.22) and equal weight (0.17). While crowding-timed marginally beats equal weight, the improvement is economically insignificant and fails to match the simple factor momentum benchmark.
 
 \subsection{Why Doesn't the Signal Work?}
 
