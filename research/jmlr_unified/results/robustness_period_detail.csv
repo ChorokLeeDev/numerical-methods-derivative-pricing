@@ -1,0 +1,5 @@
+Period,N_Samples,Crash_Rate,AUC,Accuracy
+Pre-2000,100,0.0,,
+2000-2008,100,0.0,,
+2008-Crisis,100,0.0,,
+2012-2024,150,0.0,,

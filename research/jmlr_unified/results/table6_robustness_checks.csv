@@ -1,0 +1,11 @@
+Test,AUC
+Threshold: 5%,
+Threshold: 10%,
+Threshold: 15%,
+Pre-2008,
+2008+,
+Signal: Default,0.6463984103328366
+Signal: Volatility,0.4508670520231214
+Signal: Tail,0.6605828953655041
+Signal: Momentum,0.6096374889478338
+Cross-Validation,
