@@ -12,8 +12,8 @@ We compare the hyperbolic model $\alpha(t) = K / (1 + \lambda t)$ to an exponent
 | CMA | 0.59 | 0.49 | Hyperbolic | +25 |
 | HML | 0.71 | 0.64 | Hyperbolic | +18 |
 | MOM | 0.74 | 0.67 | Hyperbolic | +22 |
-| ST_Rev | 0.77 | 0.70 | Hyperbolic | +28 |
-| LT_Rev | 0.65 | 0.57 | Hyperbolic | +23 |
+| ST\_Rev | 0.77 | 0.70 | Hyperbolic | +28 |
+| LT\_Rev | 0.65 | 0.57 | Hyperbolic | +23 |
 \textbf{Finding}: Hyperbolic decay consistently outperforms exponential decay (6 BIC points on average = very strong preference). This supports our theoretical derivation.
 \textbf{Alternative 2: Time vs. Crowding}
 We test whether the decay is better explained by calendar time $t$ or crowding level $C_i(t)$.
@@ -120,10 +120,10 @@ We test whether our framework generalizes to bond factor investing (duration, cr
 Results: Core findings hold. Judgment factors (credit quality timing) decay faster than mechanical factors (duration). Transfer to emerging market bonds works well with Temporal-MMD (TE = 0.68).
 \textbf{Test 2: Commodity Factor Investing}
 We test on commodity factors (carry, momentum, value in commodity markets).
-Results: Decay rates are higher for commodities (λ_commodity ≈ 1.5× λ_equity), likely due to lower liquidity. Temporal-MMD works but with reduced efficiency (TE = 0.54 vs. 0.64 for equity).
+Results: Decay rates are higher for commodities ($\lambda$_commodity ≈ 1.5× $\lambda$_equity), likely due to lower liquidity. Temporal-MMD works but with reduced efficiency (TE = 0.54 vs. 0.64 for equity).
 \textbf{Test 3: Cryptocurrency Returns}
 We test on Bitcoin and Ethereum (30 factors, 2015–2024).
-Results: Crypto factors show much faster decay (λ = 0.3–0.5 per month vs. 0.05–0.20 per year for equity). CW-ACI hedging works but requires more frequent rebalancing.
+Results: Crypto factors show much faster decay ($\lambda$ = 0.3–0.5 per month vs. 0.05–0.20 per year for equity). CW-ACI hedging works but requires more frequent rebalancing.
 \textbf{Finding}: Core framework generalizes to other assets, with parameter values scaling appropriately for liquidity/volatility differences.
 \subsection{8.6 Discussion: Limitations and Future Work}
 \textbf{Limitations of Current Work}

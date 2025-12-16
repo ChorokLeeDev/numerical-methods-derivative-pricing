@@ -47,11 +47,11 @@ The Fama-French factor zoo contains many factors, but we focus on seven core fac
    - Portfolio construction: Long past 12-month winners, short past 12-month losers
    - Returns driven by: Behavioral patterns (trend-following, overconfidence)
    - Crowding barrier: High—requires belief in trend continuation despite mean reversion intuition
-3. \textbf{ST_Rev (Short-Term Reversal)}: Monthly reversal
-   - Portfolio construction: Long 1-month laggards, short 1-month winners
-   - Returns driven by: Bid-ask bounce and liquidity reversals
-   - Crowding barrier: Very High—requires exploiting market microstructure
-4. \textbf{LT_Rev (Long-Term Reversal)}: 2-5 year reversal
+3. \textbf{ST\_Rev (Short--Term Reversal)}: Monthly reversal
+   - Portfolio construction: Long 1--month laggards, short 1--month winners
+   - Returns driven by: Bid--ask bounce and liquidity reversals
+   - Crowding barrier: Very High---requires exploiting market microstructure
+4. \textbf{LT\_Rev (Long--Term Reversal)}: 2--5 year reversal
    - Portfolio construction: Long 5-year underperformers, short 5-year outperformers
    - Returns driven by: Mean reversion from overvaluation/undervaluation
    - Crowding barrier: Medium—requires long time horizons and patience
@@ -59,8 +59,8 @@ The Fama-French factor zoo contains many factors, but we focus on seven core fac
 \subsection{3.2 Game Theory Preliminaries}
 \textbf{Nash Equilibrium Concept}
 A Nash equilibrium is a strategy profile where no player can improve their payoff by unilaterally changing strategy, given the other players' strategies.
-Formally, let $i$ be a player with strategy $s_i \in S_i$ and payoff $u_i(s_i, s_{-i})$. A strategy profile $(s_1^\textit{, \ldots, s_n^})$ is a Nash equilibrium if:
-$$u_i(s_i^\textit{, s_{-i}^}) \geq u_i(s_i, s_{-i}^*) \quad \forall i, \forall s_i \in S_i$$
+Formally, let $i$ be a player with strategy $s_i \in S_i$ and payoff $u_i(s_i, s_{-i})$. A strategy profile $(s_1, \ldots, s_n)$ is a Nash equilibrium if:
+$$u_i(s_i^*) \geq u_i(s_i, s_{-i}^*) \quad \forall i, \forall s_i \in S_i$$
 In words: given what everyone else is doing, no one wants to change their strategy.
 \textbf{Application to Investing}
 In our crowding game, each investor's strategy is a capital allocation rule: how much to allocate to each factor given its current alpha and crowding. The payoff is the excess return (alpha) net of transaction costs.

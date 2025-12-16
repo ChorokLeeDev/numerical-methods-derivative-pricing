@@ -36,7 +36,7 @@ Test alternative decay functions beyond hyperbolic:
 
 	extbf{Test R² by Functional Form}:
 
-| Form | SMB | RMW | CMA | HML | MOM | ST_Rev | Mean |
+| Form | SMB | RMW | CMA | HML | MOM | ST\_Rev | Mean |
 |------|-----|-----|-----|-----|-----|--------|------|
 | Exponential | 0.48 | 0.41 | 0.38 | 0.54 | 0.59 | 0.61 | 0.50 |
 | Power Law | 0.52 | 0.45 | 0.42 | 0.58 | 0.62 | 0.64 | 0.54 |
@@ -55,15 +55,15 @@ We test whether crowding dynamics differ before and after the 2008 financial cri
 
 	extbf{Sub-Period Analysis}:
 
-| Period | Years | Judgment Mean λ | Mechanical Mean λ | Ratio |
+| Period | Years | Judgment Mean $\lambda$ | Mechanical Mean $\lambda$ | Ratio |
 |--------|-------|-----------------|-------------------|-------|
 | Pre-2008 | 1963-2008 (45 yr) | 0.145 | 0.063 | 2.30 |
 | Post-2008 | 2008-2024 (16 yr) | 0.168 | 0.079 | 2.13 |
 | 	extbf{Overall} | 1963-2024 | 0.156 | 0.072 | 2.17 |
 
 	extbf{Heterogeneity Test}:
-- Pre-2008: λ_judgment > λ_mechanical (p < 0.001)
-- Post-2008: λ_judgment > λ_mechanical (p < 0.01)
+- Pre-2008: $\lambda$_judgment > $\lambda$_mechanical (p < 0.001)
+- Post-2008: $\lambda$_judgment > $\lambda$_mechanical (p < 0.01)
 
 	extbf{Conclusion}: Heterogeneous decay holds in both periods. Post-2008 shows slightly higher absolute decay rates, consistent with increased factor investing activity.
 
@@ -112,7 +112,7 @@ $$C_i^{\text{orthogonal}} = C_i - \beta_1 \text{Vol}_i - \beta_2 \text{Mom}_i$$
 where $\beta_1, \beta_2$ are from regression of $C_i$ on volatility and momentum.
 
 	extbf{Results with Orthogonalized Crowding}:
-- Heterogeneity test still significant: λ_judgment > λ_mechanical (p < 0.01)
+- Heterogeneity test still significant: $\lambda$_judgment > $\lambda$_mechanical (p < 0.01)
 - Crash prediction AUC: 0.628 (vs. 0.646 with original)
 - Interpretation: Crowding has independent signal beyond volatility/momentum
 
@@ -205,7 +205,7 @@ We test framework on US bond factors (fixed income):
 
 	extbf{Results}:
 
-| Bond Factor | λ (per year) | Type | Judgment? |
+| Bond Factor | $\lambda$ (per year) | Type | Judgment? |
 |-----------|---|---|---|
 | Maturity | 0.082 | Mechanical | No |
 | Credit Spread | 0.156 | Judgment | Yes |
@@ -225,13 +225,13 @@ Test on commodity factor investing (3 factors):
 
 	extbf{Results}:
 
-| Commodity Factor | λ (per year) | OOS R² |
+| Commodity Factor | $\lambda$ (per year) | OOS R² |
 |---|---|---|
 | Carry | 0.031 | 0.42 |
 | Momentum | 0.298 | 0.38 |
 | Value | 0.127 | 0.45 |
 
-	extbf{Key Finding}: Commodity factors decay much faster (λ~0.15 vs. equity λ~0.07). Likely due to lower liquidity and tighter convergence.
+	extbf{Key Finding}: Commodity factors decay much faster ($\lambda$~0.15 vs. equity $\lambda$~0.07). Likely due to lower liquidity and tighter convergence.
 
 ---
 
@@ -266,7 +266,7 @@ Training times on standard hardware (Intel i7-8700K, 16GB RAM):
 1. 	extbf{Crowding measurement}: Returns-based proxy may have feedback loops with outcomes
 2. 	extbf{Mechanistic assumptions}: Game theory assumes rational investors without behavioral biases
 3. 	extbf{Regime definition}: Fixed regime definitions may miss dynamic regime shifts
-4. 	extbf{Model stationarity}: Parameters may drift over time (we assume stable λ)
+4. 	extbf{Model stationarity}: Parameters may drift over time (we assume stable $\lambda$)
 5. 	extbf{Confounding variables}: Cannot rule out omitted variables affecting both crowding and returns
 
 \subsubsection{F.9.2 Open Research Questions}

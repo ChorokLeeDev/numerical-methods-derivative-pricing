@@ -12,7 +12,7 @@ We use the Fama-French seven-factor model, which includes:
   \item Risk-free rate (RF)
 \end{itemize}
 
-Data source: Kenneth French Data Library (https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html)
+Data source: Kenneth French Data Library (\url{https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html})
 \textbf{Time Period}: July 1963 – December 2024 (754 months, ~61 years)
 \textbf{Crowding Measurement}
 Since direct AUM data is not available for the full period, we construct a crowding proxy $C_i(t)$ as:
@@ -50,19 +50,19 @@ For each window, we compute:
 | CMA | Mechanical | 2.15 | [1.52, 2.78] | 0.074 | [0.045, 0.103] | 0.59 | 0.45 |
 | HML | Judgment | 4.51 | [3.82, 5.20] | 0.156 | [0.121, 0.191] | 0.71 | 0.58 |
 | MOM | Judgment | 5.23 | [4.52, 5.94] | 0.192 | [0.154, 0.230] | 0.74 | 0.61 |
-| \textbf{ST_Rev} | Judgment | 6.14 | [5.28, 7.00] | 0.218 | [0.174, 0.262] | 0.77 | 0.63 |
-| LT_Rev | Judgment | 3.46 | [2.81, 4.11] | 0.127 | [0.091, 0.163] | 0.65 | 0.52 |
+| \textbf{ST\_Rev} | Judgment | 6.14 | [5.28, 7.00] | 0.218 | [0.174, 0.262] | 0.77 | 0.63 |
+| LT\_Rev | Judgment | 3.46 | [2.81, 4.11] | 0.127 | [0.091, 0.163] | 0.65 | 0.52 |
 \textbf{Key Findings}:
 1. \textbf{Heterogeneous Decay Rates}: Judgment factors ($\lambda_J = 0.173 \pm 0.025$, mean ± std) decay significantly faster than mechanical factors ($\lambda_M = 0.072 \pm 0.010$). The difference is 2.4× ($p < 0.001$).
 2. \textbf{Profitability Scale}: Judgment factors have higher initial alpha ($K_J = 4.84\%$ vs. $K_M = 3.30\%$), but this is offset by faster decay.
 3. \textbf{Model Fit}: The hyperbolic model explains 59–77% of in-sample variance and 45–63% of out-of-sample variance. This is strong for financial data.
 4. \textbf{Momentum Factor}: The momentum factor exhibits the fastest decay ($\lambda_{\text{MOM}} = 0.192$), consistent with the "momentum crash" literature (Bender et al., 2013).
 \textbf{Theorem 7 Test: Heterogeneous Decay}
-\textit{Hypothesis}: $\lambda_{\text{judgment}} > \lambda_{\text{mechanical}}$
-\textit{Test Method}: Mixed-effects regression with factor type as predictor:
+Hypothesis: $\lambda_{\text{judgment}} > \lambda_{\text{mechanical}}$
+Test Method: Mixed-effects regression with factor type as predictor:
 $$\lambda_i = \beta_0 + \beta_1 \cdot \mathbf{1}[\text{Judgment}_i] + u_i$$
 where $\mathbf{1}[\text{Judgment}_i]$ is an indicator for judgment factors and $u_i$ is a random effect.
-\textit{Results}:
+Results:
 \begin{itemize}
   \item $\hat{\beta}_0 = 0.072$ (decay rate for mechanical factors)
   \item $\hat{\beta}_1 = 0.101$ (additional decay for judgment factors)
@@ -94,8 +94,8 @@ $$\text{OOS R}^2 = 1 - \frac{\sum_t (\alpha_t - \hat{\alpha}_t)^2}{\sum_t (\alph
 | CMA | Mechanical | 0.49 | 0.41 | 0.45 |
 | HML | Judgment | 0.61 | 0.55 | 0.58 |
 | MOM | Judgment | 0.65 | 0.57 | 0.61 |
-| ST_Rev | Judgment | 0.68 | 0.58 | 0.63 |
-| LT_Rev | Judgment | 0.56 | 0.48 | 0.52 |
+| ST\_Rev | Judgment | 0.68 | 0.58 | 0.63 |
+| LT\_Rev | Judgment | 0.56 | 0.48 | 0.52 |
 | \textbf{Overall} | — | \textbf{0.59} | \textbf{0.50} | \textbf{0.55} |
 \textbf{Interpretation}:
 1. The model retains ~55% predictive power out-of-sample, which is strong for financial data
@@ -105,7 +105,7 @@ $$\text{OOS R}^2 = 1 - \frac{\sum_t (\alpha_t - \hat{\alpha}_t)^2}{\sum_t (\alph
 \textbf{Sub-Period Analysis}
 We examine whether decay rates are stable across different decades:
 \textbf{Table 6: Decay Rate Parameters by Decade}
-| Decade | SMB | RMW | CMA | HML | MOM | ST_Rev | LT_Rev |
+| Decade | SMB | RMW | CMA | HML | MOM | ST\_Rev | LT\_Rev |
 |--------|-----|-----|-----|-----|-----|--------|--------|
 | 1963–1975 | 0.041 | 0.052 | 0.038 | 0.089 | 0.145 | 0.186 | 0.098 |
 | 1975–1990 | 0.068 | 0.095 | 0.082 | 0.172 | 0.211 | 0.245 | 0.141 |

@@ -80,10 +80,10 @@ CW-ACI incorporates crowding information while preserving statistical guarantees
 7. \textbf{Output}: Prediction set $\mathcal{C}(x_{n+1})$ with guaranteed coverage
 \textbf{Example}: If $C_{n+1} = 0.8$ (highly crowded), then $w_{n+1} \approx 0.73$, putting more weight on high nonconformity samples, widening the prediction set. If $C_{n+1} = 0.2$ (low crowding), then $w_{n+1} \approx 0.27$, narrowing the set.
 \textbf{Theorem 6: Coverage Guarantee under Crowding Weighting}
-\textit{Statement}: Under the assumption that crowding is independent of the outcome conditional on the features (i.e., $C \perp y | x$), the CW-ACI prediction set $\mathcal{C}$ satisfies:
+Statement: Under the assumption that crowding is independent of the outcome conditional on the features (i.e., $C \perp y | x$), the CW-ACI prediction set $\mathcal{C}$ satisfies:
 $$P(y_{n+1} \in \mathcal{C}(x_{n+1})) \geq 1 - \alpha - \delta$$
 for any $\delta > 0$, with high probability, where the probability is over the draw of data and the randomness in computing the weighted quantile.
-\textit{Proof Sketch}: (Full proof in Appendix C)
+Proof Sketch: (Full proof in Appendix C)
 The key insight is that weighted quantiles preserve exchangeability under the independence assumption.
 \begin{itemize}
   \item Standard result (Angelopoulos \& Bates, 2021): Conformal prediction with exchangeable data has coverage guarantee
@@ -92,7 +92,7 @@ The key insight is that weighted quantiles preserve exchangeability under the in
   \item Therefore, coverage is preserved
 \end{itemize}
 
-\textit{Assumption Check}: We verify the conditional independence assumption using:
+Assumption Check: We verify the conditional independence assumption using:
 \begin{itemize}
   \item Permutation tests on $(C_i, A_i)$ residuals
   \item Mutual information analysis: $I(C; y | x) \approx 0$

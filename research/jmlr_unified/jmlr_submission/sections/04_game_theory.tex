@@ -46,7 +46,7 @@ where $\kappa > 0$ is the inflow rate (how quickly capital responds to profitabi
 This is a differential equation relating crowding to alpha. Rearranging:
 $$\frac{d C}{dt} = \kappa \cdot (\alpha(t) - r_f - \lambda_0 \cdot C(t))$$
 \textbf{Key Assumption: Alpha Decay in Crowding}
-We assume that the \textit{intrinsic} alpha of the factor (when uncrowded) decays exogenously over time. This could be due to:
+We assume that the intrinsic alpha of the factor (when uncrowded) decays exogenously over time. This could be due to:
 \begin{itemize}
   \item Market adaptation (more people learning about the factor)
   \item Factor publication effect (documented by McLean \& Pontiff, 2016)
@@ -64,34 +64,34 @@ $$\frac{d C}{dt} = \kappa \cdot \left( \frac{K_0}{1 + \gamma t} - r_f - 2\lambda
 This is a first-order linear ODE with time-varying coefficients. Under reasonable boundary conditions ($C(0) = 0$, meaning no crowding initially), the solution for the equilibrium crowding path $C^*(t)$ can be derived.
 \textbf{Resulting Alpha Decay Path}
 The observed alpha (what investors see) is:
-$$\alpha_{\text{obs}}(t) = K(t) - \lambda_0 \cdot C^\textit{(t) = \frac{K_0}{1 + \gamma t} - \lambda_0 \cdot C^}(t)$$
+$$\alpha_{\text{obs}}(t) = K(t) - \lambda_0 \cdot C^*(t) = \frac{K_0}{1 + \gamma t} - \lambda_0 \cdot C^*(t)$$
 Under the steady-state assumption (crowding adjusts to maintain marginal investor indifference), we have approximately:
 $$C^*(t) \approx \frac{1}{\lambda_0} \left( \frac{K_0}{1 + \gamma t} - r_f \right)$$
 Substituting back:
 $$\alpha_{\text{obs}}(t) \approx \frac{K_0}{1 + \gamma t} - \left( \frac{K_0}{1 + \gamma t} - r_f \right) = r_f$$
-This result—that observed alpha converges to the risk-free rate—is correct at steady state but hides the dynamics. The empirically observable quantity is the \textit{realized} alpha before full adjustment:
+This result—that observed alpha converges to the risk-free rate—is correct at steady state but hides the dynamics. The empirically observable quantity is the realized alpha before full adjustment:
 $$\alpha_{\text{realized}}(t) = \frac{K_0}{1 + \lambda_{\text{eff}} \cdot t}$$
 where $\lambda_{\text{eff}} = \gamma + \lambda_0$ is the effective decay rate combining exogenous decay and endogenous crowding response.
 \textbf{Why Hyperbolic (Not Exponential)?}
 Exponential decay would result if $\alpha(t) = K_0 e^{-\lambda t}$, implying a constant fractional decay rate. Hyperbolic decay $\alpha(t) = K_0 / (1 + \lambda t)$ implies a declining fractional decay rate: the factor decays quickly initially, then more slowly.
-The hyperbolic form emerges because of the \textit{linear} relationship between crowding and transaction costs combined with \textit{capital inflow proportional to profitability}. The interaction creates a self-stabilizing dynamic: as alpha declines, inflows slow, which slows further crowding, which slows alpha decay. This creates hyperbolic rather than exponential decay.
+The hyperbolic form emerges because of the linear relationship between crowding and transaction costs combined with capital inflow proportional to profitability. The interaction creates a self-stabilizing dynamic: as alpha declines, inflows slow, which slows further crowding, which slows alpha decay. This creates hyperbolic rather than exponential decay.
 \subsection{4.3 Formal Theorems and Proofs}
 \textbf{Theorem 1: Existence and Uniqueness of Equilibrium}
-\textit{Statement}: Consider the crowding game with investor payoff function $\Pi_j(w_j, C, t)$ and entry condition $\alpha(t) \geq \lambda_0 \cdot C(t) + r_f$. Under the assumption that $\alpha(t)$ decays exogenously as $\alpha(t) = K(t) - \lambda_0 \cdot C(t)$ with $K(t)$ continuously differentiable and $K(t) \geq r_f$ for all $t \geq 0$, there exists a unique equilibrium crowding path $C^*(t)$ satisfying the indifference condition at all times $t$.
-\textit{Proof Sketch}: (Full proof in Appendix A)
+Statement: Consider the crowding game with investor payoff function $\Pi_j(w_j, C, t)$ and entry condition $\alpha(t) \geq \lambda_0 \cdot C(t) + r_f$. Under the assumption that $\alpha(t)$ decays exogenously as $\alpha(t) = K(t) - \lambda_0 \cdot C(t)$ with $K(t)$ continuously differentiable and $K(t) \geq r_f$ for all $t \geq 0$, there exists a unique equilibrium crowding path $C^*(t)$ satisfying the indifference condition at all times $t$.
+Proof Sketch: (Full proof in Appendix A)
 \begin{itemize}
   \item Define the equilibrium condition: $\alpha(t) = \lambda_0 \cdot C^*(t) + r_f$
   \item Equivalently: $\frac{K(t)}{1 + \gamma t} = \lambda_0 \cdot C^*(t) + r_f$
-  \item Solving for $C^\textit{$: $C^}(t) = \frac{1}{\lambda_0} \left( \frac{K(t)}{1 + \gamma t} - r_f \right)$
+  \item Solving for $C^*$: $C^*(t) = \frac{1}{\lambda_0} \left( \frac{K(t)}{1 + \gamma t} - r_f \right)$
   \item Uniqueness follows from the monotonic relationship between $C$ and $\alpha$.
 \end{itemize}
 
 \textbf{Theorem 2: Properties of Decay Rate}
-\textit{Statement}: In the equilibrium of Theorem 1, the observed alpha decay rate parameter $\lambda$ satisfies:
+Statement: In the equilibrium of Theorem 1, the observed alpha decay rate parameter $\lambda$ satisfies:
 1. $\lambda$ is determined by the exogenous decay rate $\gamma$ and crowding sensitivity $\lambda_0$: $\lambda_{\text{eff}} = \gamma + \text{crowding effect}$
 2. Higher barriers to entry (larger $\lambda_0$) imply larger $\lambda_{\text{eff}}$
 3. Faster exogenous decay (larger $\gamma$) implies larger $\lambda_{\text{eff}}$
-\textit{Proof Sketch}:
+Proof Sketch:
 \begin{itemize}
   \item Observed alpha: $\alpha(t) = \frac{K}{1 + \lambda_{\text{eff}} t}$
   \item The effective decay rate is: $\lambda_{\text{eff}} = \frac{d \log \alpha}{d t}\bigg|_{t=0}$
@@ -99,10 +99,10 @@ The hyperbolic form emerges because of the \textit{linear} relationship between 
 \end{itemize}
 
 \textbf{Theorem 3: Heterogeneous Decay Between Mechanical and Judgment Factors}
-\textit{Statement}: Consider two factors: a mechanical factor $M$ and a judgment factor $J$. Suppose the barrier to entry is lower for mechanical factors (smaller $\lambda_{0,M}$) but the exogenous decay rate is faster for judgment factors (larger $\gamma_J$). Then:
+Statement: Consider two factors: a mechanical factor $M$ and a judgment factor $J$. Suppose the barrier to entry is lower for mechanical factors (smaller $\lambda_{0,M}$) but the exogenous decay rate is faster for judgment factors (larger $\gamma_J$). Then:
 $$\lambda_J > \lambda_M$$
 That is, judgment factors experience faster alpha decay than mechanical factors.
-\textit{Proof Sketch}:
+Proof Sketch:
 \begin{itemize}
   \item Mechanical factor decay rate: $\lambda_M = \gamma_M + \lambda_{0,M}$
   \item Judgment factor decay rate: $\lambda_J = \gamma_J + \lambda_{0,J}$
@@ -110,7 +110,7 @@ That is, judgment factors experience faster alpha decay than mechanical factors.
   \item If $\gamma_J - \gamma_M > \lambda_{0,J} - \lambda_{0,M}$ (the exogenous difference dominates), then $\lambda_J > \lambda_M$.
 \end{itemize}
 
-\textit{Economic Interpretation}: Mechanical factors are easy to systematize, so the exogenous decay is immediate (publication → systematic replication → decay). Judgment factors are harder to systematize, so capital flows in more slowly, but those who do adopt them (the early movers) face slower decay. However, once judgment factors are popular enough for systematic replication, decay accelerates faster than mechanical factors.
+Economic Interpretation: Mechanical factors are easy to systematize, so the exogenous decay is immediate (publication → systematic replication → decay). Judgment factors are harder to systematize, so capital flows in more slowly, but those who do adopt them (the early movers) face slower decay. However, once judgment factors are popular enough for systematic replication, decay accelerates faster than mechanical factors.
 \subsection{4.4 Discussion and Comparative Statics}
 \textbf{Comparative Statics on Decay Rate}
 The decay rate $\lambda$ depends on several parameter. We now analyze how changes in parameters affect $\lambda$:

@@ -16,16 +16,16 @@ where:
 
 TE = 0% means transfer adds nothing. TE = 100% means transfer is as good as having full target data.
 \textbf{The Regime Shift Problem}
-Why might US factors not transfer directly to foreign markets? The key issue is \textit{regime shifts}.
+Why might US factors not transfer directly to foreign markets? The key issue is regime shifts.
 Example: Suppose we want to transfer the US momentum factor model to the UK market. The US momentum model is estimated on data that includes many bull-market years. The UK market at the time of transfer is in a bear phase. The distributions are incompatible:
 \begin{itemize}
   \item US bull momentum: high recent returns, momentum continues
   \item UK bear momentum: low recent returns, mean reversion likely
 \end{itemize}
 
-Standard domain adaptation tries to match these distributions uniformly, which forces incompatible regimes to align. This can \textit{hurt} transfer performance.
+Standard domain adaptation tries to match these distributions uniformly, which forces incompatible regimes to align. This can hurt transfer performance.
 \textbf{The Solution: Regime Conditioning}
-The key innovation is to identify market regimes and match distributions \textit{within each regime separately}. This ensures:
+The key innovation is to identify market regimes and match distributions within each regime separately. This ensures:
 \begin{itemize}
   \item Bull-market US factors → Bull-market foreign factors
   \item Bear-market US factors → Bear-market foreign factors
@@ -44,7 +44,7 @@ Standard MMD is kernel-agnostic. We use the \textbf{RBF (Radial Basis Function) 
 $$k_{\sigma}(\mathbf{x}, \mathbf{x}') = \exp\left( -\frac{\|\mathbf{x} - \mathbf{x}'\|^2}{2\sigma^2} \right)$$
 where $\sigma$ is the bandwidth (set using median heuristic).
 \textbf{Temporal-MMD with Regime Conditioning}
-The key innovation of Temporal-MMD is to partition data by regime and compute MMD \textit{within each regime}.
+The key innovation of Temporal-MMD is to partition data by regime and compute MMD within each regime.
 \textbf{Regime Definition}: We define financial regimes using two criteria:
 1. \textbf{Market Trend}: Bull (recent excess returns > median) vs. Bear
 2. \textbf{Volatility Regime}: High-Vol (realized vol > median) vs. Low-Vol
@@ -109,11 +109,11 @@ We compare three methods:
 \textbf{Interpretation}: By respecting market regime structure in domain adaptation, we can credibly transfer US crowding insights to global markets and retain strong predictive power.
 \subsection{6.4 Theorem 5: Transfer Bound with Regime Conditioning}
 \textbf{Theorem 5: Domain Adaptation Bound}
-\textit{Statement}: Suppose source and target distributions can be partitioned into regimes $R$ such that within-regime distributions are close (small MMD). Then the target error of a model trained on source with Temporal-MMD adaptation satisfies:
+Statement: Suppose source and target distributions can be partitioned into regimes $R$ such that within-regime distributions are close (small MMD). Then the target error of a model trained on source with Temporal-MMD adaptation satisfies:
 $$\text{Error}_T \leq \text{Error}_S + \sum_{r \in R} w_r \cdot \text{MMD}(S_r, T_r) + \text{Discrepancy}_r$$
 where $\text{Error}_S$ is training error, $\text{Discrepancy}_r$ is regime-specific irreducible error, and the MMD term bounds domain-related errors.
-\textit{Implication}: The bound is tighter with regime conditioning because we replace the global MMD (large due to regime shifts) with regime-specific MMD values (smaller because within-regime distributions are closer).
-\textit{Proof Sketch}: (Full proof in Appendix B)
+Implication: The bound is tighter with regime conditioning because we replace the global MMD (large due to regime shifts) with regime-specific MMD values (smaller because within-regime distributions are closer).
+Proof Sketch: (Full proof in Appendix B)
 \begin{itemize}
   \item Start with standard domain adaptation bound (Ben-David et al., 2010)
   \item Introduce regime partitioning: total error ≤ source error + domain discrepancy
@@ -134,7 +134,7 @@ Regime shifts affect both parameters:
 1. \textbf{Bull markets}: Investors are optimistic, capital flows more freely into factors (lower effective $\lambda_0$), exogenous decay slows ($\lower \gamma$)
 2. \textbf{Bear markets}: Capital is scarce, inflows slow (higher effective $\lambda_0$), competitive positioning matters more (higher $\gamma$)
 By conditioning on regimes, Temporal-MMD implicitly accounts for these regime-dependent parameter changes.
-\textbf{Synergy}: Game theory explains \textit{why} regimes matter (investor behavior changes), and Temporal-MMD operationalizes this insight in domain adaptation.
+\textbf{Synergy}: Game theory explains why regimes matter (investor behavior changes), and Temporal-MMD operationalizes this insight in domain adaptation.
 ---
 \textbf{Word Count: ~3,700 words}
 \textbf{Key Innovation}: Regime-conditional domain adaptation respecting financial market structure

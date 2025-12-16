@@ -21,7 +21,7 @@ Assume:
 Then there exists a 	extbf{unique equilibrium crowding path} $C^*(t)$ such that the marginal investor is indifferent at all times $t$:
 $$\alpha(t) = \text{TC}(C^*(t)) + r_f$$
 
-This equilibrium satisfies $C^	extit{(0) = 0$ and $\frac{dC^}(t)}{dt} \geq 0$ for all $t$.
+This equilibrium satisfies $C^*((0) = 0$ and $\frac{dC^*(t)}{dt} \geq 0$ for all $t$.
 
 ---
 
@@ -40,10 +40,10 @@ where $C^*(t)$ is the equilibrium crowding level.
 	extbf{Step 2: Show existence}
 
 Substituting $\alpha(t) = K(t) - \lambda_0 C(t)$:
-$$K(t) - \lambda_0 C^	extit{(t) = \text{TC}(C^}(t)) + r_f$$
+$$K(t) - \lambda_0 C^*((t) = \text{TC}(C^*(t)) + r_f$$
 
 Rearranging:
-$$K(t) - r_f = \lambda_0 C^	extit{(t) + \text{TC}(C^}(t))$$
+$$K(t) - r_f = \lambda_0 C^*((t) + \text{TC}(C^*(t))$$
 
 Define $F(C, t) := \lambda_0 C + \text{TC}(C) - (K(t) - r_f)$.
 
@@ -53,7 +53,7 @@ We need to show that $F(C, t) = 0$ has a solution $C^*(t)$ for each $t$.
 
 - At $C = C_{\max} = K(t)/\lambda_0$ (maximum possible crowding): $F(C_{\max}, t) = \lambda_0 \cdot \frac{K(t)}{\lambda_0} + \text{TC}(C_{\max}) - (K(t) - r_f) = \text{TC}(C_{\max}) + r_f > 0$ (since TC is non-negative).
 
-By the Intermediate Value Theorem (since $F$ is continuous in $C$ by Assumption A2), there exists at least one $C^	extit{ \in [0, C_{\max}]$ such that $F(C^}, t) = 0$.
+By the Intermediate Value Theorem (since $F$ is continuous in $C$ by Assumption A2), there exists at least one $C^*( \in [0, C_{\max}]$ such that $F(C^}, t) = 0$.
 
 	extbf{Step 3: Show uniqueness}
 
@@ -65,7 +65,7 @@ by Assumption (A2), since TC is non-decreasing. A strictly increasing function h
 	extbf{Step 4: Show monotonicity of $C^*(t)$}
 
 From the equilibrium condition:
-$$C^	extit{(t) = \frac{1}{\lambda_0 + \text{TC}'(C^}(t))} [K(t) - r_f]$$
+$$C^*((t) = \frac{1}{\lambda_0 + \text{TC}'(C^*(t))} [K(t) - r_f]$$
 
 where $\text{TC}'(C)$ is the derivative of TC (which is non-negative).
 
@@ -76,18 +76,18 @@ $$\frac{dC}{dt} = \kappa [\alpha(t) - r_f - \text{TC}(C(t))]$$
 
 At equilibrium, the right-hand side is zero (indifference condition), so $\frac{dC^*(t)}{dt} = 0$. This means the equilibrium crowding path is 	extbf{constant} in the instantaneous limit.
 
-However, as $K(t)$ decays, $C^	extit{(t)$ adjusts downward. At each instant, crowding is at its equilibrium level given current $K(t)$. Since $K(t)$ is decreasing and the equilibrium $C^}$ is increasing in $K$, the path $C^*(t)$ is 	extbf{non-increasing} (weakly decreasing).
+However, as $K(t)$ decays, $C^*((t)$ adjusts downward. At each instant, crowding is at its equilibrium level given current $K(t)$. Since $K(t)$ is decreasing and the equilibrium $C^}$ is increasing in $K$, the path $C^*(t)$ is 	extbf{non-increasing} (weakly decreasing).
 
 Wait, I need to be more careful. Let me reconsider the dynamics.
 
 	extbf{Revised Step 4: Dynamic adjustment}
 
-If crowding is below equilibrium ($C < C^	extit{$), then $\alpha - \text{TC} > r_f$, so new capital flows in ($\frac{dC}{dt} > 0$). If crowding is above equilibrium ($C > C^}$), then $\alpha - \text{TC} < r_f$, so capital exits ($\frac{dC}{dt} < 0$).
+If crowding is below equilibrium ($C < C^*($), then $\alpha - \text{TC} > r_f$, so new capital flows in ($\frac{dC}{dt} > 0$). If crowding is above equilibrium ($C > C^}$), then $\alpha - \text{TC} < r_f$, so capital exits ($\frac{dC}{dt} < 0$).
 
-This is consistent with standard adjustment dynamics. At equilibrium, $C(t) = C^	extit{(t)$, and as $K(t)$ decays, the equilibrium $C^}(t)$ also decays. With instantaneous adjustment, $C(t)$ tracks $C^*(t)$ exactly, so $C(t)$ is decreasing with decreasing $K(t)$.
+This is consistent with standard adjustment dynamics. At equilibrium, $C(t) = C^*((t)$, and as $K(t)$ decays, the equilibrium $C^*(t)$ also decays. With instantaneous adjustment, $C(t)$ tracks $C^*(t)$ exactly, so $C(t)$ is decreasing with decreasing $K(t)$.
 
 More formally, from Implicit Function Theorem applied to $F(C, t) = 0$:
-$$\frac{dC^	extit{}{dt} = -\frac{\partial F/\partial t}{\partial F/\partial C} = -\frac{\frac{\partial}{\partial t}[K(t) - r_f]}{\lambda_0 + \text{TC}'(C^})} = -\frac{K'(t)}{\lambda_0 + \text{TC}'(C^*)} < 0$$
+$$\frac{dC^*(}{dt} = -\frac{\partial F/\partial t}{\partial F/\partial C} = -\frac{\frac{\partial}{\partial t}[K(t) - r_f]}{\lambda_0 + \text{TC}'(C^})} = -\frac{K'(t)}{\lambda_0 + \text{TC}'(C^*)} < 0$$
 
 since $K'(t) < 0$ (K is decreasing).
 
@@ -117,12 +117,12 @@ This completes the proof of Theorem 1. $\square$
 	extbf{Step 1: Express observed alpha}
 
 At equilibrium, observed alpha is:
-$$\alpha_{\text{obs}}(t) = K(t) - \lambda_0 C^	extit{(t) = K(t) - \lambda_0 C^}(t)$$
+$$\alpha_{\text{obs}}(t) = K(t) - \lambda_0 C^*((t) = K(t) - \lambda_0 C^*(t)$$
 
-where $C^	extit{(t)$ solves $K(t) - \lambda_0 C^} = \text{TC}(C^*) + r_f$.
+where $C^*((t)$ solves $K(t) - \lambda_0 C^} = \text{TC}(C^*) + r_f$.
 
 For the linear TC case $\text{TC}(C) = \alpha_0 + \beta C$ (linear in crowding), we have:
-$$K(t) - \lambda_0 C^	extit{ = \alpha_0 + \beta C^} + r_f$$
+$$K(t) - \lambda_0 C^*( = \alpha_0 + \beta C^} + r_f$$
 
 Solving for $C^*$:
 $$C^*(t) = \frac{K(t) - \alpha_0 - r_f}{\lambda_0 + \beta}$$
@@ -155,10 +155,10 @@ The total decay comes from two sources:
 2. 	extbf{Endogenous}: Crowding $C(t)$ reduces alpha via transaction costs
 
 The combined effect is:
-$$\frac{d \alpha_{\text{obs}}}{dt} = \frac{\partial \alpha}{\partial K} \frac{dK}{dt} + \frac{\partial \alpha}{\partial C^	extit{} \frac{dC^}}{dt}$$
+$$\frac{d \alpha_{\text{obs}}}{dt} = \frac{\partial \alpha}{\partial K} \frac{dK}{dt} + \frac{\partial \alpha}{\partial C^*(} \frac{dC^}}{dt}$$
 
 We have:
-- $\frac{\partial \alpha}{\partial K} = 1$ (since $\alpha = K - \lambda_0 C^	extit{$, and $C^}$ depends on $K$)
+- $\frac{\partial \alpha}{\partial K} = 1$ (since $\alpha = K - \lambda_0 C^*($, and $C^}$ depends on $K$)
 - Actually: $\frac{\partial \alpha}{\partial K} = 1 - \lambda_0 \frac{\partial C^*}{\partial K} = \frac{\beta}{\lambda_0 + \beta}$ (from the equilibrium condition)
 
 The effective decay rate reflects both sources:
@@ -170,7 +170,7 @@ $$\lambda_{\text{obs}} = \gamma + \text{(endogenous contribution)}$$
 	extbf{Step 3: Prove comparative statics}
 
 From the equilibrium:
-$$C^	extit{ = \frac{K(t) - r_f - \text{TC}^{-1}(\text{TC}(C^}))}{\lambda_0}$$
+$$C^*( = \frac{K(t) - r_f - \text{TC}^{-1}(\text{TC}(C^}))}{\lambda_0}$$
 
 Higher $\lambda_0$ (larger entry barriers) means:
 - For given $K(t)$, lower equilibrium $C^*$ (fewer investors can profitably enter)
