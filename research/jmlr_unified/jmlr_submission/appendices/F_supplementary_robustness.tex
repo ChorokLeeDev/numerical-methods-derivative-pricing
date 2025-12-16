@@ -9,12 +9,12 @@ This appendix provides additional robustness checks, sensitivity analyses, and r
 
 We compare the parametric hyperbolic model $\alpha(t) = K/(1+\lambda t)$ against a non-parametric local polynomial regression baseline.
 
-	extbf{Test Setup}:
+	\textbf{Test Setup}:
 - Fit hyperbolic model to first 37 years (1963-2000)
 - Fit local polynomial regression (degree 2) on same data
 - Compare OOS predictive power on 2000-2024
 
-	extbf{Results}:
+	\textbf{Results}:
 
 | Model | Train R² | Test R² | RMSE | AIC | BIC |
 |-------|----------|---------|------|-----|-----|
@@ -22,28 +22,28 @@ We compare the parametric hyperbolic model $\alpha(t) = K/(1+\lambda t)$ against
 | Local Polynomial (Non-par) | 0.74 | 0.48 | 0.051 | -1180 | -1140 |
 | Linear Decay | 0.62 | 0.39 | 0.068 | -1050 | -1040 |
 
-	extbf{Conclusion}: Hyperbolic model provides best out-of-sample performance. Non-parametric overfits (higher train R² but lower test R²).
+	\textbf{Conclusion}: Hyperbolic model provides best out-of-sample performance. Non-parametric overfits (higher train R² but lower test R²).
 
 \subsubsection{F.1.2 Functional Form Robustness}
 
 Test alternative decay functions beyond hyperbolic:
 
-	extbf{Functions Tested}:
+	\textbf{Functions Tested}:
 1. Exponential: $\alpha(t) = K e^{-\lambda t}$
 2. Power law: $\alpha(t) = K t^{-\lambda}$
 3. Logistic: $\alpha(t) = K / (1 + e^{\lambda t})$
 4. Hyperbolic (baseline): $\alpha(t) = K / (1 + \lambda t)$
 
-	extbf{Test R² by Functional Form}:
+	\textbf{Test R² by Functional Form}:
 
 | Form | SMB | RMW | CMA | HML | MOM | ST\_Rev | Mean |
 |------|-----|-----|-----|-----|-----|--------|------|
 | Exponential | 0.48 | 0.41 | 0.38 | 0.54 | 0.59 | 0.61 | 0.50 |
 | Power Law | 0.52 | 0.45 | 0.42 | 0.58 | 0.62 | 0.64 | 0.54 |
 | Logistic | 0.51 | 0.44 | 0.41 | 0.56 | 0.61 | 0.63 | 0.53 |
-| 	extbf{Hyperbolic} | 	extbf{0.54} | 	extbf{0.48} | 	extbf{0.45} | 	extbf{0.58} | 	extbf{0.61} | 	extbf{0.63} | 	extbf{0.55} |
+| 	\textbf{Hyperbolic} | 	\textbf{0.54} | 	\textbf{0.48} | 	\textbf{0.45} | 	\textbf{0.58} | 	\textbf{0.61} | 	\textbf{0.63} | 	\textbf{0.55} |
 
-	extbf{Conclusion}: Hyperbolic model consistently outperforms alternatives across all factors.
+	\textbf{Conclusion}: Hyperbolic model consistently outperforms alternatives across all factors.
 
 ---
 
@@ -53,25 +53,25 @@ Test alternative decay functions beyond hyperbolic:
 
 We test whether crowding dynamics differ before and after the 2008 financial crisis.
 
-	extbf{Sub-Period Analysis}:
+	\textbf{Sub-Period Analysis}:
 
 | Period | Years | Judgment Mean $\lambda$ | Mechanical Mean $\lambda$ | Ratio |
 |--------|-------|-----------------|-------------------|-------|
 | Pre-2008 | 1963-2008 (45 yr) | 0.145 | 0.063 | 2.30 |
 | Post-2008 | 2008-2024 (16 yr) | 0.168 | 0.079 | 2.13 |
-| 	extbf{Overall} | 1963-2024 | 0.156 | 0.072 | 2.17 |
+| 	\textbf{Overall} | 1963-2024 | 0.156 | 0.072 | 2.17 |
 
-	extbf{Heterogeneity Test}:
+	\textbf{Heterogeneity Test}:
 - Pre-2008: $\lambda$_judgment > $\lambda$_mechanical (p < 0.001)
 - Post-2008: $\lambda$_judgment > $\lambda$_mechanical (p < 0.01)
 
-	extbf{Conclusion}: Heterogeneous decay holds in both periods. Post-2008 shows slightly higher absolute decay rates, consistent with increased factor investing activity.
+	\textbf{Conclusion}: Heterogeneous decay holds in both periods. Post-2008 shows slightly higher absolute decay rates, consistent with increased factor investing activity.
 
 \subsubsection{F.2.2 Sub-Period Performance: 5-Year Rolling Windows}
 
 To examine stability, we estimate decay parameters in rolling 5-year windows:
 
-	extbf{Rolling Window Results}:
+	\textbf{Rolling Window Results}:
 
 | Years | SMB | HML | MOM |
 |-------|-----|-----|-----|
@@ -81,7 +81,7 @@ To examine stability, we estimate decay parameters in rolling 5-year windows:
 | 2015-2020 | 0.078 | 0.162 | 0.195 |
 | 2020-2024 | 0.081 | 0.168 | 0.202 |
 
-	extbf{Pattern}: Decay rates show upward trend over time (especially post-2000), consistent with increasing competition in factor investing.
+	\textbf{Pattern}: Decay rates show upward trend over time (especially post-2000), consistent with increasing competition in factor investing.
 
 ---
 
@@ -91,17 +91,17 @@ To examine stability, we estimate decay parameters in rolling 5-year windows:
 
 Beyond the four proxies tested in D.3.1, we test two additional crowding measures:
 
-	extbf{Proxy 5: AUM-based (when available)}
+	\textbf{Proxy 5: AUM-based (when available)}
 - Uses actual fund AUM data from Morningstar/FactSet
 - Limited coverage (1990 onwards)
 - Result: Correlation with primary proxy = 0.81
 
-	extbf{Proxy 6: Volatility-of-flows}
+	\textbf{Proxy 6: Volatility-of-flows}
 - $C_i(t) = \text{std}(\text{flows}_{i,t-12:t})$
 - Measures variability of capital flows
 - Result: Crash prediction AUC = 0.638 (vs. 0.646 for primary)
 
-	extbf{Conclusion}: Results robust to alternative crowding definitions within ±5%.
+	\textbf{Conclusion}: Results robust to alternative crowding definitions within ±5%.
 
 \subsubsection{F.3.2 Crowding Signal Orthogonalization}
 
@@ -111,7 +111,7 @@ $$C_i^{\text{orthogonal}} = C_i - \beta_1 \text{Vol}_i - \beta_2 \text{Mom}_i$$
 
 where $\beta_1, \beta_2$ are from regression of $C_i$ on volatility and momentum.
 
-	extbf{Results with Orthogonalized Crowding}:
+	\textbf{Results with Orthogonalized Crowding}:
 - Heterogeneity test still significant: $\lambda$_judgment > $\lambda$_mechanical (p < 0.01)
 - Crash prediction AUC: 0.628 (vs. 0.646 with original)
 - Interpretation: Crowding has independent signal beyond volatility/momentum
@@ -134,7 +134,7 @@ We test 7 main hypotheses in the paper. With Bonferroni correction ($\alpha_{\te
 | OOS R² > 0.40 | <0.001 | 0.007 | \checkmark Yes |
 | Transfer efficiency > 50% | 0.003 | 0.007 | \checkmark Yes |
 
-	extbf{Conclusion}: All main hypotheses survive multiple comparison correction except CW-ACI Sharpe improvement (which remains significant at p=0.008 vs. threshold 0.007—marginal).
+	\textbf{Conclusion}: All main hypotheses survive multiple comparison correction except CW-ACI Sharpe improvement (which remains significant at p=0.008 vs. threshold 0.007—marginal).
 
 ---
 
@@ -144,21 +144,21 @@ We test 7 main hypotheses in the paper. With Bonferroni correction ($\alpha_{\te
 
 We test three different CV strategies:
 
-	extbf{Scheme 1: Time-Series Forward Chaining} (primary, used in Section 5)
+	\textbf{Scheme 1: Time-Series Forward Chaining} (primary, used in Section 5)
 - Train: 1963-2000, Test: 2000-2012, 2012-2024
 - Result: OOS R² = 0.55 (average)
 
-	extbf{Scheme 2: Calendar Year Hold-Out}
+	\textbf{Scheme 2: Calendar Year Hold-Out}
 - Each year: hold out; train on all other years
 - Result: OOS R² = 0.48 (average)
 - Interpretation: Year-specific effects are modest
 
-	extbf{Scheme 3: Block Cross-Validation}
+	\textbf{Scheme 3: Block Cross-Validation}
 - 5 non-overlapping blocks of 12 years each
 - Leave-one-block-out CV
 - Result: OOS R² = 0.50 (average)
 
-	extbf{Conclusion}: Results are stable across CV schemes; OOS R² range 0.48-0.55 suggests moderate generalization.
+	\textbf{Conclusion}: Results are stable across CV schemes; OOS R² range 0.48-0.55 suggests moderate generalization.
 
 ---
 
@@ -168,7 +168,7 @@ We test three different CV strategies:
 
 How sensitive is transfer efficiency to regime weighting scheme?
 
-	extbf{Weight Schemes Tested}:
+	\textbf{Weight Schemes Tested}:
 
 | Scheme | Bull-HV | Bull-LV | Bear-HV | Bear-LV | Avg TE |
 |--------|---------|---------|---------|---------|--------|
@@ -177,7 +177,7 @@ How sensitive is transfer efficiency to regime weighting scheme?
 | Time-weighted | 0.20 | 0.30 | 0.25 | 0.25 | 0.631 |
 | Source distribution | 0.22 | 0.28 | 0.27 | 0.23 | 0.634 |
 
-	extbf{Conclusion}: Results stable; equal weighting slightly best, but all schemes yield 0.63+.
+	\textbf{Conclusion}: Results stable; equal weighting slightly best, but all schemes yield 0.63+.
 
 \subsubsection{F.6.2 CW-ACI: Weight Function Sensitivity}
 
@@ -187,10 +187,10 @@ Tested weight functions beyond sigmoid (Section 8.3):
 |----------|--------|----------|-------|
 | Step (C>0.7) | 0.94 | 0.89 | 0.55 |
 | Linear (w=C) | 0.97 | 0.92 | 0.71 |
-| Sigmoid (w=σ(C)) | 	extbf{1.03} | 	extbf{0.95} | 	extbf{0.87} |
+| Sigmoid (w=σ(C)) | 	\textbf{1.03} | 	\textbf{0.95} | 	\textbf{0.87} |
 | Power (w=C²) | 1.00 | 0.93 | 0.84 |
 
-	extbf{Conclusion}: Sigmoid dominates across all metrics; provides best balance between coverage and Sharpe ratio.
+	\textbf{Conclusion}: Sigmoid dominates across all metrics; provides best balance between coverage and Sharpe ratio.
 
 ---
 
@@ -203,7 +203,7 @@ We test framework on US bond factors (fixed income):
 - Credit factor (high-yield vs investment-grade)
 - Liquidity factor (illiquid vs liquid)
 
-	extbf{Results}:
+	\textbf{Results}:
 
 | Bond Factor | $\lambda$ (per year) | Type | Judgment? |
 |-----------|---|---|---|
@@ -211,7 +211,7 @@ We test framework on US bond factors (fixed income):
 | Credit Spread | 0.156 | Judgment | Yes |
 | Illiquidity Premium | 0.091 | Mechanical | No |
 
-	extbf{Transfer to Emerging Markets} (Brazil, Mexico):
+	\textbf{Transfer to Emerging Markets} (Brazil, Mexico):
 - Baseline: 0.38
 - Temporal-MMD: 0.61
 - Interpretation: Framework generalizes to fixed income with 60% transfer efficiency
@@ -223,7 +223,7 @@ Test on commodity factor investing (3 factors):
 - Momentum factor
 - Value factor
 
-	extbf{Results}:
+	\textbf{Results}:
 
 | Commodity Factor | $\lambda$ (per year) | OOS R² |
 |---|---|---|
@@ -231,7 +231,7 @@ Test on commodity factor investing (3 factors):
 | Momentum | 0.298 | 0.38 |
 | Value | 0.127 | 0.45 |
 
-	extbf{Key Finding}: Commodity factors decay much faster ($\lambda$~0.15 vs. equity $\lambda$~0.07). Likely due to lower liquidity and tighter convergence.
+	\textbf{Key Finding}: Commodity factors decay much faster ($\lambda$~0.15 vs. equity $\lambda$~0.07). Likely due to lower liquidity and tighter convergence.
 
 ---
 
@@ -255,7 +255,7 @@ Training times on standard hardware (Intel i7-8700K, 16GB RAM):
 | Temporal-MMD | 850 MB | Quadratic in batch size |
 | CW-ACI | 50 MB | Linear in n |
 
-	extbf{Practical Note}: Temporal-MMD is most memory-intensive; batch size limiting factor for large datasets.
+	\textbf{Practical Note}: Temporal-MMD is most memory-intensive; batch size limiting factor for large datasets.
 
 ---
 
@@ -263,11 +263,11 @@ Training times on standard hardware (Intel i7-8700K, 16GB RAM):
 
 \subsubsection{F.9.1 Acknowledged Limitations}
 
-1. 	extbf{Crowding measurement}: Returns-based proxy may have feedback loops with outcomes
-2. 	extbf{Mechanistic assumptions}: Game theory assumes rational investors without behavioral biases
-3. 	extbf{Regime definition}: Fixed regime definitions may miss dynamic regime shifts
-4. 	extbf{Model stationarity}: Parameters may drift over time (we assume stable $\lambda$)
-5. 	extbf{Confounding variables}: Cannot rule out omitted variables affecting both crowding and returns
+1. 	\textbf{Crowding measurement}: Returns-based proxy may have feedback loops with outcomes
+2. 	\textbf{Mechanistic assumptions}: Game theory assumes rational investors without behavioral biases
+3. 	\textbf{Regime definition}: Fixed regime definitions may miss dynamic regime shifts
+4. 	\textbf{Model stationarity}: Parameters may drift over time (we assume stable $\lambda$)
+5. 	\textbf{Confounding variables}: Cannot rule out omitted variables affecting both crowding and returns
 
 \subsubsection{F.9.2 Open Research Questions}
 
@@ -291,11 +291,11 @@ Training times on standard hardware (Intel i7-8700K, 16GB RAM):
 | Hyperparameters | Results stable | \checkmark Not overfit to tuning |
 | Generalization | Works on bonds/commodities | \checkmark Framework generalizable |
 
-	extbf{Overall Assessment}: Core results are robust across specifications, data periods, and measurement choices. Conclusions can be relied upon.
+	\textbf{Overall Assessment}: Core results are robust across specifications, data periods, and measurement choices. Conclusions can be relied upon.
 
 ---
 
-	extbf{Appendix F End}
+	\textbf{Appendix F End}
 
-	extbf{Total Appendices}: A-F (6 appendices, ~18-20 pages)
+	\textbf{Total Appendices}: A-F (6 appendices, ~18-20 pages)
 

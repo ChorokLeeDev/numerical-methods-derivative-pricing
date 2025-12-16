@@ -5,7 +5,7 @@ This appendix provides the theoretical foundation for regime-conditional domain 
 
 \subsection{Theorem 5: Domain Adaptation Bound with Regime Conditioning}
 
-	extbf{Theorem 5} 	extit{(Domain Adaptation Transfer Bound)}: Let $S$ be a source domain and $T$ be a target domain, both partitionable into regimes $R = \{r_1, \ldots, r_K\}$. Let $h: X \to Y$ be a hypothesis (predictor), and define:
+	\textbf{Theorem 5} 	\textit{(Domain Adaptation Transfer Bound)}: Let $S$ be a source domain and $T$ be a target domain, both partitionable into regimes $R = \{r_1, \ldots, r_K\}$. Let $h: X \to Y$ be a hypothesis (predictor), and define:
 
 - $\text{Error}_S(h)$ = expected loss on source data
 - $\text{Error}_T(h)$ = expected loss on target data
@@ -16,7 +16,7 @@ $$\text{Error}_T(h) \leq \text{Error}_S(h) + \sum_{r \in R} w_r \cdot \text{MMD}
 
 where $w_r$ are regime weights summing to 1, and $\text{Disc}_r(h)$ is the regime-specific irreducible discrepancy.
 
-	extbf{Interpretation}: The target error is bounded by source error plus regime-specific MMD terms. Regime conditioning tightens the bound compared to standard global MMD, which would be:
+	\textbf{Interpretation}: The target error is bounded by source error plus regime-specific MMD terms. Regime conditioning tightens the bound compared to standard global MMD, which would be:
 $$\text{Error}_T(h) \leq \text{Error}_S(h) + \text{MMD}^2(S, T) + \text{Disc}(h)$$
 
 The regime-specific approach replaces the global MMD with a weighted sum of regime-specific MMDs, which is smaller when regimes are well-separated.
@@ -25,29 +25,29 @@ The regime-specific approach replaces the global MMD with a weighted sum of regi
 
 \subsubsection{Proof of Theorem 5}
 
-	extbf{Step 1: Preliminaries and notation}
+	\textbf{Step 1: Preliminaries and notation}
 
 Let $X$ be the input space and $Y$ the output space. A hypothesis $h: X \to Y$ has loss $\ell(h(x), y) \in [0, 1]$.
 
-- 	extbf{Source loss}: $\text{Error}_S(h) = \mathbb{E}_{(x,y) \sim P_S}[\ell(h(x), y)]$
-- 	extbf{Target loss}: $\text{Error}_T(h) = \mathbb{E}_{(x,y) \sim P_T}[\ell(h(x), y)]$
+- 	\textbf{Source loss}: $\text{Error}_S(h) = \mathbb{E}_{(x,y) \sim P_S}[\ell(h(x), y)]$
+- 	\textbf{Target loss}: $\text{Error}_T(h) = \mathbb{E}_{(x,y) \sim P_T}[\ell(h(x), y)]$
 
 We decompose the target loss by regimes:
 $$\text{Error}_T(h) = \sum_{r \in R} w_r \cdot \mathbb{E}_{(x,y) \sim P_{T,r}}[\ell(h(x), y)]$$
 
 where $w_r = P_T(\text{regime} = r)$ is the weight of regime $r$ in the target.
 
-	extbf{Step 2: Decompose target error using law of total expectation}
+	\textbf{Step 2: Decompose target error using law of total expectation}
 
 For each regime $r$:
 $$\text{Error}_{T,r}(h) = \mathbb{E}_{(x,y) \sim P_{T,r}}[\ell(h(x), y)]$$
 
 We can write:
-$$\text{Error}_{T,r}(h) = \mathbb{E}_{x \sim P_{T,r}}[\ell(h(x), y^	extit{_T(x))] + \mathbb{E}_{x \sim P_{T,r}}[\ell(y^}_T(x), y)]$$
+$$\text{Error}_{T,r}(h) = \mathbb{E}_{x \sim P_{T,r}}[\ell(h(x), y^	\textit{_T(x))] + \mathbb{E}_{x \sim P_{T,r}}[\ell(y^}_T(x), y)]$$
 
 where $y^*_T(x)$ is the optimal target label. The first term is due to hypothesis error (model's deviation from optimal), and the second is due to label noise (unavoidable error).
 
-	extbf{Step 3: Apply domain adaptation theory}
+	\textbf{Step 3: Apply domain adaptation theory}
 
 The key insight is that if source and target are in the same regime, they are more similar, so transfer is easier.
 
@@ -58,7 +58,7 @@ where:
 - $H\Delta H_{S,r,T,r}(h)$ is the $H$-divergence between source and target in regime $r$ (measures distribution mismatch)
 - $\text{Disc}_{S,r,T,r}(h)$ is the regime-specific discrepancy (due to factors specific to that regime)
 
-	extbf{Step 4: Relate MMD to H-divergence}
+	\textbf{Step 4: Relate MMD to H-divergence}
 
 A key result in domain adaptation (Cortes \& Mohri, 2014) relates Maximum Mean Discrepancy to H-divergence:
 $$H\Delta H_{S,r,T,r}(h) \leq c \cdot \text{MMD}^2(S_r, T_r)$$
@@ -68,7 +68,7 @@ for some constant $c > 0$ depending on the kernel and hypothesis class $H$.
 Therefore:
 $$\text{Error}_{T,r}(h) \leq \text{Error}_{S,r}(h) + c \cdot \text{MMD}^2(S_r, T_r) + \text{Disc}_{S,r,T,r}(h)$$
 
-	extbf{Step 5: Aggregate over all regimes}
+	\textbf{Step 5: Aggregate over all regimes}
 
 Summing over regimes with weights $w_r$:
 $$\text{Error}_T(h) = \sum_{r \in R} w_r \cdot \text{Error}_{T,r}(h)$$
@@ -90,7 +90,7 @@ $$\text{Error}_T(h) \leq \text{Error}_S(h) + c \sum_{r \in R} w_r \cdot \text{MM
 Setting $c = 1$ for simplicity (absorbing constants):
 $$\text{Error}_T(h) \leq \text{Error}_S(h) + \sum_{r \in R} w_r \cdot \text{MMD}^2(S_r, T_r) + \text{Disc}(h)$$
 
-	extbf{Step 6: Compare to standard global MMD bound}
+	\textbf{Step 6: Compare to standard global MMD bound}
 
 The standard domain adaptation bound (without regime conditioning) is:
 $$\text{Error}_T(h) \leq \text{Error}_S(h) + \text{MMD}^2(S, T) + \text{Disc}(h)$$
@@ -102,7 +102,7 @@ $$\text{MMD}^2(S, T) > \sum_{r \in R} w_r \cdot \text{MMD}^2(S_r, T_r)$$
 
 This is because the global MMD includes the distance between different regimes, while regime-specific MMD only includes within-regime distance.
 
-	extbf{Formal statement of tightness}: If regimes are disjoint in the embedding space (i.e., samples from regime $r$ in the source are far from samples from regime $r'$ in the target for $r \neq r'$), then:
+	\textbf{Formal statement of tightness}: If regimes are disjoint in the embedding space (i.e., samples from regime $r$ in the source are far from samples from regime $r'$ in the target for $r \neq r'$), then:
 $$\text{MMD}^2(S, T) = \sum_{r, r'} w_r w_{r'} \cdot d(S_r, T_{r'})^2$$
 
 where $d(S_r, T_{r'})$ is the distance between different regimes. The regime-specific term captures only:
@@ -120,7 +120,7 @@ This section establishes convergence properties of the empirical MMD estimator u
 
 \subsubsection{Proposition B.1: Convergence of Empirical MMD}
 
-	extbf{Proposition B.1}: Let $k(\cdot, \cdot)$ be a bounded kernel with $k(x, x) \leq K$ for all $x$. Let $\{\mathbf{x}_1, \ldots, \mathbf{x}_{n_S}\} \sim P_S$ and $\{\mathbf{y}_1, \ldots, \mathbf{y}_{n_T}\} \sim P_T$ be i.i.d. samples from source and target distributions.
+	\textbf{Proposition B.1}: Let $k(\cdot, \cdot)$ be a bounded kernel with $k(x, x) \leq K$ for all $x$. Let $\{\mathbf{x}_1, \ldots, \mathbf{x}_{n_S}\} \sim P_S$ and $\{\mathbf{y}_1, \ldots, \mathbf{y}_{n_T}\} \sim P_T$ be i.i.d. samples from source and target distributions.
 
 Define the empirical MMD:
 $$\widehat{\text{MMD}}^2(S, T) = \frac{1}{n_S^2} \sum_{i,j=1}^{n_S} k(\mathbf{x}_i, \mathbf{x}_j) + \frac{1}{n_T^2} \sum_{i,j=1}^{n_T} k(\mathbf{y}_i, \mathbf{y}_j) - \frac{2}{n_S n_T} \sum_{i=1}^{n_S} \sum_{j=1}^{n_T} k(\mathbf{x}_i, \mathbf{y}_j)$$
@@ -128,7 +128,7 @@ $$\widehat{\text{MMD}}^2(S, T) = \frac{1}{n_S^2} \sum_{i,j=1}^{n_S} k(\mathbf{x}
 Then:
 $$\mathbb{P}(|\widehat{\text{MMD}}^2(S, T) - \text{MMD}^2(S, T)| > \epsilon) \leq 2\exp\left(-\frac{\epsilon^2 \min(n_S, n_T)}{2K}\right)$$
 
-	extbf{Interpretation}: The empirical MMD converges to the population MMD at rate $O(1/\sqrt{n})$.
+	\textbf{Interpretation}: The empirical MMD converges to the population MMD at rate $O(1/\sqrt{n})$.
 
 \subsubsection{Proof Sketch of Proposition B.1}
 
@@ -149,36 +149,36 @@ For practical implementation, we need to partition data into regimes. Here is a 
 
 \subsubsection{Algorithm B.1: Regime Identification for Financial Data}
 
-	extbf{Input}:
+	\textbf{Input}:
 - Time series of factor returns $\{\alpha_t\}_{t=1}^T$
 - Historical excess market returns $\{m_t\}_{t=1}^T$
 
-	extbf{Parameters}:
+	\textbf{Parameters}:
 - Window size: $w$ (e.g., 60 months for 5-year rolling)
 - Percentile threshold: $p$ (e.g., 0.5 for median)
 
-	extbf{Algorithm}:
+	\textbf{Algorithm}:
 
-1. 	extbf{Compute rolling returns and volatility}:
+1. 	\textbf{Compute rolling returns and volatility}:
    - For each $t$: $\text{Return}_t^{(w)} = \frac{1}{w}\sum_{s=t-w}^t m_s$
    - For each $t$: $\text{Vol}_t^{(w)} = \text{std}(\{m_{t-w}, \ldots, m_t\})$
 
-2. 	extbf{Identify bull/bear regimes}:
+2. 	\textbf{Identify bull/bear regimes}:
    - $\text{Regime}^{\text{Bull}}(t) = \mathbf{1}[\text{Return}_t^{(w)} > \text{median}(\{\text{Return}_s^{(w)}\})]$
 
-3. 	extbf{Identify high/low volatility regimes}:
+3. 	\textbf{Identify high/low volatility regimes}:
    - $\text{Regime}^{\text{HighVol}}(t) = \mathbf{1}[\text{Vol}_t^{(w)} > \text{median}(\{\text{Vol}_s^{(w)}\})]$
 
-4. 	extbf{Combine into four-state regime}:
+4. 	\textbf{Combine into four-state regime}:
    - $\text{Regime}(t) = 4 \cdot \text{Regime}^{\text{Bull}}(t) + 2 \cdot \text{Regime}^{\text{HighVol}}(t)$
    - This gives four states: $(0, 1, 2, 3)$ corresponding to (Bear-LowVol, Bear-HighVol, Bull-LowVol, Bull-HighVol)
 
-5. 	extbf{Partition data by regime}:
+5. 	\textbf{Partition data by regime}:
    - For each regime $r \in \{0, 1, 2, 3\}$:
      - $S_r = \{(\mathbf{x}_t, y_t) : \text{Regime}(t) = r, t \in \text{source period}\}$
      - $T_r = \{(\mathbf{x}_t, y_t) : \text{Regime}(t) = r, t \in \text{target period}\}$
 
-	extbf{Output}: Partitioned source and target data $\{S_r, T_r\}_{r=1}^4$
+	\textbf{Output}: Partitioned source and target data $\{S_r, T_r\}_{r=1}^4$
 
 This algorithm is parameter-free except for window size (standard choice in finance) and is robust to the exact percentile threshold choice (as shown in Section 8.2).
 
@@ -223,5 +223,5 @@ Appendix B provides theoretical foundations for MMD-based domain adaptation. The
 
 ---
 
-	extbf{Appendix B End}
+	\textbf{Appendix B End}
 

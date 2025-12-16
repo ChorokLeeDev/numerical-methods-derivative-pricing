@@ -5,7 +5,7 @@ This appendix provides the theoretical foundations for crowding-weighted conform
 
 \subsection{Theorem 6: Coverage Guarantee Under Crowding Weighting}
 
-	extbf{Theorem 6} 	extit{(Coverage Guarantee with Crowding Weights)}: Consider the crowding-weighted conformal inference (CW-ACI) prediction set:
+\textbf{Theorem 6} \textit{(Coverage Guarantee with Crowding Weights)}: Consider the crowding-weighted conformal inference (CW-ACI) prediction set:
 
 $$\mathcal{C}(x_{n+1}) = \left\{y : |y - \hat{f}(x_{n+1})| \leq \hat{q}\right\}$$
 
@@ -17,9 +17,9 @@ $$w_i = \sigma(C_i) = \frac{1}{1 + e^{-(C_i - 0.5)}}$$
 
 where $C_i$ is the crowding level at time $i$, and $\sigma$ is the sigmoid function.
 
-	extbf{Assumption}: $C \perp y | x$ (crowding is conditionally independent of outcome given features)
+\textbf{Assumption}: $C \perp y | x$ (crowding is conditionally independent of outcome given features)
 
-	extbf{Then}:
+\textbf{Then}:
 $$\mathbb{P}(y_{n+1} \in \mathcal{C}(x_{n+1})) \geq 1 - \alpha - \delta$$
 
 for any $\delta > 0$, with probability at least $1 - \gamma$ over the draw of training data and the randomness in computing the quantile, where $\gamma$ depends on $n$ and the tail behavior of the weights.
@@ -28,7 +28,7 @@ for any $\delta > 0$, with probability at least $1 - \gamma$ over the draw of tr
 
 \subsubsection{Proof of Theorem 6}
 
-	extbf{Step 1: Standard conformal prediction result}
+	\textbf{Step 1: Standard conformal prediction result}
 
 Recall (Angelopoulos \& Bates, 2021) that for iid data $(x_1, y_1), \ldots, (x_n, y_n), (x_{n+1}, y_{n+1})$ all exchangeable, the standard (unweighted) conformal prediction set:
 
@@ -39,21 +39,21 @@ $$\mathbb{P}(y_{n+1} \in \mathcal{C}(x_{n+1})) \geq 1 - \alpha$$
 
 The key is that exchangeability ensures the ranks are uniformly distributed.
 
-	extbf{Step 2: Introduce weighting}
+	\textbf{Step 2: Introduce weighting}
 
-With weights $\mathbf{w} = (w_1, \ldots, w_n)$, we compute the 	extbf{weighted quantile}:
+With weights $\mathbf{w} = (w_1, \ldots, w_n)$, we compute the 	\textbf{weighted quantile}:
 
 $$q_{1-\alpha}^{w,n} = \inf\left\{ q : \sum_{i: A_i \leq q} w_i \geq (1-\alpha) \sum_{i=1}^n w_i \right\}$$
 
 This is the smallest value such that the weighted cumulative sum reaches $1-\alpha$ of the total weight.
 
-	extbf{Step 3: Prove exchangeability is preserved}
+	\textbf{Step 3: Prove exchangeability is preserved}
 
-The critical claim is that 	extbf{under the conditional independence assumption, weighting preserves exchangeability}.
+The critical claim is that 	\textbf{under the conditional independence assumption, weighting preserves exchangeability}.
 
-	extbf{Lemma C.1} 	extit{(Exchangeability Preservation)}: If the original sequence $(x_1, y_1, C_1), \ldots, (x_n, y_n, C_n), (x_{n+1}, y_{n+1}, C_{n+1})$ is exchangeable, and $C \perp y | x$, then the weighted sequence (with weights $w_i = \sigma(C_i)$) remains exchangeable.
+	\textbf{Lemma C.1} 	\textit{(Exchangeability Preservation)}: If the original sequence $(x_1, y_1, C_1), \ldots, (x_n, y_n, C_n), (x_{n+1}, y_{n+1}, C_{n+1})$ is exchangeable, and $C \perp y | x$, then the weighted sequence (with weights $w_i = \sigma(C_i)$) remains exchangeable.
 
-	extbf{Proof of Lemma C.1}:
+	\textbf{Proof of Lemma C.1}:
 
 Exchangeability means the joint distribution is invariant to permutations:
 $$\mathbb{P}(x_{\pi(1)}, y_{\pi(1)}, C_{\pi(1)}, \ldots, x_{\pi(n+1)}, y_{\pi(n+1)}, C_{\pi(n+1)}) = \mathbb{P}(x_1, y_1, C_1, \ldots, x_{n+1}, y_{n+1}, C_{n+1})$$
@@ -69,7 +69,7 @@ Formally: The pair $(A_i, w_i)$ is exchangeable under the original exchangeabili
 
 Therefore, the weighted nonconformity distribution remains exchangeable. $\square$
 
-	extbf{Step 4: Apply weighted quantile coverage result}
+	\textbf{Step 4: Apply weighted quantile coverage result}
 
 By properties of weighted quantiles and exchangeability:
 
@@ -83,7 +83,7 @@ $$\mathbb{P}\left(\sum_{i=1}^n U_i w_i < (1-\alpha)\sum_{i=1}^n w_i\right) \leq 
 
 for any $\delta > 0$, with confidence depending on $n$ and the variance of weights.
 
-	extbf{Step 5: Conclude the proof}
+	\textbf{Step 5: Conclude the proof}
 
 For the test point $(x_{n+1}, y_{n+1})$, if $y_{n+1}$ is exchangeable with the training data, then:
 
@@ -97,7 +97,7 @@ where $\delta$ accounts for:
 2. Variability in weight computation
 3. Any tail behavior of the sigmoid weights
 
-	extbf{Conclusion}: The crowding-weighted conformal prediction set maintains the coverage guarantee of standard conformal prediction, provided that crowding is conditionally independent of outcomes given features. $\square$
+	\textbf{Conclusion}: The crowding-weighted conformal prediction set maintains the coverage guarantee of standard conformal prediction, provided that crowding is conditionally independent of outcomes given features. $\square$
 
 ---
 
@@ -109,29 +109,29 @@ This section verifies that the assumption $C \perp y | x$ holds in our data.
 
 We test whether $(C_i, A_i)$ are independent given $x_i$:
 
-	extbf{Procedure}:
+	\textbf{Procedure}:
 1. Compute residuals: $\epsilon_i = y_i - \hat{f}(x_i)$ (model predictions)
 2. Shuffle $C_i$ randomly to get $C'_i$
 3. Compute correlation: $\text{corr}(C'_i, \epsilon_i)$ on shuffled data
 4. Repeat 1000 times and compare to true correlation: $\text{corr}(C_i, \epsilon_i)$
 
-	extbf{Result}: If the true correlation falls in the middle of the shuffled distribution, independence holds.
+	\textbf{Result}: If the true correlation falls in the middle of the shuffled distribution, independence holds.
 
 On our data (Section 7):
 - True correlation: 0.021
 - Mean shuffled correlation: 0.019 ± 0.015
-- Conclusion: 	extbf{No significant dependence} detected (correlation ~0.02 is economically negligible)
+- Conclusion: 	\textbf{No significant dependence} detected (correlation ~0.02 is economically negligible)
 
 \subsubsection{Test 2: Mutual Information Estimation}
 
 Using k-NN based mutual information estimation:
 $$I(C; y | x) = \mathbb{E}[\log(p(y|x)) - \log(p(y))]$$
 
-	extbf{Result}: $I(C; y | x) = 0.031$ bits, which is very small.
+	\textbf{Result}: $I(C; y | x) = 0.031$ bits, which is very small.
 
 For reference: $I(C; y | x) > 0.1$ bits would indicate significant dependence.
 
-	extbf{Conclusion}: The conditional independence assumption holds empirically.
+	\textbf{Conclusion}: The conditional independence assumption holds empirically.
 
 ---
 
@@ -139,18 +139,18 @@ For reference: $I(C; y | x) > 0.1$ bits would indicate significant dependence.
 
 \subsubsection{Proposition C.1: Comparison of prediction set widths}
 
-	extbf{Claim}: With crowding-weighted conformal prediction, prediction sets are narrower during low-crowding periods and wider during high-crowding periods, compared to standard conformal prediction.
+	\textbf{Claim}: With crowding-weighted conformal prediction, prediction sets are narrower during low-crowding periods and wider during high-crowding periods, compared to standard conformal prediction.
 
-	extbf{Proof}:
+	\textbf{Proof}:
 
 In standard CP, the prediction set width is fixed:
 $$\text{Width}_{\text{standard}} = 2 \cdot q_{1-\alpha}^{n}$$
 
 In CW-ACI, the width depends on the weights:
-- When $C_{n+1}$ is low (crowding~0): $w_{n+1} \approx 0.27$, putting more weight on low nonconformity samples → smaller $q_{1-\alpha}^{w,n}$ → 	extbf{narrower} set
-- When $C_{n+1}$ is high (crowding~1): $w_{n+1} \approx 0.73$, putting more weight on high nonconformity samples → larger $q_{1-\alpha}^{w,n}$ → 	extbf{wider} set
+- When $C_{n+1}$ is low (crowding~0): $w_{n+1} \approx 0.27$, putting more weight on low nonconformity samples → smaller $q_{1-\alpha}^{w,n}$ → 	\textbf{narrower} set
+- When $C_{n+1}$ is high (crowding~1): $w_{n+1} \approx 0.73$, putting more weight on high nonconformity samples → larger $q_{1-\alpha}^{w,n}$ → 	\textbf{wider} set
 
-	extbf{Formally}:
+	\textbf{Formally}:
 
 Let $q_L$ be the quantile when crowding is low (average weight 0.27) and $q_H$ when crowding is high (average weight 0.73).
 
@@ -169,22 +169,22 @@ This adaptive behavior makes economic sense: confident predictions during calm p
 
 \subsubsection{Proposition C.2: Computational Cost}
 
-	extbf{Claim}: The computational overhead of CW-ACI compared to standard conformal prediction is $O(n)$.
+	\textbf{Claim}: The computational overhead of CW-ACI compared to standard conformal prediction is $O(n)$.
 
-	extbf{Analysis}:
+	\textbf{Analysis}:
 
 Standard conformal prediction:
 - Compute nonconformity: $O(n)$
 - Sort for quantile: $O(n \log n)$
-- 	extbf{Total}: $O(n \log n)$
+- 	\textbf{Total}: $O(n \log n)$
 
 CW-ACI:
 - Compute nonconformity: $O(n)$
 - Compute weights $\sigma(C_i)$: $O(n)$ (sigmoid is element-wise)
 - Compute weighted quantile: $O(n)$ (can use weighted order statistics without full sort)
-- 	extbf{Total}: $O(n)$
+- 	\textbf{Total}: $O(n)$
 
-Therefore, CW-ACI has 	extbf{lower} asymptotic complexity than standard CP (linear vs. $n \log n$), though the constant factor for weighted quantile computation is slightly higher.
+Therefore, CW-ACI has 	\textbf{lower} asymptotic complexity than standard CP (linear vs. $n \log n$), though the constant factor for weighted quantile computation is slightly higher.
 
 ---
 
@@ -194,26 +194,26 @@ For computational efficiency, we use the following algorithm for weighted quanti
 
 \subsubsection{Algorithm C.1: Efficient Weighted Quantile Computation}
 
-	extbf{Input}:
+	\textbf{Input}:
 - Nonconformity scores: $A = \{A_1, \ldots, A_n\}$
 - Weights: $\mathbf{w} = \{w_1, \ldots, w_n\}$
 - Target quantile level: $\alpha$
 
-	extbf{Algorithm}:
+	\textbf{Algorithm}:
 
-1. 	extbf{Sort by nonconformity}: Create index vector $\text{idx}$ such that $A_{\text{idx}[1]} \leq A_{\text{idx}[2]} \leq \ldots \leq A_{\text{idx}[n]}$
+1. 	\textbf{Sort by nonconformity}: Create index vector $\text{idx}$ such that $A_{\text{idx}[1]} \leq A_{\text{idx}[2]} \leq \ldots \leq A_{\text{idx}[n]}$
 
-2. 	extbf{Compute cumulative weights}: For sorted order:
+2. 	\textbf{Compute cumulative weights}: For sorted order:
    $$\text{CumSum}[i] = \sum_{j=1}^{i} w_{\text{idx}[j]}$$
 
-3. 	extbf{Find quantile index}:
+3. 	\textbf{Find quantile index}:
    - Target cumsum: $\text{Target} = (1-\alpha) \sum_{j=1}^n w_j$
    - Find smallest $i$ such that $\text{CumSum}[i] \geq \text{Target}$
    - Return: $q = A_{\text{idx}[i]}$
 
-	extbf{Complexity}: $O(n \log n)$ (sorting dominates)
+	\textbf{Complexity}: $O(n \log n)$ (sorting dominates)
 
-	extbf{Accuracy}: Exact for discrete weights; interpolation can be used for continuous case
+	\textbf{Accuracy}: Exact for discrete weights; interpolation can be used for continuous case
 
 ---
 
@@ -223,5 +223,5 @@ Theorem 6 proves that crowding-weighted conformal prediction preserves the cover
 
 ---
 
-	extbf{Appendix C End}
+	\textbf{Appendix C End}
 

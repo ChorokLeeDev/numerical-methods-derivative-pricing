@@ -7,9 +7,9 @@ This appendix documents all data sources, processing procedures, and validation 
 
 \subsubsection{D.1.1 Data Source and Collection}
 
-	extbf{Primary Source}: Kenneth French Data Library (https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html)
+	\textbf{Primary Source}: Kenneth French Data Library (https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html)
 
-	extbf{Factors Included}:
+	\textbf{Factors Included}:
 1. Excess Market Return (Mkt-RF)
 2. Size Factor (SMB - Small Minus Big)
 3. Value Factor (HML - High Minus Low)
@@ -18,69 +18,69 @@ This appendix documents all data sources, processing procedures, and validation 
 6. Momentum Factor (MOM - Momentum)
 7. Risk-Free Rate (RF)
 
-	extbf{Time Period}: July 1926 – December 2024 (1,176 months)
+	\textbf{Time Period}: July 1926 – December 2024 (1,176 months)
 
-	extbf{Subset Used in This Study}: July 1963 – December 2024 (754 months)
+	\textbf{Subset Used in This Study}: July 1963 – December 2024 (754 months)
 
-	extbf{Rationale for 1963 Start Date}:
+	\textbf{Rationale for 1963 Start Date}:
 - Pre-1963 data has higher missing values and less reliable coverage
 - 1963 marks the beginning of modern computational finance era
 - Sufficient data for multiple rolling window estimation periods
 
 \subsubsection{D.1.2 Factor Definitions}
 
-	extbf{Size (SMB)}:
+	\textbf{Size (SMB)}:
 - Long: Stocks in bottom 30% of market cap
 - Short: Stocks in top 30% of market cap
 - Frequency: Monthly rebalancing
 - Coverage: All US common stocks on NYSE, AMEX, NASDAQ
 
-	extbf{Value (HML)}:
+	\textbf{Value (HML)}:
 - Long: Stocks with highest 30% book-to-market ratio
 - Short: Stocks with lowest 30% book-to-market ratio
 - Book value: Total assets - total liabilities
 - Market value: Stock price × shares outstanding
 
-	extbf{Profitability (RMW)}:
+	\textbf{Profitability (RMW)}:
 - Long: High profitability firms (top 30% operating profitability)
 - Short: Low profitability firms (bottom 30% operating profitability)
 - Operating profitability: Operating income / total assets
 - Implementation: Net income before extraordinary items / book equity
 
-	extbf{Investment (CMA)}:
+	\textbf{Investment (CMA)}:
 - Long: Low asset growth (bottom 30% in asset growth)
 - Short: High asset growth (top 30% in asset growth)
 - Asset growth: Change in total assets / prior year assets
 
-	extbf{Momentum (MOM)}:
+	\textbf{Momentum (MOM)}:
 - Long: Stocks with highest 30% returns in prior 12 months (t-12 to t-1)
 - Short: Stocks with lowest 30% returns in prior 12 months
 - Holding period: 1 month
 
 \subsubsection{D.1.3 Data Quality and Validation}
 
-	extbf{Missing Values}:
+	\textbf{Missing Values}:
 - Fama-French data: 0% missing (carefully constructed from Compustat and CRSP)
 - Our processed data: 0% missing through the full period 1963-2024
 
-	extbf{Outliers}:
+	\textbf{Outliers}:
 - Checked using 3-sigma rule (beyond 3 standard deviations)
 - Fama-French data: <0.1% outliers (expected for financial returns)
 - No values removed; outliers kept as they represent real market events
 
-	extbf{Consistency Checks}:
+	\textbf{Consistency Checks}:
 1. SMB positively correlated with size premium literature (~0.8)
 2. HML positively correlated with value premium literature (~0.8)
 3. MOM factor returns consistent with documented momentum anomalies
 4. All factors show expected business cycle correlation patterns
 
-	extbf{Stationarity Tests} (Augmented Dickey-Fuller):
+	\textbf{Stationarity Tests} (Augmented Dickey-Fuller):
 - All factor returns: stationary (p-value < 0.001)
 - No unit roots detected
 
 \subsubsection{D.1.4 Data Processing Pipeline}
 
-	exttt{`}
+	\texttt{`}
 Raw Monthly Returns (Fama-French Library)
          ↓
 Clean (remove NAs, check for duplicates)
@@ -94,10 +94,10 @@ Create Crowding Proxy from Returns
 Normalized Crowding ∈ [0, 1]
          ↓
 Ready for Analysis
-	exttt{`}
+	\texttt{`}
 
-	extbf{Processing Code} (Python pseudocode):
-	exttt{`}python
+	\textbf{Processing Code} (Python pseudocode):
+	\texttt{`}python
 # Load raw data
 ff_data = pd.read_csv('fama_french_extended.csv', index_col='Date')
 
@@ -116,7 +116,7 @@ crowding_normalized = (crowding_raw - crowding_raw.min()) / (crowding_raw.max() 
 # Save processed data
 processed = pd.concat([excess_returns, crowding_normalized], axis=1)
 processed.to_csv('processed_factors.csv')
-	exttt{`}
+	\texttt{`}
 
 ---
 
@@ -136,15 +136,15 @@ processed.to_csv('processed_factors.csv')
 
 \subsubsection{D.2.2 Data Alignment and Harmonization}
 
-	extbf{Frequency}: All data converted to monthly frequency (markets with daily data aggregated via equal-weight averaging)
+	\textbf{Frequency}: All data converted to monthly frequency (markets with daily data aggregated via equal-weight averaging)
 
-	extbf{Currency}: All returns in local currency (avoids forex confounding effects)
+	\textbf{Currency}: All returns in local currency (avoids forex confounding effects)
 
-	extbf{Missing Values}:
+	\textbf{Missing Values}:
 - FactorResearch: <0.1% missing, filled via last-value-carry-forward
 - Direct exchange data: <0.05% missing from trading halts (filled via interpolation)
 
-	extbf{Survivorship Bias Check}:
+	\textbf{Survivorship Bias Check}:
 - For FactorResearch: provider explicitly controls for survivorship
 - For direct exchange data: only exchanges still operating included (selection is unbiased)
 
@@ -156,21 +156,21 @@ processed.to_csv('processed_factors.csv')
 
 We tested four alternative crowding proxies:
 
-	extbf{Proxy 1} (Primary): 12-month rolling average of factor returns
+	\textbf{Proxy 1} (Primary): 12-month rolling average of factor returns
 $$C_i(t) = \frac{1}{12}\sum_{s=0}^{11} \alpha_i(t-s)$$
 
-	extbf{Proxy 2}: Recent return momentum
+	\textbf{Proxy 2}: Recent return momentum
 $$C_i(t) = \frac{\alpha_i(t)}{\text{std}(\{\alpha_i(s)\}_{s \in \text{past 60 mo}})}$$
 
-	extbf{Proxy 3}: Return percentile ranking
+	\textbf{Proxy 3}: Return percentile ranking
 $$C_i(t) = \text{percentile}(\alpha_i(t), \text{past 60 months})$$
 
-	extbf{Proxy 4}: Volatility-adjusted returns
+	\textbf{Proxy 4}: Volatility-adjusted returns
 $$C_i(t) = \frac{\alpha_i(t)}{\text{volatility}_i(t)}$$
 
 \subsubsection{D.3.2 Validation}
 
-	extbf{Correlation Matrix} (Proxy 1 vs alternatives):
+	\textbf{Correlation Matrix} (Proxy 1 vs alternatives):
 
 | Proxy | Correlation with Primary |
 |-------|--------------------------|
@@ -178,7 +178,7 @@ $$C_i(t) = \frac{\alpha_i(t)}{\text{volatility}_i(t)}$$
 | Percentile (Proxy 3) | 0.82 |
 | Vol-adjusted (Proxy 4) | 0.71 |
 
-	extbf{Predictive Power} (For crash prediction, measured by AUC):
+	\textbf{Predictive Power} (For crash prediction, measured by AUC):
 
 | Crowding Proxy | Crash Prediction AUC |
 |---|---|
@@ -187,7 +187,7 @@ $$C_i(t) = \frac{\alpha_i(t)}{\text{volatility}_i(t)}$$
 | Proxy 3 | 0.661 |
 | Proxy 4 | 0.451 |
 
-	extbf{Conclusion}: Primary proxy performs well; alternatives show similar patterns. Results in Section 8.3 confirm robustness.
+	\textbf{Conclusion}: Primary proxy performs well; alternatives show similar patterns. Results in Section 8.3 confirm robustness.
 
 ---
 
@@ -195,28 +195,28 @@ $$C_i(t) = \frac{\alpha_i(t)}{\text{volatility}_i(t)}$$
 
 \subsubsection{D.4.1 Game-Theoretic Model}
 
-	extbf{Data Split}:
+	\textbf{Data Split}:
 - Training: 1963-2000 (37 years, used to estimate K and $\lambda$)
 - Validation: 2000-2012 (12 years, test OOS R²)
 - Test: 2012-2024 (12 years, final OOS evaluation)
 
-	extbf{Rationale}: Standard 60% train / 20% validation / 20% test split (by year count: 37+12+12=61 total years)
+	\textbf{Rationale}: Standard 60% train / 20% validation / 20% test split (by year count: 37+12+12=61 total years)
 
-	extbf{No Look-Ahead Bias}: All parameters estimated only on training data; no test data touches training process
+	\textbf{No Look-Ahead Bias}: All parameters estimated only on training data; no test data touches training process
 
 \subsubsection{D.4.2 Domain Adaptation Model}
 
-	extbf{Source Domain}: US Fama-French factors (1963-2024)
-	extbf{Target Domains}: 7 countries (above)
+	\textbf{Source Domain}: US Fama-French factors (1963-2024)
+	\textbf{Target Domains}: 7 countries (above)
 
-	extbf{Time Split}:
+	\textbf{Time Split}:
 - Source training: 1990-2010 (20 years)
 - Domain adaptation: 2010-2020 (10 years, unlabeled target data to adapt representations)
 - Test: 2020-2024 (4 years, evaluate OOS transfer efficiency)
 
 \subsubsection{D.4.3 Conformal Prediction \& Hedging}
 
-	extbf{Data Split}: 2000-2024 (24 years monthly data)
+	\textbf{Data Split}: 2000-2024 (24 years monthly data)
 - Training (calibration): 2000-2012 (12 years)
 - Test: 2012-2024 (12 years, in-sample hedging)
 - OOS evaluation: 2020-2024 (separate 4-year window)
@@ -227,29 +227,29 @@ $$C_i(t) = \frac{\alpha_i(t)}{\text{volatility}_i(t)}$$
 
 \subsubsection{D.5.1 Features for Crash Prediction (Section 7)}
 
-	extbf{Crowding Features} (1 feature):
+	\textbf{Crowding Features} (1 feature):
 - Current crowding level $C_i(t)$
 
-	extbf{Return Features} (4 features):
+	\textbf{Return Features} (4 features):
 - Return over past 1 month: $r_i(t-1)$
 - Return over past 3 months: $(1/3)\sum_{s=0}^{2} r_i(t-s)$
 - Return over past 6 months: $(1/6)\sum_{s=0}^{5} r_i(t-s)$
 - Return over past 12 months: $(1/12)\sum_{s=0}^{11} r_i(t-s)$
 
-	extbf{Volatility Features} (3 features):
+	\textbf{Volatility Features} (3 features):
 - 1-month rolling volatility
 - 3-month rolling volatility
 - 12-month rolling volatility
 
-	extbf{Correlation Features} (2 features):
+	\textbf{Correlation Features} (2 features):
 - Correlation with market (past 12 months)
 - Correlation with other factors (average pairwise, past 12 months)
 
-	extbf{Total}: 1 + 4 + 3 + 2 = 10 features per factor × 7 factors = 70 total features
+	\textbf{Total}: 1 + 4 + 3 + 2 = 10 features per factor × 7 factors = 70 total features
 
 \subsubsection{D.5.2 Feature Standardization}
 
-All features normalized to zero mean and unit variance 	extbf{separately within each regime} to avoid leakage:
+All features normalized to zero mean and unit variance 	\textbf{separately within each regime} to avoid leakage:
 
 $$x'_{ij} = \frac{x_{ij} - \mu_j^{(r)}}{\sigma_j^{(r)}}$$
 
@@ -263,15 +263,15 @@ where $\mu_j^{(r)}$ and $\sigma_j^{(r)}$ are computed on training data in regime
 
 All data required to reproduce results:
 
-1. 	extbf{Public Data} (from Fama-French library):
+1. 	\textbf{Public Data} (from Fama-French library):
    - Fama-French 7-factor returns (free, public)
    - US market data (free, public)
 
-2. 	extbf{Semi-Public Data} (academic/institutional access):
+2. 	\textbf{Semi-Public Data} (academic/institutional access):
    - International factor returns (FactorResearch subscription)
    - Alternative sources documented (Nomura, Euronext, etc.)
 
-3. 	extbf{Processed Data} (available in GitHub):
+3. 	\textbf{Processed Data} (available in GitHub):
    - Normalized factor returns
    - Crowding proxies
    - Regime classification
@@ -279,7 +279,7 @@ All data required to reproduce results:
 
 \subsubsection{D.6.2 Code and Data Repositories}
 
-	exttt{`}
+	\texttt{`}
 /research/jmlr_unified/
 ├── data/
 │   ├── raw/
@@ -302,7 +302,7 @@ All data required to reproduce results:
     ├── tables/ (Tables 1-10)
     ├── figures/ (Figures 1-21)
     └── logs/ (validation results)
-	exttt{`}
+	\texttt{`}
 
 ---
 
@@ -312,17 +312,17 @@ All data required to reproduce results:
 
 | Metric | Value |
 |--------|-------|
-| 	extbf{Time Period} | 1963-2024 (61 years) |
-| 	extbf{Monthly observations} | 754 |
-| 	extbf{Missing values} | 0% |
-| 	extbf{Outliers (3-sigma)} | 0.08% |
-| 	extbf{Stationarity (ADF p-value)} | <0.001 |
-| 	extbf{International coverage} | 7 countries |
-| 	extbf{International time period} | 1980-2024 |
-| 	extbf{Features engineered} | 70 (10 per factor) |
-| 	extbf{Crashes identified} (>2σ) | 42 months (5.6%) |
+| 	\textbf{Time Period} | 1963-2024 (61 years) |
+| 	\textbf{Monthly observations} | 754 |
+| 	\textbf{Missing values} | 0% |
+| 	\textbf{Outliers (3-sigma)} | 0.08% |
+| 	\textbf{Stationarity (ADF p-value)} | <0.001 |
+| 	\textbf{International coverage} | 7 countries |
+| 	\textbf{International time period} | 1980-2024 |
+| 	\textbf{Features engineered} | 70 (10 per factor) |
+| 	\textbf{Crashes identified} (>2σ) | 42 months (5.6%) |
 
 ---
 
-	extbf{Appendix D End}
+	\textbf{Appendix D End}
 

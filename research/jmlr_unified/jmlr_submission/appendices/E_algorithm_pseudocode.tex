@@ -7,20 +7,20 @@ This appendix provides detailed pseudocode for all three main algorithms used in
 
 \subsubsection{Algorithm E.1: Hyperbolic Decay Model Fitting}
 
-	extbf{Purpose}: Estimate decay parameters $K$ and $\lambda$ for each factor given empirical return data.
+	\textbf{Purpose}: Estimate decay parameters $K$ and $\lambda$ for each factor given empirical return data.
 
-	extbf{Input}:
+	\textbf{Input}:
 - Factor excess returns: $\{\alpha_t\}_{t=1}^T$
 - Functional form: $\alpha(t) = K / (1 + \lambda t)$
 
-	extbf{Output}:
+	\textbf{Output}:
 - Estimated parameters: $\hat{K}, \hat{\lambda}$
 - Goodness-of-fit: $R^2, \text{AIC}, \text{BIC}$
 - Confidence intervals: $[\hat{K}_{-}, \hat{K}_{+}], [\hat{\lambda}_{-}, \hat{\lambda}_{+}]$
 
-	extbf{Algorithm}:
+	\textbf{Algorithm}:
 
-	exttt{`}
+	\texttt{`}
 function FitHyperbolicDecay(returns, time_indices):
     // Initialize parameter guess
     K_init = mean(returns[1:12])  // Initial alpha from first year
@@ -57,14 +57,14 @@ function FitHyperbolicDecay(returns, time_indices):
 
     // 95% confidence intervals
     z_critical = 1.96  // for 95%
-    K_CI = [K_hat - z_critical	extit{se_K, K_hat + z_critical}se_K]
-    lambda_CI = [lambda_hat - z_critical	extit{se_lambda, lambda_hat + z_critical}se_lambda]
+    K_CI = [K_hat - z_critical * se_K, K_hat + z_critical * se_K]
+    lambda_CI = [lambda_hat - z_critical * se_lambda, lambda_hat + z_critical * se_lambda]
 
     // AIC and BIC for model comparison
     n = length(returns)
     k_params = 2
-    aic = n 	extit{ log(ss_res/n) + 2}k_params
-    bic = n 	extit{ log(ss_res/n) + k_params}log(n)
+    aic = n * log(ss_res/n) + 2 * k_params
+    bic = n * log(ss_res/n) + k_params * log(n)
 
     return {
         K: K_hat,
@@ -77,38 +77,40 @@ function FitHyperbolicDecay(returns, time_indices):
         std_err: {K: se_K, lambda: se_lambda}
     }
 end function
-	exttt{`}
+	\texttt{`}
 
-	extbf{Computational Complexity}: $O(n \times \text{iterations})$ where $n$ is number of time points and iterations ~20-50.
+	\textbf{Computational Complexity}: $O(n \times \text{iterations})$ where $n$ is number of time points and iterations ~20-50.
 
-	extbf{Implementation Details}:
-- Use scipy.optimize.least_squares for optimization
-- Handle bounds carefully: $K > 0, 0 < \lambda < 0.5$
-- Hessian from numerical differentiation (robust to noise)
-- Bootstrap for alternative CI estimates (optional, computationally intensive)
+	\textbf{Implementation Details}:
+\begin{itemize}
+\item Use scipy.optimize.least\_squares for optimization
+\item Handle bounds carefully: $K > 0, 0 < \lambda < 0.5$
+\item Hessian from numerical differentiation (robust to noise)
+\item Bootstrap for alternative CI estimates (optional, computationally intensive)
+\end{itemize}
 
 ---
 
-\subsection{E.2 Temporal-MMD: Regime-Conditional Domain Adaptation}
+\subsection{E.2 Temporal-MMD: Regime Conditioning for Domain Adaptation}
 
 \subsubsection{Algorithm E.2: Temporal-MMD Training}
 
-	extbf{Purpose}: Learn domain-invariant representations that transfer across markets while respecting regime structure.
+	\textbf{Purpose}: Learn domain-invariant representations that transfer across markets while respecting regime structure.
 
-	extbf{Input}:
+	\textbf{Input}:
 - Source data with labels: $\{(x_i, y_i, r_i)\}_{i=1}^{n_S}$ where $r_i \in \{0,1,2,3\}$ is regime
 - Target data (unlabeled): $\{(x'_j, r'_j)\}_{j=1}^{n_T}$
 - Feature extractor network: $f_\theta(\cdot)$ with parameters $\theta$
 - Prediction head: $p_w(f(x))$ with parameters $w$
 
-	extbf{Output}:
+	\textbf{Output}:
 - Trained feature extractor: $f_\theta^*$
 - Trained prediction head: $p_w^*$
 - Domain adaptation loss over training: history for diagnostics
 
-	extbf{Algorithm}:
+	\textbf{Algorithm}:
 
-	exttt{`}
+	\texttt{`}
 function TrainTemporalMMD(source_data, target_data, config):
 
     // Initialize networks
@@ -191,11 +193,11 @@ function TrainTemporalMMD(source_data, target_data, config):
         loss_history: loss_history
     }
 end function
-	exttt{`}
+	\texttt{`}
 
-	extbf{MMD Kernel Computation}:
+	\textbf{MMD Kernel Computation}:
 
-	exttt{`}
+	\texttt{`}
 function MMD_RBF(X, Y, sigma):
     // RBF kernel: k(x,y) = exp(-||x-y||^2 / (2*sigma^2))
 
@@ -228,11 +230,11 @@ function MMD_RBF(X, Y, sigma):
 
     return sqrt(maximum(mmd_sq, 0))  // Ensure non-negative under square root
 end function
-	exttt{`}
+	\texttt{`}
 
-	extbf{Regime Matching Function}:
+	\textbf{Regime Matching Function}:
 
-	exttt{`}
+	\texttt{`}
 function sample_regime_matched(target_data, source_regimes, batch_size):
     // For each regime in source_regimes, sample from target data in same regime
 
@@ -246,7 +248,7 @@ function sample_regime_matched(target_data, source_regimes, batch_size):
 
     return concatenate(samples)
 end function
-	exttt{`}
+	\texttt{`}
 
 ---
 
@@ -254,22 +256,22 @@ end function
 
 \subsubsection{Algorithm E.3: CW-ACI Prediction Set Construction}
 
-	extbf{Purpose}: Construct prediction sets with guaranteed coverage that adapt to crowding levels.
+	\textbf{Purpose}: Construct prediction sets with guaranteed coverage that adapt to crowding levels.
 
-	extbf{Input}:
+	\textbf{Input}:
 - Trained model: $\hat{f}$
 - Calibration data: $\{(x_i, y_i, C_i)\}_{i=1}^n$ with crowding levels
 - Test point: $(x_{n+1}, C_{n+1})$
 - Target coverage level: $1 - \alpha$ (e.g., 0.90 for 90%)
 
-	extbf{Output}:
+	\textbf{Output}:
 - Prediction set: $\mathcal{C}(x_{n+1}) = [\hat{y}_{n+1} - q, \hat{y}_{n+1} + q]$
 - Quantile used: $q$
 - Set width: $2q$
 
-	extbf{Algorithm}:
+	\textbf{Algorithm}:
 
-	exttt{`}
+	\texttt{`}
 function ConstructCWACIPredictionSet(model, calib_data, test_point, alpha):
 
     // Step 1: Extract calibration components
@@ -323,11 +325,11 @@ function ConstructCWACIPredictionSet(model, calib_data, test_point, alpha):
         weight_at_test: sigmoid(C_test)
     }
 end function
-	exttt{`}
+	\texttt{`}
 
-	extbf{Sigmoid Function Implementation}:
+	\textbf{Sigmoid Function Implementation}:
 
-	exttt{`}
+	\texttt{`}
 function sigmoid(x):
     // Numerically stable sigmoid
     // sigmoid(x) = 1 / (1 + exp(-x))
@@ -342,24 +344,24 @@ function sigmoid(x):
         exp_x = exp(x)
         return exp_x / (1.0 + exp_x)
 end function
-	exttt{`}
+	\texttt{`}
 
 \subsubsection{Algorithm E.4: Batch Prediction Set Construction (Multiple Test Points)}
 
-	extbf{Purpose}: Efficiently construct prediction sets for multiple test points.
+	\textbf{Purpose}: Efficiently construct prediction sets for multiple test points.
 
-	extbf{Input}:
+	\textbf{Input}:
 - Trained model: $\hat{f}$
 - Calibration data: $\{(x_i, y_i, C_i)\}_{i=1}^n$
 - Test data: $\{(x_j, C_j)\}_{j=1}^m$
 - Target coverage: $1 - \alpha$
 
-	extbf{Output}:
+	\textbf{Output}:
 - Prediction sets for all test points: $\{\mathcal{C}(x_j)\}_{j=1}^m$
 
-	extbf{Algorithm}:
+	\textbf{Algorithm}:
 
-	exttt{`}
+	\texttt{`}
 function BatchCWACIPredictions(model, calib_data, test_data, alpha):
 
     // Step 1: Compute nonconformity and weights once (reusable)
@@ -407,11 +409,11 @@ function BatchCWACIPredictions(model, calib_data, test_data, alpha):
 
     return results
 end function
-	exttt{`}
+	\texttt{`}
 
-	extbf{Vectorized Implementation} (for efficiency):
+	\textbf{Vectorized Implementation} (for efficiency):
 
-	exttt{`}python
+	\texttt{`}python
 # Python implementation using NumPy for vectorization
 
 def construct_cw_aci_sets(model, X_calib, y_calib, C_calib, X_test, alpha):
@@ -441,7 +443,7 @@ def construct_cw_aci_sets(model, X_calib, y_calib, C_calib, X_test, alpha):
     intervals = np.column_stack([y_pred_test - q, y_pred_test + q])
 
     return intervals, q
-	exttt{`}
+	\texttt{`}
 
 ---
 
@@ -455,5 +457,5 @@ def construct_cw_aci_sets(model, X_calib, y_calib, C_calib, X_test, alpha):
 
 ---
 
-	extbf{Appendix E End}
+	\textbf{Appendix E End}
 
