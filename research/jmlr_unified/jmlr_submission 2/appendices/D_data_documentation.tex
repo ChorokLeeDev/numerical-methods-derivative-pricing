@@ -18,9 +18,9 @@ This appendix documents all data sources, processing procedures, and validation 
 6. Momentum Factor (MOM - Momentum)
 7. Risk-Free Rate (RF)
 
-	\textbf{Time Period}: July 1926 - December 2024 (1,176 months)
+	\textbf{Time Period}: July 1926 – December 2024 (1,176 months)
 
-	\textbf{Subset Used in This Study}: July 1963 - December 2024 (754 months)
+	\textbf{Subset Used in This Study}: July 1963 – December 2024 (754 months)
 
 	\textbf{Rationale for 1963 Start Date}:
 - Pre-1963 data has higher missing values and less reliable coverage
@@ -39,7 +39,7 @@ This appendix documents all data sources, processing procedures, and validation 
 - Long: Stocks with highest 30% book-to-market ratio
 - Short: Stocks with lowest 30% book-to-market ratio
 - Book value: Total assets - total liabilities
-- Market value: Stock price \times shares outstanding
+- Market value: Stock price × shares outstanding
 
 	\textbf{Profitability (RMW)}:
 - Long: High profitability firms (top 30% operating profitability)
@@ -80,7 +80,7 @@ This appendix documents all data sources, processing procedures, and validation 
 
 \subsubsection{D.1.4 Data Processing Pipeline}
 
-\begin{verbatim}
+	\texttt{`}
 Raw Monthly Returns (Fama-French Library)
          ↓
 Clean (remove NAs, check for duplicates)
@@ -94,11 +94,10 @@ Create Crowding Proxy from Returns
 Normalized Crowding ∈ [0, 1]
          ↓
 Ready for Analysis
-\end{verbatim}
+	\texttt{`}
 
-\textbf{Processing Code} (Python pseudocode):
-
-\begin{verbatim}
+	\textbf{Processing Code} (Python pseudocode):
+	\texttt{`}python
 # Load raw data
 ff_data = pd.read_csv('fama_french_extended.csv', index_col='Date')
 
@@ -117,7 +116,7 @@ crowding_normalized = (crowding_raw - crowding_raw.min()) / (crowding_raw.max() 
 # Save processed data
 processed = pd.concat([excess_returns, crowding_normalized], axis=1)
 processed.to_csv('processed_factors.csv')
-\end{verbatim}
+	\texttt{`}
 
 ---
 
@@ -125,21 +124,15 @@ processed.to_csv('processed_factors.csv')
 
 \subsubsection{D.2.1 Data Sources by Country}
 
-\begin{center}
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-\textbf{Country} & \textbf{Data Provider} & \textbf{Factors} & \textbf{Period} & \textbf{Quality} \\
-\hline
-UK & FactorResearch & Size, Value, Profitability, Momentum & 1980--2024 & High \\
-Japan & Nomura Institute & Size, Value, Profitability, Momentum & 1985--2024 & High \\
-Germany & Börse Stuttgart & Size, Value, Momentum & 1990--2024 & High \\
-France & Euronext & Size, Value, Momentum & 1990--2024 & High \\
-Canada & TMX Group & Size, Value, Profitability & 1985--2024 & High \\
-Australia & ASX & Size, Value, Momentum & 1980--2024 & High \\
-Switzerland & SIX Swiss Exchange & Size, Value, Profitability & 1987--2024 & High \\
-\hline
-\end{tabular}
-\end{center}
+| Country | Data Provider | Factors | Period | Quality |
+|---------|---------------|---------|--------|---------|
+| UK | FactorResearch | Size, Value, Profitability, Momentum | 1980-2024 | High |
+| Japan | Nomura Institute | Size, Value, Profitability, Momentum | 1985-2024 | High |
+| Germany | Börse Stuttgart | Size, Value, Momentum | 1990-2024 | High |
+| France | Euronext | Size, Value, Momentum | 1990-2024 | High |
+| Canada | TMX Group | Size, Value, Profitability | 1985-2024 | High |
+| Australia | ASX | Size, Value, Momentum | 1980-2024 | High |
+| Switzerland | SIX Swiss Exchange | Size, Value, Profitability | 1987-2024 | High |
 
 \subsubsection{D.2.2 Data Alignment and Harmonization}
 
@@ -179,32 +172,20 @@ $$C_i(t) = \frac{\alpha_i(t)}{\text{volatility}_i(t)}$$
 
 	\textbf{Correlation Matrix} (Proxy 1 vs alternatives):
 
-\begin{center}
-\begin{tabular}{|l|r|}
-\hline
-\textbf{Proxy} & \textbf{Correlation with Primary} \\
-\hline
-Momentum (Proxy 2) & 0.78 \\
-Percentile (Proxy 3) & 0.82 \\
-Vol-adjusted (Proxy 4) & 0.71 \\
-\hline
-\end{tabular}
-\end{center}
+| Proxy | Correlation with Primary |
+|-------|--------------------------|
+| Momentum (Proxy 2) | 0.78 |
+| Percentile (Proxy 3) | 0.82 |
+| Vol-adjusted (Proxy 4) | 0.71 |
 
 	\textbf{Predictive Power} (For crash prediction, measured by AUC):
 
-\begin{center}
-\begin{tabular}{|l|r|}
-\hline
-\textbf{Crowding Proxy} & \textbf{Crash Prediction AUC} \\
-\hline
-Proxy 1 (Primary) & 0.646 \\
-Proxy 2 & 0.610 \\
-Proxy 3 & 0.661 \\
-Proxy 4 & 0.451 \\
-\hline
-\end{tabular}
-\end{center}
+| Crowding Proxy | Crash Prediction AUC |
+|---|---|
+| Proxy 1 (Primary) | 0.646 |
+| Proxy 2 | 0.610 |
+| Proxy 3 | 0.661 |
+| Proxy 4 | 0.451 |
 
 	\textbf{Conclusion}: Primary proxy performs well; alternatives show similar patterns. Results in Section 8.3 confirm robustness.
 
@@ -264,7 +245,7 @@ Proxy 4 & 0.451 \\
 - Correlation with market (past 12 months)
 - Correlation with other factors (average pairwise, past 12 months)
 
-	\textbf{Total}: 1 + 4 + 3 + 2 = 10 features per factor \times 7 factors = 70 total features
+	\textbf{Total}: 1 + 4 + 3 + 2 = 10 features per factor × 7 factors = 70 total features
 
 \subsubsection{D.5.2 Feature Standardization}
 
@@ -298,11 +279,11 @@ All data required to reproduce results:
 
 \subsubsection{D.6.2 Code and Data Repositories}
 
-\begin{verbatim}
+	\texttt{`}
 /research/jmlr_unified/
 ├── data/
 │   ├── raw/
-│   │   ├── fama_french_extended.parquet (754\times9)
+│   │   ├── fama_french_extended.parquet (754×9)
 │   │   └── international_factors/ (7 countries)
 │   ├── processed/
 │   │   ├── us_normalized_factors.csv
@@ -321,7 +302,7 @@ All data required to reproduce results:
     ├── tables/ (Tables 1-10)
     ├── figures/ (Figures 1-21)
     └── logs/ (validation results)
-\end{verbatim}
+	\texttt{`}
 
 ---
 
@@ -329,23 +310,17 @@ All data required to reproduce results:
 
 \subsubsection{Final Data Summary}
 
-\begin{center}
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Metric} & \textbf{Value} \\
-\hline
-Time Period & 1963--2024 (61 years) \\
-Monthly observations & 754 \\
-Missing values & 0\% \\
-Outliers (3-sigma) & 0.08\% \\
-Stationarity (ADF p-value) & $<$0.001 \\
-International coverage & 7 countries \\
-International time period & 1980--2024 \\
-Features engineered & 70 (10 per factor) \\
-Crashes identified ($>2\sigma$) & 42 months (5.6\%) \\
-\hline
-\end{tabular}
-\end{center}
+| Metric | Value |
+|--------|-------|
+| 	\textbf{Time Period} | 1963-2024 (61 years) |
+| 	\textbf{Monthly observations} | 754 |
+| 	\textbf{Missing values} | 0% |
+| 	\textbf{Outliers (3-sigma)} | 0.08% |
+| 	\textbf{Stationarity (ADF p-value)} | <0.001 |
+| 	\textbf{International coverage} | 7 countries |
+| 	\textbf{International time period} | 1980-2024 |
+| 	\textbf{Features engineered} | 70 (10 per factor) |
+| 	\textbf{Crashes identified} (>2σ) | 42 months (5.6%) |
 
 ---
 

@@ -69,7 +69,7 @@ Under the steady-state assumption (crowding adjusts to maintain marginal investo
 $$C^*(t) \approx \frac{1}{\lambda_0} \left( \frac{K_0}{1 + \gamma t} - r_f \right)$$
 Substituting back:
 $$\alpha_{\text{obs}}(t) \approx \frac{K_0}{1 + \gamma t} - \left( \frac{K_0}{1 + \gamma t} - r_f \right) = r_f$$
-This result--that observed alpha converges to the risk-free rate--is correct at steady state but hides the dynamics. The empirically observable quantity is the realized alpha before full adjustment:
+This result—that observed alpha converges to the risk-free rate—is correct at steady state but hides the dynamics. The empirically observable quantity is the realized alpha before full adjustment:
 $$\alpha_{\text{realized}}(t) = \frac{K_0}{1 + \lambda_{\text{eff}} \cdot t}$$
 where $\lambda_{\text{eff}} = \gamma + \lambda_0$ is the effective decay rate combining exogenous decay and endogenous crowding response.
 \textbf{Why Hyperbolic (Not Exponential)?}
@@ -124,7 +124,7 @@ The game-theoretic model has practical implications:
 2. \textbf{Rotation Timing}: A factor's residual alpha (after adjusting for crowding) is $\alpha_{\text{residual}} = K / (1 + \lambda t) - r_f - \text{fees}$. Managers should exit when this becomes negative.
 3. \textbf{Diversification}: Mechanical and judgment factors decay at different rates, providing natural diversification timing cues.
 \subsection{4.5 Bridge to Empirical Validation}
-Sections 5 will validate these theoretical predictions using Fama-French factor data from 1963-2024. We will:
+Sections 5 will validate these theoretical predictions using Fama-French factor data from 1963–2024. We will:
 1. Estimate $K$ and $\lambda$ for each factor by fitting the hyperbolic decay model
 2. Test whether $\lambda_{\text{judgment}} > \lambda_{\text{mechanical}}$ statistically
 3. Validate out-of-sample predictive power using hold-out test periods

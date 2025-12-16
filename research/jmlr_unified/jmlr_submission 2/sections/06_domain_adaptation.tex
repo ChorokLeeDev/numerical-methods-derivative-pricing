@@ -1,7 +1,7 @@
 This section introduces the second major contribution: a standard domain adaptation framework using Maximum Mean Discrepancy (MMD) that enables transfer of US factor crowding insights to global markets.
 \subsection{6.1 Problem Formulation}
 \textbf{Transfer Learning Challenge}
-The game-theoretic model developed in Section 4 and validated in Section 5 is based on US data (Fama-French factors, 1963-2024). A natural question is: do the same crowding dynamics apply globally?
+The game-theoretic model developed in Section 4 and validated in Section 5 is based on US data (Fama-French factors, 1963–2024). A natural question is: do the same crowding dynamics apply globally?
 The transfer learning problem is formulated as follows:
 \textbf{Source Domain} (US): We have complete factor return data $\{(\mathbf{x}_{t}^{\text{US}}, \alpha_{t}^{\text{US}})\}_{t=1}^{T_{\text{US}}}$ for the full period, and we have estimated the decay parameters $(\hat{K}_i^{\text{US}}, \hat{\lambda}_i^{\text{US}})$ for each factor in the US.
 \textbf{Target Domain} (Foreign Market): We have partial factor return data $\{(\mathbf{x}_{t}^{\text{Foreign}}, \alpha_{t}^{\text{Foreign}})\}_{t=1}^{T_{\text{Foreign}}}$ where $T_{\text{Foreign}} < T_{\text{US}}$ (shorter history), and we want to predict whether the US-estimated parameters generalize.
@@ -54,9 +54,9 @@ We test transfer to global factor markets across 4 major regions:
 For each target market, we obtain local factor return data from regional Fama-French data providers and proprietary sources.
 \textbf{Experimental Design}
 For each target market:
-1. \textbf{Training period}: 1990-2010 (20 years on US data only)
-2. \textbf{Transfer period}: 2010-2020 (10 years, use MMD to adapt)
-3. \textbf{Test period}: 2020-2024 (4 years, evaluate OOS performance)
+1. \textbf{Training period}: 1990–2010 (20 years on US data only)
+2. \textbf{Transfer period}: 2010–2020 (10 years, use MMD to adapt)
+3. \textbf{Test period}: 2020–2024 (4 years, evaluate OOS performance)
 We compare three methods:
 1. \textbf{Baseline (RF)}: Random Forest trained locally on each market (oracle benchmark)
 2. \textbf{Direct Transfer}: Use US parameters directly without adaptation

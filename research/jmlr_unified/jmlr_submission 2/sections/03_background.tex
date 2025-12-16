@@ -29,24 +29,24 @@ The Fama-French factor zoo contains many factors, but we focus on seven core fac
 1. \textbf{SMB (Small Minus Big)}: Size effect
    - Portfolio construction: Long small-cap stocks (bottom 10% by market cap), short large-cap stocks (top 10%)
    - Returns driven by: Market cap differences in future performance
-   - Crowding barrier: Low--easy to buy/short stocks at any size
+   - Crowding barrier: Low—easy to buy/short stocks at any size
 2. \textbf{RMW (Robust Minus Weak)}: Profitability
    - Portfolio construction: Long high-profitability, short low-profitability
    - Returns driven by: Operating profitability metrics (easily measurable)
-   - Crowding barrier: Low to Medium--profitability data is public
+   - Crowding barrier: Low to Medium—profitability data is public
 3. \textbf{CMA (Conservative Minus Aggressive)}: Investment
    - Portfolio construction: Long low-investment growth, short high-investment growth
    - Returns driven by: Asset growth rates (easily measurable)
-   - Crowding barrier: Low to Medium--growth rates are public
+   - Crowding barrier: Low to Medium—growth rates are public
 \textbf{Judgment Factors} (sentiment-driven, harder to systematize):
 1. \textbf{HML (High Minus Low)}: Value effect
    - Portfolio construction: Long high book-to-market, short low book-to-market
    - Returns driven by: Market sentiment about future value stocks
-   - Crowding barrier: Medium--requires conviction that "value will outperform"
+   - Crowding barrier: Medium—requires conviction that "value will outperform"
 2. \textbf{MOM (Momentum)}: Recent price momentum
    - Portfolio construction: Long past 12-month winners, short past 12-month losers
    - Returns driven by: Behavioral patterns (trend-following, overconfidence)
-   - Crowding barrier: High--requires belief in trend continuation despite mean reversion intuition
+   - Crowding barrier: High—requires belief in trend continuation despite mean reversion intuition
 3. \textbf{ST\_Rev (Short--Term Reversal)}: Monthly reversal
    - Portfolio construction: Long 1--month laggards, short 1--month winners
    - Returns driven by: Bid--ask bounce and liquidity reversals
@@ -54,7 +54,7 @@ The Fama-French factor zoo contains many factors, but we focus on seven core fac
 4. \textbf{LT\_Rev (Long--Term Reversal)}: 2--5 year reversal
    - Portfolio construction: Long 5-year underperformers, short 5-year outperformers
    - Returns driven by: Mean reversion from overvaluation/undervaluation
-   - Crowding barrier: Medium--requires long time horizons and patience
+   - Crowding barrier: Medium—requires long time horizons and patience
 \textbf{Why This Classification Matters}: Mechanical factors are based on observable metrics that don't require judgment calls. As soon as the metric is published, many investors can and will replicate the strategy. Judgment factors require conviction about mean reversion or continuation, which is harder to systematize and takes longer to attract capital. We hypothesize that judgment factors experience faster crowding.
 \subsection{3.2 Game Theory Preliminaries}
 \textbf{Nash Equilibrium Concept}
@@ -71,7 +71,7 @@ The Nash equilibrium determines optimal exit timing: at what crowding level does
 \subsection{3.3 Domain Adaptation and Maximum Mean Discrepancy}
 \textbf{The Domain Adaptation Problem}
 Let $S$ be a source distribution and $T$ be a target distribution. We have labeled data from $S$ (source) and unlabeled data from $T$ (target). Goal: fit a model $f$ to source data that generalizes to target data.
-The challenge is that $P_S(x, y) \neq P_T(x, y)$--the distributions differ. If we simply fit on $S$ and apply to $T$, performance degrades.
+The challenge is that $P_S(x, y) \neq P_T(x, y)$—the distributions differ. If we simply fit on $S$ and apply to $T$, performance degrades.
 Domain adaptation addresses this by finding a transformation $\phi$ such that $P_S(\phi(x), y) \approx P_T(\phi(x), y)$. In words, the representation is matched across domains.
 \textbf{Maximum Mean Discrepancy (MMD)}
 MMD is a kernel-based metric measuring distance between distributions. For distributions $P$ and $Q$ and a kernel $k(\cdot, \cdot)$:
@@ -123,28 +123,21 @@ $$q = \text{quantile}_w(\{A_1, \ldots, A_n\}, 1 - \alpha, \mathbf{w})$$
 where $\text{quantile}_w$ is the weighted quantile function.
 \textbf{Preserving Coverage Guarantee}: A key question is whether weighting preserves the coverage guarantee. The answer depends on whether the weighting respects exchangeability. In Section 7.2, we prove that crowding-based weighting preserves exchangeability under certain conditions, maintaining the coverage guarantee.
 \subsection{3.5 Summary: Unified Notation Table}
-
-\begin{center}
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Symbol} & \textbf{Meaning} & \textbf{Domain} \\
-\hline
-$r_i(t)$ & Gross return of factor $i$ at time $t$ & Finance \\
-$\alpha_i(t)$ & Alpha (excess return) of factor $i$ & Finance \\
-$C_i(t)$ & Crowding level of factor $i$ at time $t$ & Finance \\
-$K_i$ & Profitability scale parameter & Finance \\
-$\lambda_i$ & Decay rate parameter & Finance \\
-$w_j$ & Capital allocation vector for investor $j$ & Finance \\
-$P_S(x, y)$ & Source probability distribution & ML \\
-$P_T(x, y)$ & Target probability distribution & ML \\
-$\text{MMD}(P, Q)$ & Maximum Mean Discrepancy & ML \\
-$S_r, T_r$ & Source/target data in regime $r$ & ML/Finance \\
-$f(x)$ & Fitted predictive model & ML \\
-$\text{NC}(x, y, f)$ & Nonconformity score & ML \\
-$\mathcal{C}(x)$ & Conformal prediction set & ML \\
-\hline
-\end{tabular}
-\end{center}
+| Symbol | Meaning | Domain |
+|--------|---------|--------|
+| $r_i(t)$ | Gross return of factor $i$ at time $t$ | Finance |
+| $\alpha_i(t)$ | Alpha (excess return) of factor $i$ | Finance |
+| $C_i(t)$ | Crowding level of factor $i$ at time $t$ | Finance |
+| $K_i$ | Profitability scale parameter | Finance |
+| $\lambda_i$ | Decay rate parameter | Finance |
+| $w_j$ | Capital allocation vector for investor $j$ | Finance |
+| $P_S(x, y)$ | Source probability distribution | ML |
+| $P_T(x, y)$ | Target probability distribution | ML |
+| $\text{MMD}(P, Q)$ | Maximum Mean Discrepancy | ML |
+| $S_r, T_r$ | Source/target data in regime $r$ | ML/Finance |
+| $f(x)$ | Fitted predictive model | ML |
+| $\text{NC}(x, y, f)$ | Nonconformity score | ML |
+| $\mathcal{C}(x)$ | Conformal prediction set | ML |
 ---
 \textbf{Word Count: ~3,200 words}
 \textbf{Key Theorems Introduced}:

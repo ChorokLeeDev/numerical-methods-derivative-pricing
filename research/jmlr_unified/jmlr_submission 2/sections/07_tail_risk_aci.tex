@@ -1,10 +1,10 @@
 This section presents the third major contribution: Crowding-Weighted Adaptive Conformal Inference (CW-ACI), a framework for portfolio risk management that integrates crowding signals with distribution-free uncertainty quantification.
 \subsection{7.1 Factor Crashes and Crash Prediction}
 \textbf{The Crash Problem}
-While alpha decay (Sections 4-5) is a gradual phenomenon, factor crashes represent acute tail risk: sudden, severe declines in factor returns that can devastate crowded portfolios.
+While alpha decay (Sections 4–5) is a gradual phenomenon, factor crashes represent acute tail risk: sudden, severe declines in factor returns that can devastate crowded portfolios.
 Historical examples include:
 \begin{itemize}
-  \item \textbf{2007-2008 Financial Crisis}: Carry factors crashed as leverage unwound
+  \item \textbf{2007–2008 Financial Crisis}: Carry factors crashed as leverage unwound
   \item \textbf{2020 COVID Crash}: Value and momentum factors crashed simultaneously
   \item \textbf{2022 Tech Crash}: Growth factors crashed 40%+ as interest rates soared
 \end{itemize}
@@ -116,7 +116,7 @@ We demonstrate CW-ACI on a dynamic hedging application. The strategy:
 4. \textbf{Rebalance}: Monthly
 \textbf{Backtest Setup}
 \begin{itemize}
-  \item \textbf{Test Period}: 2000-2024 (24 years, 288 months)
+  \item \textbf{Test Period}: 2000–2024 (24 years, 288 months)
   \item \textbf{Benchmark}: Buy-and-hold long-only factor portfolio
   \item \textbf{Hedge Instrument}: S\&P 500 put options (short duration)
   \item \textbf{Transaction Costs}: 10 bps per trade
@@ -132,13 +132,13 @@ We demonstrate CW-ACI on a dynamic hedging application. The strategy:
 | \textbf{Max Drawdown} | -28.3% | -14.1% | +14.2% |
 | \textbf{VaR(95%)} | -1.2% | -0.53% | +0.67% |
 | \textbf{CVaR(95%)} | -2.1% | -0.89% | +1.21% |
-| \textbf{# Hedge Months} | -- | 42 | 14.6% |
-| \textbf{Hedge Cost (bps)} | 0 | 41 | --  |
+| \textbf{# Hedge Months} | — | 42 | 14.6% |
+| \textbf{Hedge Cost (bps)} | 0 | 41 | —  |
 \textbf{Interpretation}:
 1. \textbf{Risk-Adjusted Returns}: Sharpe ratio improves by 54% (0.67 → 1.03) by hedging during high-crowding periods
 2. \textbf{Tail Risk Reduction}: Maximum drawdown falls from -28.3% to -14.1%, a 50% reduction. CVaR(95%) drops from -2.1% to -0.89%.
 3. \textbf{Hedging Efficiency}: Only 14.6% of months require hedging (42 out of 288), so the strategy is selective, not constantly hedged
-4. \textbf{Cost-Benefit}: Hedging costs 41 bps/year but generates 190 bps/year of excess return, a 4.6\times benefit-cost ratio
+4. \textbf{Cost-Benefit}: Hedging costs 41 bps/year but generates 190 bps/year of excess return, a 4.6× benefit-cost ratio
 5. \textbf{Robustness}: CW-ACI hedging works across different market regimes (bull, bear, high-vol, low-vol)
 \textbf{Crash Event Analysis}
 We examine performance during historical factor crashes:
@@ -149,7 +149,7 @@ We examine performance during historical factor crashes:
 | 2011 Debt Crisis | Aug 2011 | -4.7% | -1.9% | +2.8% |
 | 2020 COVID Crash | Mar 2020 | -6.2% | -2.4% | +3.8% |
 | 2022 Rate Shock | Jun 2022 | -5.1% | -2.0% | +3.1% |
-\textbf{Key Finding}: CW-ACI hedging reduces losses by 60-70% during major crashes, confirming that integrating crowding information into risk management has significant practical value.
+\textbf{Key Finding}: CW-ACI hedging reduces losses by 60–70% during major crashes, confirming that integrating crowding information into risk management has significant practical value.
 \subsection{7.4 Risk Management Interpretation}
 \textbf{Dynamic Risk Adjustment}
 CW-ACI enables a form of dynamic risk adjustment:
@@ -180,7 +180,7 @@ Future work:
 \textbf{Results Summary}:
 \begin{itemize}
   \item Crash prediction model: 83% AUC with crowding as 3rd most important feature
-  \item CW-ACI hedging: 54% Sharpe improvement, 60-70% loss reduction in crashes
+  \item CW-ACI hedging: 54% Sharpe improvement, 60–70% loss reduction in crashes
   \item Coverage guarantee proven under conditional independence of crowding
 \end{itemize}
 

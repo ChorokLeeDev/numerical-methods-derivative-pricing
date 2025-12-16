@@ -20,7 +20,7 @@ This appendix provides detailed pseudocode for all three main algorithms used in
 
 	\textbf{Algorithm}:
 
-\begin{verbatim}
+	\texttt{`}
 function FitHyperbolicDecay(returns, time_indices):
     // Initialize parameter guess
     K_init = mean(returns[1:12])  // Initial alpha from first year
@@ -77,7 +77,7 @@ function FitHyperbolicDecay(returns, time_indices):
         std_err: {K: se_K, lambda: se_lambda}
     }
 end function
-\end{verbatim}
+	\texttt{`}
 
 	\textbf{Computational Complexity}: $O(n \times \text{iterations})$ where $n$ is number of time points and iterations ~20-50.
 
@@ -110,7 +110,7 @@ end function
 
 	\textbf{Algorithm}:
 
-	\begin{verbatim}
+	\texttt{`}
 function TrainTemporalMMD(source_data, target_data, config):
 
     // Initialize networks
@@ -193,11 +193,11 @@ function TrainTemporalMMD(source_data, target_data, config):
         loss_history: loss_history
     }
 end function
-	\end{verbatim}
+	\texttt{`}
 
 	\textbf{MMD Kernel Computation}:
 
-	\begin{verbatim}
+	\texttt{`}
 function MMD_RBF(X, Y, sigma):
     // RBF kernel: k(x,y) = exp(-||x-y||^2 / (2*sigma^2))
 
@@ -230,11 +230,11 @@ function MMD_RBF(X, Y, sigma):
 
     return sqrt(maximum(mmd_sq, 0))  // Ensure non-negative under square root
 end function
-	\end{verbatim}
+	\texttt{`}
 
 	\textbf{Regime Matching Function}:
 
-	\begin{verbatim}
+	\texttt{`}
 function sample_regime_matched(target_data, source_regimes, batch_size):
     // For each regime in source_regimes, sample from target data in same regime
 
@@ -248,7 +248,7 @@ function sample_regime_matched(target_data, source_regimes, batch_size):
 
     return concatenate(samples)
 end function
-	\end{verbatim}
+	\texttt{`}
 
 ---
 
@@ -271,7 +271,7 @@ end function
 
 	\textbf{Algorithm}:
 
-	\begin{verbatim}
+	\texttt{`}
 function ConstructCWACIPredictionSet(model, calib_data, test_point, alpha):
 
     // Step 1: Extract calibration components
@@ -325,11 +325,11 @@ function ConstructCWACIPredictionSet(model, calib_data, test_point, alpha):
         weight_at_test: sigmoid(C_test)
     }
 end function
-	\end{verbatim}
+	\texttt{`}
 
 	\textbf{Sigmoid Function Implementation}:
 
-	\begin{verbatim}
+	\texttt{`}
 function sigmoid(x):
     // Numerically stable sigmoid
     // sigmoid(x) = 1 / (1 + exp(-x))
@@ -344,7 +344,7 @@ function sigmoid(x):
         exp_x = exp(x)
         return exp_x / (1.0 + exp_x)
 end function
-	\end{verbatim}
+	\texttt{`}
 
 \subsubsection{Algorithm E.4: Batch Prediction Set Construction (Multiple Test Points)}
 
@@ -361,7 +361,7 @@ end function
 
 	\textbf{Algorithm}:
 
-	\begin{verbatim}
+	\texttt{`}
 function BatchCWACIPredictions(model, calib_data, test_data, alpha):
 
     // Step 1: Compute nonconformity and weights once (reusable)
@@ -409,11 +409,11 @@ function BatchCWACIPredictions(model, calib_data, test_data, alpha):
 
     return results
 end function
-	\end{verbatim}
+	\texttt{`}
 
 	\textbf{Vectorized Implementation} (for efficiency):
 
-	\begin{verbatim}python
+	\texttt{`}python
 # Python implementation using NumPy for vectorization
 
 def construct_cw_aci_sets(model, X_calib, y_calib, C_calib, X_test, alpha):
@@ -443,7 +443,7 @@ def construct_cw_aci_sets(model, X_calib, y_calib, C_calib, X_test, alpha):
     intervals = np.column_stack([y_pred_test - q, y_pred_test + q])
 
     return intervals, q
-	\end{verbatim}
+	\texttt{`}
 
 ---
 

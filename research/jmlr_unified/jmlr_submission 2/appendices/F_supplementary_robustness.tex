@@ -16,17 +16,11 @@ We compare the parametric hyperbolic model $\alpha(t) = K/(1+\lambda t)$ against
 
 	\textbf{Results}:
 
-\begin{center}
-\begin{tabular}{|l|r|r|r|r|r|}
-\hline
-\textbf{Model} & \textbf{Train R²} & \textbf{Test R²} & \textbf{RMSE} & \textbf{AIC} & \textbf{BIC} \\
-\hline
-Hyperbolic (Parametric) & 0.71 & 0.55 & 0.042 & --1250 & --1235 \\
-Local Polynomial (Non-par) & 0.74 & 0.48 & 0.051 & --1180 & --1140 \\
-Linear Decay & 0.62 & 0.39 & 0.068 & --1050 & --1040 \\
-\hline
-\end{tabular}
-\end{center}
+| Model | Train R² | Test R² | RMSE | AIC | BIC |
+|-------|----------|---------|------|-----|-----|
+| Hyperbolic (Parametric) | 0.71 | 0.55 | 0.042 | -1250 | -1235 |
+| Local Polynomial (Non-par) | 0.74 | 0.48 | 0.051 | -1180 | -1140 |
+| Linear Decay | 0.62 | 0.39 | 0.068 | -1050 | -1040 |
 
 	\textbf{Conclusion}: Hyperbolic model provides best out-of-sample performance. Non-parametric overfits (higher train R² but lower test R²).
 
@@ -42,18 +36,12 @@ Test alternative decay functions beyond hyperbolic:
 
 	\textbf{Test R² by Functional Form}:
 
-\begin{center}
-\begin{tabular}{|l|r|r|r|r|r|r|r|}
-\hline
-\textbf{Form} & \textbf{SMB} & \textbf{RMW} & \textbf{CMA} & \textbf{HML} & \textbf{MOM} & \textbf{ST\_Rev} & \textbf{Mean} \\
-\hline
-Exponential & 0.48 & 0.41 & 0.38 & 0.54 & 0.59 & 0.61 & 0.50 \\
-Power Law & 0.52 & 0.45 & 0.42 & 0.58 & 0.62 & 0.64 & 0.54 \\
-Logistic & 0.51 & 0.44 & 0.41 & 0.56 & 0.61 & 0.63 & 0.53 \\
-\textbf{Hyperbolic} & \textbf{0.54} & \textbf{0.48} & \textbf{0.45} & \textbf{0.58} & \textbf{0.61} & \textbf{0.63} & \textbf{0.55} \\
-\hline
-\end{tabular}
-\end{center}
+| Form | SMB | RMW | CMA | HML | MOM | ST\_Rev | Mean |
+|------|-----|-----|-----|-----|-----|--------|------|
+| Exponential | 0.48 | 0.41 | 0.38 | 0.54 | 0.59 | 0.61 | 0.50 |
+| Power Law | 0.52 | 0.45 | 0.42 | 0.58 | 0.62 | 0.64 | 0.54 |
+| Logistic | 0.51 | 0.44 | 0.41 | 0.56 | 0.61 | 0.63 | 0.53 |
+| 	\textbf{Hyperbolic} | 	\textbf{0.54} | 	\textbf{0.48} | 	\textbf{0.45} | 	\textbf{0.58} | 	\textbf{0.61} | 	\textbf{0.63} | 	\textbf{0.55} |
 
 	\textbf{Conclusion}: Hyperbolic model consistently outperforms alternatives across all factors.
 
@@ -67,17 +55,11 @@ We test whether crowding dynamics differ before and after the 2008 financial cri
 
 	\textbf{Sub-Period Analysis}:
 
-\begin{center}
-\begin{tabular}{|l|l|r|r|r|}
-\hline
-\textbf{Period} & \textbf{Years} & \textbf{Judgment Mean } $\lambda$ & \textbf{Mechanical Mean } $\lambda$ & \textbf{Ratio} \\
-\hline
-Pre-2008 & 1963--2008 (45 yr) & 0.145 & 0.063 & 2.30 \\
-Post-2008 & 2008--2024 (16 yr) & 0.168 & 0.079 & 2.13 \\
-\textbf{Overall} & 1963--2024 & \textbf{0.156} & \textbf{0.072} & \textbf{2.17} \\
-\hline
-\end{tabular}
-\end{center}
+| Period | Years | Judgment Mean $\lambda$ | Mechanical Mean $\lambda$ | Ratio |
+|--------|-------|-----------------|-------------------|-------|
+| Pre-2008 | 1963-2008 (45 yr) | 0.145 | 0.063 | 2.30 |
+| Post-2008 | 2008-2024 (16 yr) | 0.168 | 0.079 | 2.13 |
+| 	\textbf{Overall} | 1963-2024 | 0.156 | 0.072 | 2.17 |
 
 	\textbf{Heterogeneity Test}:
 - Pre-2008: $\lambda$_judgment > $\lambda$_mechanical (p < 0.001)
@@ -91,19 +73,13 @@ To examine stability, we estimate decay parameters in rolling 5-year windows:
 
 	\textbf{Rolling Window Results}:
 
-\begin{center}
-\begin{tabular}{|l|r|r|r|}
-\hline
-\textbf{Years} & \textbf{SMB} & \textbf{HML} & \textbf{MOM} \\
-\hline
-1963--1968 & 0.041 & 0.089 & 0.145 \\
-1968--1973 & 0.052 & 0.112 & 0.168 \\
-\ldots & \ldots & \ldots & \ldots \\
-2015--2020 & 0.078 & 0.162 & 0.195 \\
-2020--2024 & 0.081 & 0.168 & 0.202 \\
-\hline
-\end{tabular}
-\end{center}
+| Years | SMB | HML | MOM |
+|-------|-----|-----|-----|
+| 1963-1968 | 0.041 | 0.089 | 0.145 |
+| 1968-1973 | 0.052 | 0.112 | 0.168 |
+| ... | ... | ... | ... |
+| 2015-2020 | 0.078 | 0.162 | 0.195 |
+| 2020-2024 | 0.081 | 0.168 | 0.202 |
 
 	\textbf{Pattern}: Decay rates show upward trend over time (especially post-2000), consistent with increasing competition in factor investing.
 
@@ -148,23 +124,17 @@ where $\beta_1, \beta_2$ are from regression of $C_i$ on volatility and momentum
 
 We test 7 main hypotheses in the paper. With Bonferroni correction ($\alpha_{\text{corrected}} = 0.05/7 = 0.007$):
 
-\begin{center}
-\begin{tabular}{|l|r|r|l|}
-\hline
-\textbf{Hypothesis} & \textbf{p-value} & \textbf{Bonferroni Threshold} & \textbf{Significant?} \\
-\hline
-Judgment > Mechanical decay & $<$0.001 & 0.007 & \checkmark Yes \\
-Temporal-MMD > Baseline & 0.002 & 0.007 & \checkmark Yes \\
-Temporal-MMD > Standard MMD & 0.005 & 0.007 & \checkmark Yes \\
-CW-ACI Sharpe improvement & 0.008 & 0.007 & $\times$ Marginal \\
-Hyperbolic > Exponential & 0.001 & 0.007 & \checkmark Yes \\
-OOS R² > 0.40 & $<$0.001 & 0.007 & \checkmark Yes \\
-Transfer efficiency > 50\% & 0.003 & 0.007 & \checkmark Yes \\
-\hline
-\end{tabular}
-\end{center}
+| Hypothesis | p-value | Bonferroni Threshold | Significant? |
+|-----------|---------|------|---|
+| Judgment > Mechanical decay | <0.001 | 0.007 | \checkmark Yes |
+| Temporal-MMD > Baseline | 0.002 | 0.007 | \checkmark Yes |
+| Temporal-MMD > Standard MMD | 0.005 | 0.007 | \checkmark Yes |
+| CW-ACI Sharpe improvement | 0.008 | 0.007 | ✗ Marginal |
+| Hyperbolic > Exponential | 0.001 | 0.007 | \checkmark Yes |
+| OOS R² > 0.40 | <0.001 | 0.007 | \checkmark Yes |
+| Transfer efficiency > 50% | 0.003 | 0.007 | \checkmark Yes |
 
-	\textbf{Conclusion}: All main hypotheses survive multiple comparison correction except CW-ACI Sharpe improvement (which remains significant at p=0.008 vs. threshold 0.007--marginal).
+	\textbf{Conclusion}: All main hypotheses survive multiple comparison correction except CW-ACI Sharpe improvement (which remains significant at p=0.008 vs. threshold 0.007—marginal).
 
 ---
 
@@ -200,18 +170,12 @@ How sensitive is transfer efficiency to regime weighting scheme?
 
 	\textbf{Weight Schemes Tested}:
 
-\begin{center}
-\begin{tabular}{|l|r|r|r|r|r|}
-\hline
-\textbf{Scheme} & \textbf{Bull-HV} & \textbf{Bull-LV} & \textbf{Bear-HV} & \textbf{Bear-LV} & \textbf{Avg TE} \\
-\hline
-Equal (0.25 each) & 0.25 & 0.25 & 0.25 & 0.25 & 0.637 \\
-Vol-weighted & 0.30 & 0.20 & 0.35 & 0.15 & 0.628 \\
-Time-weighted & 0.20 & 0.30 & 0.25 & 0.25 & 0.631 \\
-Source distribution & 0.22 & 0.28 & 0.27 & 0.23 & 0.634 \\
-\hline
-\end{tabular}
-\end{center}
+| Scheme | Bull-HV | Bull-LV | Bear-HV | Bear-LV | Avg TE |
+|--------|---------|---------|---------|---------|--------|
+| Equal (0.25 each) | 0.25 | 0.25 | 0.25 | 0.25 | 0.637 |
+| Vol-weighted | 0.30 | 0.20 | 0.35 | 0.15 | 0.628 |
+| Time-weighted | 0.20 | 0.30 | 0.25 | 0.25 | 0.631 |
+| Source distribution | 0.22 | 0.28 | 0.27 | 0.23 | 0.634 |
 
 	\textbf{Conclusion}: Results stable; equal weighting slightly best, but all schemes yield 0.63+.
 
@@ -219,18 +183,12 @@ Source distribution & 0.22 & 0.28 & 0.27 & 0.23 & 0.634 \\
 
 Tested weight functions beyond sigmoid (Section 8.3):
 
-\begin{center}
-\begin{tabular}{|l|r|r|r|}
-\hline
-\textbf{Function} & \textbf{Sharpe} & \textbf{Coverage} & \textbf{Width} \\
-\hline
-Step (C$>$0.7) & 0.94 & 0.89 & 0.55 \\
-Linear (w=C) & 0.97 & 0.92 & 0.71 \\
-Sigmoid (w=$\sigma$(C)) & \textbf{1.03} & \textbf{0.95} & \textbf{0.87} \\
-Power (w=C$^2$) & 1.00 & 0.93 & 0.84 \\
-\hline
-\end{tabular}
-\end{center}
+| Function | Sharpe | Coverage | Width |
+|----------|--------|----------|-------|
+| Step (C>0.7) | 0.94 | 0.89 | 0.55 |
+| Linear (w=C) | 0.97 | 0.92 | 0.71 |
+| Sigmoid (w=σ(C)) | 	\textbf{1.03} | 	\textbf{0.95} | 	\textbf{0.87} |
+| Power (w=C²) | 1.00 | 0.93 | 0.84 |
 
 	\textbf{Conclusion}: Sigmoid dominates across all metrics; provides best balance between coverage and Sharpe ratio.
 
@@ -247,17 +205,11 @@ We test framework on US bond factors (fixed income):
 
 	\textbf{Results}:
 
-\begin{center}
-\begin{tabular}{|l|r|l|l|}
-\hline
-\textbf{Bond Factor} & \textbf{} $\lambda$ \textbf{(per year)} & \textbf{Type} & \textbf{Judgment?} \\
-\hline
-Maturity & 0.082 & Mechanical & No \\
-Credit Spread & 0.156 & Judgment & Yes \\
-Illiquidity Premium & 0.091 & Mechanical & No \\
-\hline
-\end{tabular}
-\end{center}
+| Bond Factor | $\lambda$ (per year) | Type | Judgment? |
+|-----------|---|---|---|
+| Maturity | 0.082 | Mechanical | No |
+| Credit Spread | 0.156 | Judgment | Yes |
+| Illiquidity Premium | 0.091 | Mechanical | No |
 
 	\textbf{Transfer to Emerging Markets} (Brazil, Mexico):
 - Baseline: 0.38
@@ -273,17 +225,11 @@ Test on commodity factor investing (3 factors):
 
 	\textbf{Results}:
 
-\begin{center}
-\begin{tabular}{|l|r|r|}
-\hline
-\textbf{Commodity Factor} & \textbf{} $\lambda$ \textbf{(per year)} & \textbf{OOS R²} \\
-\hline
-Carry & 0.031 & 0.42 \\
-Momentum & 0.298 & 0.38 \\
-Value & 0.127 & 0.45 \\
-\hline
-\end{tabular}
-\end{center}
+| Commodity Factor | $\lambda$ (per year) | OOS R² |
+|---|---|---|
+| Carry | 0.031 | 0.42 |
+| Momentum | 0.298 | 0.38 |
+| Value | 0.127 | 0.45 |
 
 	\textbf{Key Finding}: Commodity factors decay much faster ($\lambda$~0.15 vs. equity $\lambda$~0.07). Likely due to lower liquidity and tighter convergence.
 
@@ -295,31 +241,19 @@ Value & 0.127 & 0.45 \\
 
 Training times on standard hardware (Intel i7-8700K, 16GB RAM):
 
-\begin{center}
-\begin{tabular}{|l|l|l|l|}
-\hline
-\textbf{Algorithm} & \textbf{Data Size} & \textbf{Runtime} & \textbf{Complexity} \\
-\hline
-Hyperbolic Decay Fit & 754 months & 0.08 sec & $O(n \times \text{iters})$ \\
-Temporal-MMD Training & 600k samples & 1.2 hrs & $O(E \times n \times d^2)$ \\
-CW-ACI Inference & 100 test points & 0.01 sec & $O(n \log n)$ \\
-\hline
-\end{tabular}
-\end{center}
+| Algorithm | Data Size | Runtime | Complexity |
+|-----------|-----------|---------|-----------|
+| Hyperbolic Decay Fit | 754 months | 0.08 sec | $O(n \times \text{iters})$ |
+| Temporal-MMD Training | 600k samples | 1.2 hrs | $O(E \times n \times d^2)$ |
+| CW-ACI Inference | 100 test points | 0.01 sec | $O(n \log n)$ |
 
 \subsubsection{F.8.2 Memory Requirements}
 
-\begin{center}
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Algorithm} & \textbf{Memory Usage} & \textbf{Scaling} \\
-\hline
-Decay Fitting & 2 MB & Linear in n \\
-Temporal-MMD & 850 MB & Quadratic in batch size \\
-CW-ACI & 50 MB & Linear in n \\
-\hline
-\end{tabular}
-\end{center}
+| Algorithm | Memory Usage | Scaling |
+|-----------|---|---|
+| Decay Fitting | 2 MB | Linear in n |
+| Temporal-MMD | 850 MB | Quadratic in batch size |
+| CW-ACI | 50 MB | Linear in n |
 
 	\textbf{Practical Note}: Temporal-MMD is most memory-intensive; batch size limiting factor for large datasets.
 
@@ -347,21 +281,15 @@ CW-ACI & 50 MB & Linear in n \\
 
 \subsection{F.10 Summary of Robustness}
 
-\begin{center}
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Test Category} & \textbf{Finding} & \textbf{Impact on Conclusions} \\
-\hline
-Model Specification & Hyperbolic > alternatives & \checkmark Strongly supports theory \\
-Data Period & Pre/post-2008 consistent & \checkmark Robust across eras \\
-Crowding Definition & $\pm$5\% variation & \checkmark Not sensitive to proxy choice \\
-Statistical Tests & Survive multiple comparisons & \checkmark Results significant \\
-Cross-Validation & OOS R² = 0.48--0.55 & \checkmark Moderate generalization \\
-Hyperparameters & Results stable & \checkmark Not overfit to tuning \\
-Generalization & Works on bonds/commodities & \checkmark Framework generalizable \\
-\hline
-\end{tabular}
-\end{center}
+| Test Category | Finding | Impact on Conclusions |
+|---|---|---|
+| Model Specification | Hyperbolic > alternatives | \checkmark Strongly supports theory |
+| Data Period | Pre/post-2008 consistent | \checkmark Robust across eras |
+| Crowding Definition | ±5% variation | \checkmark Not sensitive to proxy choice |
+| Statistical Tests | Survive multiple comparisons | \checkmark Results significant |
+| Cross-Validation | OOS R² = 0.48-0.55 | \checkmark Moderate generalization |
+| Hyperparameters | Results stable | \checkmark Not overfit to tuning |
+| Generalization | Works on bonds/commodities | \checkmark Framework generalizable |
 
 	\textbf{Overall Assessment}: Core results are robust across specifications, data periods, and measurement choices. Conclusions can be relied upon.
 
