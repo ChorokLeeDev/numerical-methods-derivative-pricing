@@ -155,24 +155,18 @@ where $\text{dist}_{\mathcal{H}}$ is the $\mathcal{H}$-divergence (upper-bounded
 \subsection{Algorithm}
 
 \begin{algorithm}[t]
-\caption{Standard MMD Training}
+\caption{Standard MMD Training for Factor Crowding Transfer}
 \begin{algorithmic}[1]
-\REQUIRE Source data $\mathcal{D}_S$ with labels, Target data $\mathcal{D}_T$
-\REQUIRE Regime labels $r_S$, $r_T$ for all samples
-\REQUIRE Number of regimes $R$, MMD weight $\lambda$
+\REQUIRE Source data $\mathcal{D}_S$ with crowding labels, Target data $\mathcal{D}_T$ unlabeled
+\REQUIRE MMD weight $\lambda$ (set via cross-validation, typically 0.1-1.0)
 \FOR{each epoch}
-    \FOR{each batch $(X_S, Y_S, R_S), (X_T, R_T)$}
-        \STATE $F_S \gets$ FeatureExtractor$(X_S)$
-        \STATE $F_T \gets$ FeatureExtractor$(X_T)$
-        \STATE $\mathcal{L}_{\text{task}} \gets$ CrossEntropy(Classifier$(F_S)$, $Y_S$)
-        \STATE $\mathcal{L}_{\text{Standard MMD}} \gets 0$
-        \FOR{$r = 1$ to $R$}
-            \STATE $F_S^r \gets F_S[R_S = r]$
-            \STATE $F_T^r \gets F_T[R_T = r]$
-            \STATE $\mathcal{L}_{\text{Standard MMD}} \gets \mathcal{L}_{\text{Standard MMD}} + w_r \cdot \text{MMD}(F_S^r, F_T^r)$
-        \ENDFOR
-        \STATE $\mathcal{L} \gets \mathcal{L}_{\text{task}} + \lambda \cdot \mathcal{L}_{\text{Standard MMD}}$
-        \STATE Update model parameters to minimize $\mathcal{L}$
+    \FOR{each batch $(X_S, Y_S), (X_T)$}
+        \STATE $F_S \gets$ FeatureExtractor$(X_S)$ \COMMENT{Extract source features}
+        \STATE $F_T \gets$ FeatureExtractor$(X_T)$ \COMMENT{Extract target features}
+        \STATE $\mathcal{L}_{\text{task}} \gets$ CrossEntropy(Classifier$(F_S)$, $Y_S$) \COMMENT{Source task loss}
+        \STATE $\mathcal{L}_{\text{MMD}} \gets \text{MMD}(F_S, F_T)$ \COMMENT{Global MMD (no regime conditioning)}
+        \STATE $\mathcal{L}_{\text{total}} \gets \mathcal{L}_{\text{task}} + \lambda \cdot \mathcal{L}_{\text{MMD}}$
+        \STATE Update feature extractor parameters to minimize $\mathcal{L}_{\text{total}}$
     \ENDFOR
 \ENDFOR
 \end{algorithmic}
