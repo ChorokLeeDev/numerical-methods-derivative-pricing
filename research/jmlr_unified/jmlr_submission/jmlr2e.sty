@@ -1,0 +1,45 @@
+% JMLR 2e LaTeX Style File
+\NeedsTeXFormat{LaTeX2e}[1995/12/01]
+\ProvidesPackage{jmlr2e}[2020/01/01 JMLR style]
+
+% Load required theorem package
+\RequirePackage{amsthm}
+
+% Define document class requirements
+\newcommand{\jmlrheading}[6]{%
+  % Journal heading format
+}
+
+\newcommand{\ShortHeadings}[2]{%
+  % Short running headings
+}
+
+\newcommand{\firstpageno}[1]{%
+  % Set first page number
+}
+
+% Editor and keywords commands
+\newcommand{\editor}[1]{%
+  % Editor name
+}
+
+\newcommand{\keywords}[1]{%
+  \par\vspace{0.5cm}\noindent\textbf{Keywords:} #1\par
+}
+
+% Theorem environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{assumption}{Assumption}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem*{note}{Note}
+
+\endinput

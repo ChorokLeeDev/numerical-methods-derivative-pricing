@@ -1,0 +1,459 @@
+
+This appendix provides detailed pseudocode for all three main algorithms used in the paper.
+
+---
+
+\subsection{E.1 Game-Theoretic Model: Decay Parameter Estimation}
+
+\subsubsection{Algorithm E.1: Hyperbolic Decay Model Fitting}
+
+	extbf{Purpose}: Estimate decay parameters $K$ and $\lambda$ for each factor given empirical return data.
+
+	extbf{Input}:
+- Factor excess returns: $\{\alpha_t\}_{t=1}^T$
+- Functional form: $\alpha(t) = K / (1 + \lambda t)$
+
+	extbf{Output}:
+- Estimated parameters: $\hat{K}, \hat{\lambda}$
+- Goodness-of-fit: $R^2, \text{AIC}, \text{BIC}$
+- Confidence intervals: $[\hat{K}_{-}, \hat{K}_{+}], [\hat{\lambda}_{-}, \hat{\lambda}_{+}]$
+
+	extbf{Algorithm}:
+
+	exttt{`}
+function FitHyperbolicDecay(returns, time_indices):
+    // Initialize parameter guess
+    K_init = mean(returns[1:12])  // Initial alpha from first year
+    lambda_init = 0.05            // Standard starting value
+
+    // Define objective function
+    function ObjectiveFunction(K, lambda):
+        predictions = K / (1 + lambda * time_indices)
+        residuals = returns - predictions
+        sse = sum(residuals^2)
+        return sse
+
+    // Optimize using Levenberg-Marquardt
+    result = optimize(ObjectiveFunction,
+                     initial=[K_init, lambda_init],
+                     method='LM',
+                     bounds=([0.1, 0], [20, 0.5]))
+
+    K_hat = result.parameters[0]
+    lambda_hat = result.parameters[1]
+
+    // Compute fit metrics
+    predictions = K_hat / (1 + lambda_hat * time_indices)
+    residuals = returns - predictions
+    ss_res = sum(residuals^2)
+    ss_tot = sum((returns - mean(returns))^2)
+    r_squared = 1 - (ss_res / ss_tot)
+
+    // Compute standard errors via Hessian
+    hessian = compute_hessian(ObjectiveFunction, [K_hat, lambda_hat])
+    var_covar = inverse(hessian)
+    se_K = sqrt(var_covar[0,0])
+    se_lambda = sqrt(var_covar[1,1])
+
+    // 95% confidence intervals
+    z_critical = 1.96  // for 95%
+    K_CI = [K_hat - z_critical	extit{se_K, K_hat + z_critical}se_K]
+    lambda_CI = [lambda_hat - z_critical	extit{se_lambda, lambda_hat + z_critical}se_lambda]
+
+    // AIC and BIC for model comparison
+    n = length(returns)
+    k_params = 2
+    aic = n 	extit{ log(ss_res/n) + 2}k_params
+    bic = n 	extit{ log(ss_res/n) + k_params}log(n)
+
+    return {
+        K: K_hat,
+        lambda: lambda_hat,
+        K_CI: K_CI,
+        lambda_CI: lambda_CI,
+        R_squared: r_squared,
+        AIC: aic,
+        BIC: bic,
+        std_err: {K: se_K, lambda: se_lambda}
+    }
+end function
+	exttt{`}
+
+	extbf{Computational Complexity}: $O(n \times \text{iterations})$ where $n$ is number of time points and iterations ~20-50.
+
+	extbf{Implementation Details}:
+- Use scipy.optimize.least_squares for optimization
+- Handle bounds carefully: $K > 0, 0 < \lambda < 0.5$
+- Hessian from numerical differentiation (robust to noise)
+- Bootstrap for alternative CI estimates (optional, computationally intensive)
+
+---
+
+\subsection{E.2 Temporal-MMD: Regime-Conditional Domain Adaptation}
+
+\subsubsection{Algorithm E.2: Temporal-MMD Training}
+
+	extbf{Purpose}: Learn domain-invariant representations that transfer across markets while respecting regime structure.
+
+	extbf{Input}:
+- Source data with labels: $\{(x_i, y_i, r_i)\}_{i=1}^{n_S}$ where $r_i \in \{0,1,2,3\}$ is regime
+- Target data (unlabeled): $\{(x'_j, r'_j)\}_{j=1}^{n_T}$
+- Feature extractor network: $f_\theta(\cdot)$ with parameters $\theta$
+- Prediction head: $p_w(f(x))$ with parameters $w$
+
+	extbf{Output}:
+- Trained feature extractor: $f_\theta^*$
+- Trained prediction head: $p_w^*$
+- Domain adaptation loss over training: history for diagnostics
+
+	extbf{Algorithm}:
+
+	exttt{`}
+function TrainTemporalMMD(source_data, target_data, config):
+
+    // Initialize networks
+    feature_extractor = NeuralNetwork(input_dim=10, hidden_dims=[64, 32],
+                                     output_dim=16)
+    prediction_head = NeuralNetwork(input_dim=16, hidden_dims=[32],
+                                   output_dim=1)
+
+    // Hyperparameters
+    learning_rate = 0.001
+    lambda_mmd = 0.1      // Weight of MMD loss vs. prediction loss
+    batch_size = 32
+    num_epochs = 100
+    regime_weights = {0: 0.25, 1: 0.25, 2: 0.25, 3: 0.25}
+
+    // Initialize optimizer
+    optimizer = Adam(learning_rate=learning_rate)
+
+    // Training loop
+    loss_history = []
+
+    for epoch = 1 to num_epochs:
+        epoch_loss = 0
+        num_batches = 0
+
+        for batch in minibatches(source_data, batch_size):
+
+            x_source, y_source, r_source = batch
+
+            // Get corresponding target batch in same regime
+            x_target = sample_regime_matched(target_data, r_source, batch_size)
+
+            // Forward pass
+            z_source = feature_extractor(x_source)
+            z_target = feature_extractor(x_target)
+
+            // Source task loss
+            y_pred = prediction_head(z_source)
+            loss_source = MSE(y_pred, y_source)
+
+            // MMD loss by regime
+            loss_mmd_total = 0
+
+            for regime in {0, 1, 2, 3}:
+                // Get source features in this regime
+                mask_s = (r_source == regime)
+                z_s_regime = z_source[mask_s]
+
+                // Get target features in this regime
+                mask_t = (regime_of(x_target) == regime)
+                z_t_regime = z_target[mask_t]
+
+                // Compute MMD with RBF kernel
+                if size(z_s_regime) > 0 and size(z_t_regime) > 0:
+                    mmd_regime = MMD_RBF(z_s_regime, z_t_regime, sigma=1.0)
+                    loss_mmd_total += regime_weights[regime] * mmd_regime^2
+
+            // Total loss
+            loss_total = loss_source + lambda_mmd * loss_mmd_total
+
+            // Backward pass and parameter update
+            gradients = compute_gradients(loss_total,
+                                         feature_extractor, prediction_head)
+            optimizer.update(feature_extractor, prediction_head, gradients)
+
+            epoch_loss += loss_total
+            num_batches += 1
+
+        avg_epoch_loss = epoch_loss / num_batches
+        loss_history.append(avg_epoch_loss)
+
+        // Early stopping check
+        if epoch > 20 and avg_epoch_loss > loss_history[-20]:
+            print("Early stopping triggered at epoch", epoch)
+            break
+
+    return {
+        feature_extractor: feature_extractor,
+        prediction_head: prediction_head,
+        loss_history: loss_history
+    }
+end function
+	exttt{`}
+
+	extbf{MMD Kernel Computation}:
+
+	exttt{`}
+function MMD_RBF(X, Y, sigma):
+    // RBF kernel: k(x,y) = exp(-||x-y||^2 / (2*sigma^2))
+
+    n, d = shape(X)
+    m, _ = shape(Y)
+
+    // Compute ||x||^2 for all x in X
+    X_sq = sum(X^2, axis=1)  // shape: (n,)
+
+    // Compute ||y||^2 for all y in Y
+    Y_sq = sum(Y^2, axis=1)  // shape: (m,)
+
+    // Compute pairwise distances: ||x_i - y_j||^2 = ||x_i||^2 + ||y_j||^2 - 2<x_i, y_j>
+    XY = matmul(X, Y.T)        // shape: (n, m)
+    dist_sq = X_sq.reshape(-1, 1) + Y_sq.reshape(1, -1) - 2*XY
+
+    // Ensure non-negative (handle numerical errors)
+    dist_sq = maximum(dist_sq, 0)
+
+    // RBF kernel matrix
+    K = exp(-dist_sq / (2 * sigma^2))
+
+    // Compute MMD
+    K_XX = matmul(X, X.T)
+    K_YY = matmul(Y, Y.T)
+    K_XY = K
+
+    // MMD^2 = E[k(X,X')] + E[k(Y,Y')] - 2*E[k(X,Y)]
+    mmd_sq = (mean(K_XX) + mean(K_YY) - 2*mean(K_XY))
+
+    return sqrt(maximum(mmd_sq, 0))  // Ensure non-negative under square root
+end function
+	exttt{`}
+
+	extbf{Regime Matching Function}:
+
+	exttt{`}
+function sample_regime_matched(target_data, source_regimes, batch_size):
+    // For each regime in source_regimes, sample from target data in same regime
+
+    target_by_regime = partition_by_regime(target_data)
+    samples = []
+
+    for regime in unique(source_regimes):
+        count = sum(source_regimes == regime)
+        target_samples = random_sample(target_by_regime[regime], size=count)
+        samples.append(target_samples)
+
+    return concatenate(samples)
+end function
+	exttt{`}
+
+---
+
+\subsection{E.3 Crowding-Weighted Conformal Prediction}
+
+\subsubsection{Algorithm E.3: CW-ACI Prediction Set Construction}
+
+	extbf{Purpose}: Construct prediction sets with guaranteed coverage that adapt to crowding levels.
+
+	extbf{Input}:
+- Trained model: $\hat{f}$
+- Calibration data: $\{(x_i, y_i, C_i)\}_{i=1}^n$ with crowding levels
+- Test point: $(x_{n+1}, C_{n+1})$
+- Target coverage level: $1 - \alpha$ (e.g., 0.90 for 90%)
+
+	extbf{Output}:
+- Prediction set: $\mathcal{C}(x_{n+1}) = [\hat{y}_{n+1} - q, \hat{y}_{n+1} + q]$
+- Quantile used: $q$
+- Set width: $2q$
+
+	extbf{Algorithm}:
+
+	exttt{`}
+function ConstructCWACIPredictionSet(model, calib_data, test_point, alpha):
+
+    // Step 1: Extract calibration components
+    X_calib, y_calib, C_calib = calib_data
+    x_test, C_test = test_point
+    n = length(X_calib)
+
+    // Step 2: Compute nonconformity scores on calibration data
+    A = []
+    for i = 1 to n:
+        y_pred = model.predict(X_calib[i])
+        A[i] = abs(y_calib[i] - y_pred)  // Regression nonconformity
+
+    // Step 3: Compute crowding weights using sigmoid
+    w = []
+    for i = 1 to n:
+        w[i] = sigmoid(C_calib[i])  // sigmoid(C) = 1/(1 + exp(-(C - 0.5)))
+
+    // Step 4: Compute weighted quantile
+    // Weighted quantile at level 1-alpha
+
+    // Sort nonconformity scores
+    sorted_indices = argsort(A)  // Indices that sort A in ascending order
+    A_sorted = A[sorted_indices]
+    w_sorted = w[sorted_indices]
+
+    // Compute cumulative weights
+    w_cumsum = cumulative_sum(w_sorted)
+    w_total = w_cumsum[-1]
+
+    // Find index where cumulative sum reaches (1-alpha) of total weight
+    target_weight = (1 - alpha) * w_total
+    quantile_idx = argmax(w_cumsum >= target_weight)
+
+    // The quantile is the nonconformity score at this index
+    q = A_sorted[quantile_idx]
+
+    // Step 5: Construct prediction set for test point
+    y_test_pred = model.predict(x_test)
+
+    // Prediction interval
+    lower = y_test_pred - q
+    upper = y_test_pred + q
+
+    return {
+        prediction_set: [lower, upper],
+        point_prediction: y_test_pred,
+        quantile: q,
+        set_width: 2*q,
+        crowding_at_test: C_test,
+        weight_at_test: sigmoid(C_test)
+    }
+end function
+	exttt{`}
+
+	extbf{Sigmoid Function Implementation}:
+
+	exttt{`}
+function sigmoid(x):
+    // Numerically stable sigmoid
+    // sigmoid(x) = 1 / (1 + exp(-x))
+
+    // For numerical stability:
+    // if x >= 0: sigmoid(x) = 1 / (1 + exp(-x))
+    // if x < 0:  sigmoid(x) = exp(x) / (1 + exp(x))
+
+    if x >= 0:
+        return 1.0 / (1.0 + exp(-x))
+    else:
+        exp_x = exp(x)
+        return exp_x / (1.0 + exp_x)
+end function
+	exttt{`}
+
+\subsubsection{Algorithm E.4: Batch Prediction Set Construction (Multiple Test Points)}
+
+	extbf{Purpose}: Efficiently construct prediction sets for multiple test points.
+
+	extbf{Input}:
+- Trained model: $\hat{f}$
+- Calibration data: $\{(x_i, y_i, C_i)\}_{i=1}^n$
+- Test data: $\{(x_j, C_j)\}_{j=1}^m$
+- Target coverage: $1 - \alpha$
+
+	extbf{Output}:
+- Prediction sets for all test points: $\{\mathcal{C}(x_j)\}_{j=1}^m$
+
+	extbf{Algorithm}:
+
+	exttt{`}
+function BatchCWACIPredictions(model, calib_data, test_data, alpha):
+
+    // Step 1: Compute nonconformity and weights once (reusable)
+    X_calib, y_calib, C_calib = calib_data
+    n = length(X_calib)
+
+    A = []
+    for i = 1 to n:
+        y_pred = model.predict(X_calib[i])
+        A[i] = abs(y_calib[i] - y_pred)
+
+    w = sigmoid(C_calib)  // Vectorized sigmoid
+
+    // Step 2: Compute weighted quantile (same for all test points)
+    sorted_idx = argsort(A)
+    A_sorted = A[sorted_idx]
+    w_sorted = w[sorted_idx]
+    w_cumsum = cumulative_sum(w_sorted)
+    w_total = w_cumsum[-1]
+
+    target_weight = (1 - alpha) * w_total
+    quantile_idx = searchsorted(w_cumsum, target_weight)  // Efficient binary search
+    q = A_sorted[quantile_idx]
+
+    // Step 3: Generate prediction sets for all test points
+    X_test, C_test = test_data
+    m = length(X_test)
+
+    results = {
+        point_predictions: [],
+        prediction_intervals: [],
+        set_widths: [],
+        quantile: q
+    }
+
+    for j = 1 to m:
+        y_pred = model.predict(X_test[j])
+        lower = y_pred - q
+        upper = y_pred + q
+        width = 2 * q
+
+        results.point_predictions.append(y_pred)
+        results.prediction_intervals.append([lower, upper])
+        results.set_widths.append(width)
+
+    return results
+end function
+	exttt{`}
+
+	extbf{Vectorized Implementation} (for efficiency):
+
+	exttt{`}python
+# Python implementation using NumPy for vectorization
+
+def construct_cw_aci_sets(model, X_calib, y_calib, C_calib, X_test, alpha):
+    """Construct CW-ACI prediction sets efficiently."""
+
+    # Compute nonconformity scores
+    y_pred_calib = model.predict(X_calib)
+    A = np.abs(y_calib - y_pred_calib)
+
+    # Compute weights
+    w = 1.0 / (1.0 + np.exp(-(C_calib - 0.5)))  # Sigmoid, vectorized
+
+    # Sort by nonconformity
+    sorted_idx = np.argsort(A)
+    A_sorted = A[sorted_idx]
+    w_sorted = w[sorted_idx]
+
+    # Compute weighted quantile
+    w_cumsum = np.cumsum(w_sorted)
+    w_total = w_cumsum[-1]
+    target = (1 - alpha) * w_total
+    q_idx = np.searchsorted(w_cumsum, target)
+    q = A_sorted[q_idx]
+
+    # Generate prediction sets
+    y_pred_test = model.predict(X_test)
+    intervals = np.column_stack([y_pred_test - q, y_pred_test + q])
+
+    return intervals, q
+	exttt{`}
+
+---
+
+\subsection{E.4 Computational Complexity Summary}
+
+| Algorithm | Time Complexity | Space Complexity | Notes |
+|-----------|---|---|---|
+| Hyperbolic Decay Fitting | $O(n \times \text{iters})$ | $O(n)$ | Nonlinear optimization |
+| Temporal-MMD Training | $O(E \times B \times n_S \times n_T \times d^2)$ | $O(n_S + n_T)$ | E epochs, B batches, d features |
+| CW-ACI Set Construction | $O(n \log n)$ | $O(n)$ | Sorting + binary search |
+
+---
+
+	extbf{Appendix E End}
+

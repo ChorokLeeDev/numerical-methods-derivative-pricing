@@ -1,0 +1,206 @@
+% ============================================================================
+% JMLR Paper: Not All Factors Crowd Equally
+% A Game-Theoretic Model of Alpha Decay with Global Transfer and Risk Management
+% ============================================================================
+
+\documentclass[11pt]{article}
+
+% ============================================================================
+% FONT ENCODING (Required for proper PDF text rendering)
+% ============================================================================
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}  % Latin Modern fonts
+
+% ============================================================================
+% JMLR STYLE FILE (make sure jmlr2e.sty is in the same directory)
+% ============================================================================
+\usepackage{jmlr2e}
+
+% ============================================================================
+% ADDITIONAL PACKAGES
+% ============================================================================
+
+% Math packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{bm}  % Bold math
+
+% Graphics and tables
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+
+% Formatting
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+% Microtype for better text rendering
+\usepackage{microtype}
+
+% Code and algorithms
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% Bibliography
+\usepackage{natbib}
+
+% ============================================================================
+% CUSTOM NOTATION MACROS
+% ============================================================================
+\input{macros.tex}
+
+% ============================================================================
+% THEOREM STYLES AND ENVIRONMENTS
+% Note: Defined in jmlr2e.sty to avoid conflicts
+% ============================================================================
+
+% ============================================================================
+% DOCUMENT METADATA
+% ============================================================================
+
+\jmlrheading{1}{2026}{1}{1}{Published online}{2}
+
+\ShortHeadings{Not All Factors Crowd Equally}{Author}
+\firstpageno{1}
+
+% ============================================================================
+% DOCUMENT BEGINS
+% ============================================================================
+
+\begin{document}
+
+% ============================================================================
+% TITLE PAGE
+% ============================================================================
+
+\title{Not All Factors Crowd Equally: \\
+A Game-Theoretic Model of Alpha Decay \\
+with Global Transfer and Risk Management}
+
+\author{
+Chorok Lee$^1$ \\
+$^1$Korea Advanced Institute of Science and Technology (KAIST), Daejeon, Republic of Korea \\
+\texttt{choroklee@kaist.ac.kr}
+}
+
+\editor{Editor Name}
+
+\maketitle
+
+% ============================================================================
+% ABSTRACT
+% ============================================================================
+
+\begin{abstract}
+
+Factor investing generates systematic excess returns, but these returns decay over time as capital flows in---a phenomenon called crowding. While prior work documents crowding effects empirically, the mechanistic explanation remains unclear. This paper provides three novel contributions addressing this gap:
+
+\textbf{Contribution 1: Game-Theoretic Model of Crowding Decay} (Theorems 1-3).
+We derive a mechanistic explanation of factor alpha decay from game-theoretic equilibrium. Rational investors' optimal exit timing generates hyperbolic decay: $\alpha(t) = K/(1+\lambda t)$. We prove heterogeneous decay across factor types and validate on 61 years of Fama-French data (1963--2024). Judgment factors decay 2.4$\times$ faster than mechanical factors ($p<0.001$), with out-of-sample predictive power reaching 55\% ($R^2$).
+
+\textbf{Contribution 2: Regime-Conditional Domain Adaptation} (Theorem 5).
+We introduce Temporal-MMD, a regime-aware domain adaptation framework respecting financial market structure (bull/bear, high/low volatility). Unlike standard Maximum Mean Discrepancy, Temporal-MMD conditions on regimes, improving transfer efficiency from 43\% (naive) to 64\% across seven developed markets (UK, Japan, Germany, France, Canada, Australia, Switzerland).
+
+\textbf{Contribution 3: Crowding-Weighted Conformal Prediction} (Theorem 6).
+We extend adaptive conformal inference with crowding signals while preserving coverage guarantees. Our CW-ACI framework produces prediction sets that adapt to crowding levels. In dynamic portfolio hedging, this improves Sharpe ratio by 54\% (0.67$\to$1.03) and reduces tail risk by 60--70\% during major crashes, with Value-at-Risk declining from --1.2\% to --0.53\%.
+
+The three contributions form an integrated framework: game theory explains why crowding matters, domain adaptation enables global transfer, and conformal prediction manages risk. All results are theoretically motivated, empirically validated on real data, and practically demonstrated via portfolio hedging.
+
+\end{abstract}
+
+% Keywords
+\keywords{
+Factor Investing, Alpha Decay and Crowding, Game Theory \& Equilibrium,
+Domain Adaptation \& Transfer Learning, Conformal Prediction \& Uncertainty Quantification,
+Portfolio Risk Management
+}
+
+% ============================================================================
+% MAIN TEXT SECTIONS
+% ============================================================================
+
+\section{Introduction}
+\label{sec:intro}
+\input{sections/01_introduction.tex}
+
+\section{Related Work}
+\label{sec:related}
+\input{sections/02_related_work.tex}
+
+\section{Background and Preliminaries}
+\label{sec:background}
+\input{sections/03_background.tex}
+
+\section{Game-Theoretic Model of Crowding Dynamics}
+\label{sec:gametheory}
+\input{sections/04_game_theory.tex}
+
+\section{Empirical Validation on US Markets}
+\label{sec:empirical}
+\input{sections/05_us_empirical.tex}
+
+\section{Global Domain Adaptation with Regime-Conditional Temporal-MMD}
+\label{sec:domainadapt}
+\input{sections/06_domain_adaptation.tex}
+
+\section{Tail Risk Prediction and Crowding-Weighted Conformal Inference}
+\label{sec:tailrisk}
+\input{sections/07_tail_risk_aci.tex}
+
+\section{Robustness, Extensions, and Discussion}
+\label{sec:robustness}
+\input{sections/08_robustness.tex}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\input{sections/09_conclusion.tex}
+
+% ============================================================================
+% APPENDICES
+% ============================================================================
+
+\appendix
+
+\section{Proofs of Game-Theoretic Model}
+\label{appx:gametheory}
+\input{appendices/A_game_theory_proofs.tex}
+
+\section{Domain Adaptation Theory}
+\label{appx:domainadapt}
+\input{appendices/B_domain_adaptation_theory.tex}
+
+\section{Conformal Prediction Theory}
+\label{appx:conformal}
+\input{appendices/C_conformal_prediction_proofs.tex}
+
+\section{Data Documentation}
+\label{appx:data}
+\input{appendices/D_data_documentation.tex}
+
+\section{Algorithm Pseudocode}
+\label{appx:algorithms}
+\input{appendices/E_algorithm_pseudocode.tex}
+
+\section{Supplementary Robustness Tests}
+\label{appx:robustness}
+\input{appendices/F_supplementary_robustness.tex}
+
+% ============================================================================
+% BIBLIOGRAPHY
+% ============================================================================
+
+\bibliography{references}
+\bibliographystyle{plainnat}
+
+% ============================================================================
+% DOCUMENT ENDS
+% ============================================================================
+
+\end{document}

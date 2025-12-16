@@ -14,20 +14,11 @@ We, the undersigned authors, hereby declare the following regarding conflicts of
 
 ### Financial Interests
 
-**Author 1: [Name]**
+**Chorok Lee (KAIST)**
 - No financial interest in any financial institutions or asset management firms
 - No research funding from financial industry entities
 - No equity stakes in companies related to this research
 - No consulting fees or other compensation from industry
-
-**Author 2: [Name]**
-- [Describe any financial interests or state "None"]
-- [Describe research funding sources or state "None"]
-- [Describe any equity stakes or state "None"]
-- [Describe consulting or other compensation or state "None"]
-
-**Author 3: [Name]** (if applicable)
-- [Describe any financial interests or state "None"]
 
 ### Personal Relationships
 
@@ -131,29 +122,13 @@ We, the authors, certify that:
 
 ## Author Signatures
 
-**Author 1: [Name]**
+**Chorok Lee**
 
 Signature: _________________________ Date: __________
 
-Institution: ___________________________________________
+Institution: Korea Advanced Institute of Science and Technology (KAIST)
 
-Email: ___________________________________________
-
-**Author 2: [Name]**
-
-Signature: _________________________ Date: __________
-
-Institution: ___________________________________________
-
-Email: ___________________________________________
-
-**Author 3: [Name]** (if applicable)
-
-Signature: _________________________ Date: __________
-
-Institution: ___________________________________________
-
-Email: ___________________________________________
+Email: choroklee@kaist.ac.kr
 
 ---
 
@@ -188,10 +163,9 @@ If circumstances change before or after submission (e.g., new financial interest
 
 For questions about this conflict of interest statement, contact:
 
-**Corresponding Author**: [Name]
-**Email**: [Email Address]
-**Phone**: [Phone Number]
-**Institution**: [Institution Name]
+**Corresponding Author**: Chorok Lee
+**Email**: choroklee@kaist.ac.kr
+**Institution**: Korea Advanced Institute of Science and Technology (KAIST)
 
 ---
 

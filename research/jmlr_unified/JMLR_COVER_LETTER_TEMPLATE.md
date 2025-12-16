@@ -1,16 +1,16 @@
-# JMLR Submission Cover Letter
+# Cover Letter for JMLR Submission
 
-Chorok Lee
-Korea Advanced Institute of Science and Technology (KAIST)
-Daejeon, Republic of Korea
-choroklee@kaist.ac.kr
-
+**[Your Name]**
+[Your Address]
+[City, State, ZIP]
+[Your Email]
+[Your Phone]
 January 20, 2026
 
 ---
 
-**To the Editor-in-Chief,**
-**Journal of Machine Learning Research (JMLR)**
+**To the Editor-in-Chief,
+Journal of Machine Learning Research (JMLR)**
 
 ---
 
@@ -20,56 +20,41 @@ I am pleased to submit for publication in the Journal of Machine Learning Resear
 
 **"Not All Factors Crowd Equally: A Game-Theoretic Model of Alpha Decay with Global Transfer and Risk Management"**
 
----
-
 ## Summary of Contributions
 
 This paper presents a unified framework addressing factor crowding in financial markets through three integrated components, each making novel theoretical and empirical contributions:
 
 ### Contribution 1: Game-Theoretic Model of Crowding Decay
-
-We provide the first mechanistic explanation of factor alpha decay grounded in game-theoretic equilibrium. Unlike prior empirical documentation of crowding effects, we derive the hyperbolic decay function **α(t) = K/(1+λt)** from optimal exit timing in a competitive marketplace with heterogeneous investors. Our theoretical results (Theorems 1-3) prove:
-
+We provide the first mechanistic explanation of factor alpha decay grounded in game-theoretic equilibrium. Unlike prior empirical documentation of crowding effects, we derive the hyperbolic decay function α(t) = K/(1+λt) from optimal exit timing in a competitive marketplace with heterogeneous investors. Our theoretical results (Theorems 1-3) prove:
 - Existence and uniqueness of Nash equilibrium
 - Properties of the decay function (strict positivity, monotonicity, asymptotic behavior)
-- **Heterogeneous decay across factor types**: judgment factors decay **2.4× faster** than mechanical factors
+- **Heterogeneous decay across factor types**: judgment factors decay 2.4× faster than mechanical factors
 
-Empirical validation on **61 years of Fama-French data (1963–2024)** confirms predictions with **statistical significance (p<0.001)** and **out-of-sample predictive power (R²=0.55)**.
+Empirical validation on 61 years of Fama-French data (1963-2024) confirms predictions with statistical significance (p<0.001) and out-of-sample predictive power (R²=0.55).
 
 ### Contribution 2: Regime-Conditional Domain Adaptation (Temporal-MMD)
-
 We introduce the first regime-aware domain adaptation framework respecting financial market structure. Standard domain adaptation forces uniform distribution matching, but financial data exhibits distinct regimes (bull/bear markets, high/low volatility).
 
 Our Temporal-MMD framework (Theorem 5) conditions on regimes rather than matching globally, achieving:
-
-- **Transfer efficiency improvement**: from **43% (naive)** to **64%** across seven developed markets
+- **Transfer efficiency improvement**: from 43% (naive baseline) to 64% across seven developed markets
 - Theoretical transfer bound proving regime conditioning tightens the bound
 - Validation on UK, Japan, Germany, France, Canada, Australia, Switzerland
 
 ### Contribution 3: Crowding-Weighted Conformal Prediction (CW-ACI)
-
 We extend adaptive conformal inference with crowding signals while preserving distribution-free coverage guarantees. This integration (Theorem 6) enables:
-
 - Dynamic portfolio hedging that adapts to crowding levels
-- **Sharpe ratio improvement**: **54% increase** (0.67→1.03)
-- **Tail risk reduction**: **60–70% loss reduction** during major crashes
-- Robust Value-at-Risk decline from –1.2% to –0.53%
-
----
+- **Sharpe ratio improvement**: 54% increase (0.67→1.03)
+- **Tail risk reduction**: 60-70% loss reduction during major crashes
+- Robust Value-at-Risk decline from -1.2% to -0.53%
 
 ## Significance for JMLR
 
 This work bridges **machine learning, finance, and game theory** in several important ways:
 
 1. **Novel ML Application**: Domain adaptation and conformal prediction applied to a challenging financial problem with real economic consequences
-
 2. **Theoretical Rigor**: Six formal theorems with complete proofs (15+ pages), combining game theory, transfer learning theory, and nonparametric methods
-
 3. **Empirical Scale**: Validation on 61 years × multiple asset classes × 7 international markets with 50+ robustness tests
-
-4. **Practical Impact**: Demonstrates 54% Sharpe improvement and 60–70% tail risk reduction in real portfolio applications
-
----
+4. **Practical Impact**: Demonstrates 54% Sharpe improvement and 60-70% tail risk reduction in real portfolio applications
 
 ## Methodological Innovations
 
@@ -77,16 +62,12 @@ This work bridges **machine learning, finance, and game theory** in several impo
 - **Regime-Aware Transfer Learning**: Conditioning domain adaptation on market structure rather than forcing global matching
 - **Uncertainty Quantification in Finance**: Integration of conformal prediction with domain knowledge (crowding signals) while preserving coverage guarantees
 
----
-
 ## Data and Reproducibility
 
 - **Public Datasets**: Uses Kenneth French's publicly available factor data (no proprietary data)
 - **Code Availability**: Complete Python implementation and Jupyter notebooks provided on GitHub
 - **Reproducibility**: All random seeds fixed, detailed algorithm pseudocode, and time-series cross-validation employed (no look-ahead bias)
 - **Data Availability Statement**: Included in manuscript with instructions for obtaining all data
-
----
 
 ## Prior and Concurrent Submissions
 
@@ -98,8 +79,6 @@ This work bridges **machine learning, finance, and game theory** in several impo
 
 This paper has not been published elsewhere and is not under review at any other journal.
 
----
-
 ## Conflict of Interest Statement
 
 **Financial Interests**: None directly related to this work
@@ -108,35 +87,32 @@ This paper has not been published elsewhere and is not under review at any other
 
 **Data Sources**: Kenneth French's publicly available factor data (no financial relationships)
 
-**Funding**: [Describe any research funding if applicable]
-
----
+**Funding**: [Describe any research funding]
 
 ## Suitability for JMLR
 
 This manuscript aligns well with JMLR's scope by:
 
 1. **Methodological Contributions**: Novel integration of game theory, domain adaptation, and conformal prediction
-
 2. **Theoretical Rigor**: Formal theorems with complete proofs meeting JMLR's standards
-
 3. **Empirical Validation**: Comprehensive experimental evaluation with statistical tests and robustness analyses
-
 4. **Broad Interest**: Addresses fundamental problems in factor investing relevant to both ML and finance communities
-
 5. **Reproducibility**: Complete code and data availability supporting open science principles
-
----
 
 ## Innovations Beyond Prior Work
 
 - **vs. McLean & Pontiff (2016)** [document alpha decay empirically]: Our game-theoretic model explains *why* decay occurs
-
 - **vs. Ben-David et al. (2010)** [standard domain adaptation]: Our regime-conditioning respects financial market structure
-
 - **vs. Angelopoulos & Bates (2021)** [conformal prediction]: Our crowding-weighted approach integrates domain knowledge while preserving guarantees
 
----
+## Estimated Contribution
+
+This work makes **simultaneous theoretical and empirical contributions** to:
+- **Machine Learning**: Domain adaptation theory, conformal prediction methods
+- **Finance**: Understanding factor crowding, portfolio risk management
+- **Game Theory**: Mechanistic models of competitive markets with heterogeneous agents
+
+The three components form an integrated framework where game theory motivates domain adaptation, which enables global transfer, which conformal prediction quantifies for risk management.
 
 ## Recommendation
 
@@ -148,28 +124,32 @@ Sincerely,
 
 ---
 
-**Chorok Lee**
-Korea Advanced Institute of Science and Technology (KAIST)
-Daejeon, Republic of Korea
-choroklee@kaist.ac.kr
+**[Your Name]**
+[Your Title]
+[Your Institution]
+[Your Email]
+[Your Phone]
 
 ---
 
-## Supporting Materials
+## Attachments
 
-- ✓ Manuscript: main.pdf (56 pages)
-- ✓ Supplementary Materials: Code and notebooks on GitHub
-- ✓ Author Biography: included below
-- ✓ Conflict of Interest Statement: included above
-- ✓ Data Availability Statement: included in manuscript (Appendix D)
+- ✓ Manuscript: not_all_factors_crowd_equally_main.pdf
+- ✓ Supplementary Materials: Code and notebooks (GitHub link)
+- ✓ Author Biographies: included below
+- ✓ Conflict of Interest Statement: included below
 
 ---
 
-## Author Biography
+## Author Biographies (Optional but Recommended)
 
-### Chorok Lee
+### Author 1: [Name]
 
-Chorok Lee is a researcher at Korea Advanced Institute of Science and Technology (KAIST), specializing in quantitative finance and machine learning. His research focuses on combining game theory, domain adaptation, and uncertainty quantification to understand and predict financial market dynamics. He is particularly interested in factor investing, crowding dynamics, and developing robust methods for transfer learning across international markets. His work bridges theoretical foundations with practical applications in portfolio management and risk assessment.
+[Author 1 received their Ph.D. in [field] from [university] in [year]. They are currently [position] at [institution]. Their research interests include [areas]. They have published [X] papers in [venues]...]
+
+### Author 2: [Name]
+
+[Author 2 received their Ph.D. in [field] from [university] in [year]. They are currently [position] at [institution]. Their research focuses on [areas]...]
 
 ---
 
@@ -177,9 +157,7 @@ Chorok Lee is a researcher at Korea Advanced Institute of Science and Technology
 
 The data used in this study come from publicly available sources:
 
-1. **Fama-French Factors**: Kenneth French's Data Library
-   - URL: https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/
-   - Free download, no license restrictions
+1. **Fama-French Factors**: Kenneth French's Data Library (https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/)
    - US factors: 1963-2024 (daily, monthly, annual)
    - International factors: Available for 7 developed markets
 
@@ -191,44 +169,14 @@ The data used in this study come from publicly available sources:
 
 ---
 
-## Supplementary GitHub Repository
+**Notes for Preparation**:
 
-All code, data loading utilities, Jupyter notebooks, and installation instructions are available at:
-
-**GitHub URL**: [https://github.com/choroklee/factor-crowding-unified](https://github.com/choroklee/factor-crowding-unified)
-
-**Release**: v1.0.0-jmlr-submission (tagged for reproducibility)
-
-**License**: MIT License (open source)
+1. **Customize**: Replace placeholders [Your Name], [Your Institution], etc. with actual information
+2. **Length**: Keep to 1-2 pages (750-1200 words)
+3. **Tone**: Professional, concise, and compelling
+4. **Specificity**: Highlight specific quantitative results (e.g., "54% Sharpe improvement")
+5. **Proofreading**: Ensure no grammatical errors or typos
 
 ---
 
-## Recommended Next Steps for JMLR Editorial
-
-1. Check author diversity and geographic representation ✓
-2. Verify novelty against related work ✓
-3. Assign to 3-4 reviewers with expertise in:
-   - Domain adaptation and transfer learning
-   - Conformal prediction and uncertainty quantification
-   - Financial econometrics and factor investing
-   - Game theory applications
-4. Estimated review timeline: 3-6 months
-5. Revision capability: Authors are prepared for major or minor revisions
-
----
-
-**Notes for Customization**:
-
-Before submitting, please:
-
-1. Replace all [bracketed placeholders] with actual information
-2. Add actual author affiliations and contact details
-3. Include any funding sources or acknowledgments
-4. Verify the GitHub URL is correct and repository is public
-5. Ensure author biographies are 100-150 words each
-6. Have all co-authors approve the final letter
-
----
-
-**Prepared**: December 16, 2025
-**Status**: Ready for submission on January 20, 2026
+*This template is based on JMLR submission guidelines and best practices for mathematical/ML venues.*
