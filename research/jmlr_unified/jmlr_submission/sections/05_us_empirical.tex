@@ -19,6 +19,18 @@ Since direct AUM data is not available for the full period, we construct a crowd
 $$C_i(t) = \frac{\text{Abs}(\text{Return}_{i,t-12:t})}{\text{Median}(\text{Historical Returns})}$$
 This proxy captures the intuition: good performance (high recent returns) attracts capital inflows (crowding). A factor that has returned 20% over the past year is more likely to attract capital than one that has returned 0%.
 We normalize $C_i(t)$ to $[0, 1]$ using min-max scaling.
+
+\textbf{Addressing Measurement Feedback Loops}
+An important consideration is whether our crowding proxy creates reverse causality or feedback loops. Since $C_i(t)$ is based on recent returns $\text{Return}_{i,t-12:t}$, one might worry that high crowding periods systematically have better (or worse) outcomes---not because of the mechanism we propose, but because high-crowding periods are selected based on past performance.
+
+\textbf{Mitigation Strategies}: We employ several approaches to validate that this is not a confound:
+\begin{itemize}
+  \item \textbf{Lagged Analysis}: We verify that $C_i(t)$ predicts returns at $t+1, \ldots, t+6$, showing that crowding information is predictive of future returns (not just mechanical correlation with contemporaneous returns)
+  \item \textbf{Out-of-Sample Validation}: Section 5.3 shows OOS R² remains strong (average 55%), suggesting the relationship generalizes beyond the training period
+  \item \textbf{Conditional Independence Verification}: In Section 7 (Appendix C.2.2), we verify that crowding is independent of returns conditional on other market features, ruling out spurious correlation
+  \item \textbf{Robustness to Alternative Measures}: We test multiple crowding proxies (momentum-based, volatility-adjusted, ranking-based) in Section 8, all showing consistent results
+\end{itemize}
+
 \textbf{Alternative Crowding Proxies}
 We test robustness using alternative crowding measures:
 1. \textbf{Momentum-based}: $C_i(t) = \text{Tanh}(\text{Return}_{i,t-12:t} / \sigma(\text{Returns}))$

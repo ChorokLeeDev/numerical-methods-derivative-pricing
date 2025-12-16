@@ -110,13 +110,13 @@ $$\sum_{r} w_r^2 \cdot d(S_r, T_r)^2$$
 
 which is much smaller when regimes are distinct.
 
-	extbf{Conclusion}: Regime conditioning provably tightens the domain adaptation bound, providing theoretical justification for Temporal-MMD. $\square$
+\textbf{Conclusion}: While Theorem 5 shows that regime conditioning can theoretically tighten the domain adaptation bound, we employ a simpler Standard MMD approach in this paper (Section 6). Standard MMD aligns distributions globally without explicit regime partitioning, providing a more robust and interpretable method while maintaining strong empirical performance. $\square$
 
 ---
 
 \subsection{MMD Convergence and Estimation}
 
-This section establishes convergence properties of the empirical MMD estimator used in Temporal-MMD.
+This section establishes convergence properties of the empirical MMD estimator used in domain adaptation methods such as Standard MMD.
 
 \subsubsection{Proposition B.1: Convergence of Empirical MMD}
 
@@ -186,21 +186,20 @@ This algorithm is parameter-free except for window size (standard choice in fina
 
 \subsection{MMD-Based Domain Adaptation Optimization}
 
-For a practical implementation, we optimize the Temporal-MMD loss using gradient descent:
+For practical implementation, we optimize the Standard MMD loss using gradient descent:
 
-\subsubsection{Algorithm B.2: Temporal-MMD Optimization}
+\subsubsection{Algorithm B.2: Standard MMD Optimization (Used in Section 6)}
 
-	extbf{Input}:
-- Training data with regimes: $(S_1, \ldots, S_K), (T_1, \ldots, T_K)$
+\textbf{Input}:
+- Source labeled data: $S = \{(x_i, y_i)\}_{i=1}^{n_S}$
+- Target unlabeled data: $T = \{x_j'\}_{j=1}^{n_T}$
 - Feature extractor network $f_\theta(x)$ with parameters $\theta$
 - Prediction head $p_w(f(x))$ with parameters $w$
 
-	extbf{Objective}:
-$$\mathcal{L} = \underbrace{\frac{1}{|T_{\text{label}}|}\sum_{(x,y) \in T_{\text{label}}} \ell(p_w(f_\theta(x)), y)}_{\text{Source loss}} + \lambda \sum_{r=1}^K w_r \cdot \text{MMD}^2(f_\theta(S_r), f_\theta(T_r))$$
+\textbf{Objective}:
+$$\mathcal{L} = \underbrace{\frac{1}{n_S}\sum_{(x,y) \in S} \ell(p_w(f_\theta(x)), y)}_{\text{Source task loss}} + \lambda \cdot \text{MMD}^2(f_\theta(S), f_\theta(T))$$
 
-where $T_{\text{label}} \subset T$ is the labeled subset (if available) or source data.
-
-	extbf{Algorithm} (Gradient descent):
+\textbf{Algorithm} (Gradient descent):
 
 For epoch $e = 1, \ldots, E$:
 
@@ -209,19 +208,18 @@ For epoch $e = 1, \ldots, E$:
   For batch $(x'_1, \ldots, x'_b)$ from target:
 
     1. Forward pass: compute $f_\theta(x_i)$ and $f_\theta(x'_j)$ for all $i, j$
-    2. Compute source loss: $L_{\text{src}} = \frac{1}{b}\sum_{i=1}^b \ell(p_w(f_\theta(x_i)), y_i)$
-    3. For each regime $r$:
-       - $L_{MMD,r} = \text{MMD}^2(f_\theta(S_r \cap \text{batch}), f_\theta(T_r \cap \text{batch}))$
-    4. Total loss: $L = L_{\text{src}} + \lambda \sum_r w_r L_{MMD,r}$
+    2. Compute source task loss: $L_{\text{src}} = \frac{1}{b}\sum_{i=1}^b \ell(p_w(f_\theta(x_i)), y_i)$
+    3. Compute MMD in feature space: $L_{MMD} = \text{MMD}^2(f_\theta(S_{\text{batch}}), f_\theta(T_{\text{batch}}))$
+    4. Total loss: $L = L_{\text{src}} + \lambda L_{MMD}$
     5. Backward pass: $\theta \leftarrow \theta - \eta \frac{\partial L}{\partial \theta}$, $w \leftarrow w - \eta \frac{\partial L}{\partial w}$
 
-	extbf{Output}: Trained feature extractor $f_\theta^	extit{$ and predictor $p_{w^}}$
+\textbf{Output}: Trained feature extractor $f_\theta^*$ and predictor $p_{w^*}$
 
 ---
 
 \subsection{Summary}
 
-Theorem 5 proves that regime-conditional domain adaptation provides a tighter theoretical bound than standard global MMD, with the gap proportional to how well-separated the regimes are. This theoretical guarantee, combined with the empirical validation in Section 6, establishes Temporal-MMD as a principled method for financial domain adaptation.
+Appendix B provides theoretical foundations for MMD-based domain adaptation. Theorem 5 proves that regime-conditional domain adaptation can provide tighter error bounds than global MMD, motivating sophisticated approaches. However, empirically (as shown in Section 6), standard global MMD achieves excellent transfer efficiency (+7.7% over baseline) without the complexity of regime-conditional methods. This trade-off between theoretical sophistication and practical simplicity is explored in detail in Section 6, where we adopt Standard MMD as the primary method for transferring US factor crowding insights to global markets.
 
 ---
 
