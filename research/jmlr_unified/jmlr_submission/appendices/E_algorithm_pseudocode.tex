@@ -1,24 +1,23 @@
 
 This appendix provides detailed pseudocode for all three main algorithms used in the paper.
 
----
 
-\subsection{E.1 Game-Theoretic Model: Decay Parameter Estimation}
+\subsection{Game-theoretic model: decay parameter estimation}
 
 \subsubsection{Algorithm E.1: Hyperbolic Decay Model Fitting}
 
-	\textbf{Purpose}: Estimate decay parameters $K$ and $\lambda$ for each factor given empirical return data.
+\textbf{Purpose}: Estimate decay parameters $K$ and $\lambda$ for each factor given empirical return data.
 
-	\textbf{Input}:
+\textbf{Input}:
 - Factor excess returns: $\{\alpha_t\}_{t=1}^T$
 - Functional form: $\alpha(t) = K / (1 + \lambda t)$
 
-	\textbf{Output}:
+\textbf{Output}:
 - Estimated parameters: $\hat{K}, \hat{\lambda}$
 - Goodness-of-fit: $R^2, \text{AIC}, \text{BIC}$
 - Confidence intervals: $[\hat{K}_{-}, \hat{K}_{+}], [\hat{\lambda}_{-}, \hat{\lambda}_{+}]$
 
-	\textbf{Algorithm}:
+\textbf{Algorithm}:
 
 \begin{verbatim}
 function FitHyperbolicDecay(returns, time_indices):
@@ -79,9 +78,9 @@ function FitHyperbolicDecay(returns, time_indices):
 end function
 \end{verbatim}
 
-	\textbf{Computational Complexity}: $O(n \times \text{iterations})$ where $n$ is number of time points and iterations ~20-50.
+\textbf{Computational Complexity}: $O(n \times \text{iterations})$ where $n$ is number of time points and iterations ~20-50.
 
-	\textbf{Implementation Details}:
+\textbf{Implementation Details}:
 \begin{itemize}
 \item Use scipy.optimize.least\_squares for optimization
 \item Handle bounds carefully: $K > 0, 0 < \lambda < 0.5$
@@ -89,29 +88,28 @@ end function
 \item Bootstrap for alternative CI estimates (optional, computationally intensive)
 \end{itemize}
 
----
 
-\subsection{E.2 Temporal-MMD: Regime Conditioning for Domain Adaptation}
+\subsection{MMD-based domain adaptation}
 
-\subsubsection{Algorithm E.2: Temporal-MMD Training}
+\subsubsection{Algorithm E.2: MMD Domain Adaptation Training}
 
-	\textbf{Purpose}: Learn domain-invariant representations that transfer across markets while respecting regime structure.
+\textbf{Purpose}: Learn domain-invariant representations that transfer factor crowding insights from US to global markets.
 
-	\textbf{Input}:
+\textbf{Input}:
 - Source data with labels: $\{(x_i, y_i, r_i)\}_{i=1}^{n_S}$ where $r_i \in \{0,1,2,3\}$ is regime
 - Target data (unlabeled): $\{(x'_j, r'_j)\}_{j=1}^{n_T}$
 - Feature extractor network: $f_\theta(\cdot)$ with parameters $\theta$
 - Prediction head: $p_w(f(x))$ with parameters $w$
 
-	\textbf{Output}:
+\textbf{Output}:
 - Trained feature extractor: $f_\theta^*$
 - Trained prediction head: $p_w^*$
 - Domain adaptation loss over training: history for diagnostics
 
-	\textbf{Algorithm}:
+\textbf{Algorithm}:
 
-	\begin{verbatim}
-function TrainTemporalMMD(source_data, target_data, config):
+\begin{verbatim}
+function TrainMMD(source_data, target_data, config):
 
     // Initialize networks
     feature_extractor = NeuralNetwork(input_dim=10, hidden_dims=[64, 32],
@@ -193,11 +191,11 @@ function TrainTemporalMMD(source_data, target_data, config):
         loss_history: loss_history
     }
 end function
-	\end{verbatim}
+\end{verbatim}
 
-	\textbf{MMD Kernel Computation}:
+\textbf{MMD Kernel Computation}:
 
-	\begin{verbatim}
+\begin{verbatim}
 function MMD_RBF(X, Y, sigma):
     // RBF kernel: k(x,y) = exp(-||x-y||^2 / (2*sigma^2))
 
@@ -230,11 +228,11 @@ function MMD_RBF(X, Y, sigma):
 
     return sqrt(maximum(mmd_sq, 0))  // Ensure non-negative under square root
 end function
-	\end{verbatim}
+\end{verbatim}
 
-	\textbf{Regime Matching Function}:
+\textbf{Regime Matching Function}:
 
-	\begin{verbatim}
+\begin{verbatim}
 function sample_regime_matched(target_data, source_regimes, batch_size):
     // For each regime in source_regimes, sample from target data in same regime
 
@@ -248,30 +246,29 @@ function sample_regime_matched(target_data, source_regimes, batch_size):
 
     return concatenate(samples)
 end function
-	\end{verbatim}
+\end{verbatim}
 
----
 
-\subsection{E.3 Crowding-Weighted Conformal Prediction}
+\subsection{Crowding-weighted conformal prediction}
 
 \subsubsection{Algorithm E.3: CW-ACI Prediction Set Construction}
 
-	\textbf{Purpose}: Construct prediction sets with guaranteed coverage that adapt to crowding levels.
+\textbf{Purpose}: Construct prediction sets with guaranteed coverage that adapt to crowding levels.
 
-	\textbf{Input}:
+\textbf{Input}:
 - Trained model: $\hat{f}$
 - Calibration data: $\{(x_i, y_i, C_i)\}_{i=1}^n$ with crowding levels
 - Test point: $(x_{n+1}, C_{n+1})$
 - Target coverage level: $1 - \alpha$ (e.g., 0.90 for 90%)
 
-	\textbf{Output}:
+\textbf{Output}:
 - Prediction set: $\mathcal{C}(x_{n+1}) = [\hat{y}_{n+1} - q, \hat{y}_{n+1} + q]$
 - Quantile used: $q$
 - Set width: $2q$
 
-	\textbf{Algorithm}:
+\textbf{Algorithm}:
 
-	\begin{verbatim}
+\begin{verbatim}
 function ConstructCWACIPredictionSet(model, calib_data, test_point, alpha):
 
     // Step 1: Extract calibration components
@@ -325,11 +322,11 @@ function ConstructCWACIPredictionSet(model, calib_data, test_point, alpha):
         weight_at_test: sigmoid(C_test)
     }
 end function
-	\end{verbatim}
+\end{verbatim}
 
-	\textbf{Sigmoid Function Implementation}:
+\textbf{Sigmoid Function Implementation}:
 
-	\begin{verbatim}
+\begin{verbatim}
 function sigmoid(x):
     // Numerically stable sigmoid
     // sigmoid(x) = 1 / (1 + exp(-x))
@@ -344,24 +341,24 @@ function sigmoid(x):
         exp_x = exp(x)
         return exp_x / (1.0 + exp_x)
 end function
-	\end{verbatim}
+\end{verbatim}
 
 \subsubsection{Algorithm E.4: Batch Prediction Set Construction (Multiple Test Points)}
 
-	\textbf{Purpose}: Efficiently construct prediction sets for multiple test points.
+\textbf{Purpose}: Efficiently construct prediction sets for multiple test points.
 
-	\textbf{Input}:
+\textbf{Input}:
 - Trained model: $\hat{f}$
 - Calibration data: $\{(x_i, y_i, C_i)\}_{i=1}^n$
 - Test data: $\{(x_j, C_j)\}_{j=1}^m$
 - Target coverage: $1 - \alpha$
 
-	\textbf{Output}:
+\textbf{Output}:
 - Prediction sets for all test points: $\{\mathcal{C}(x_j)\}_{j=1}^m$
 
-	\textbf{Algorithm}:
+\textbf{Algorithm}:
 
-	\begin{verbatim}
+\begin{verbatim}
 function BatchCWACIPredictions(model, calib_data, test_data, alpha):
 
     // Step 1: Compute nonconformity and weights once (reusable)
@@ -409,11 +406,11 @@ function BatchCWACIPredictions(model, calib_data, test_data, alpha):
 
     return results
 end function
-	\end{verbatim}
+\end{verbatim}
 
-	\textbf{Vectorized Implementation} (for efficiency):
+\textbf{Vectorized Implementation} (for efficiency):
 
-	\begin{verbatim}python
+\begin{verbatim}python
 # Python implementation using NumPy for vectorization
 
 def construct_cw_aci_sets(model, X_calib, y_calib, C_calib, X_test, alpha):
@@ -443,19 +440,24 @@ def construct_cw_aci_sets(model, X_calib, y_calib, C_calib, X_test, alpha):
     intervals = np.column_stack([y_pred_test - q, y_pred_test + q])
 
     return intervals, q
-	\end{verbatim}
+\end{verbatim}
 
----
 
-\subsection{E.4 Computational Complexity Summary}
+\subsection{Computational complexity summary}
 
-| Algorithm | Time Complexity | Space Complexity | Notes |
-|-----------|---|---|---|
-| Hyperbolic Decay Fitting | $O(n \times \text{iters})$ | $O(n)$ | Nonlinear optimization |
-| Temporal-MMD Training | $O(E \times B \times n_S \times n_T \times d^2)$ | $O(n_S + n_T)$ | E epochs, B batches, d features |
-| CW-ACI Set Construction | $O(n \log n)$ | $O(n)$ | Sorting + binary search |
+\begin{center}
+{\small
+\begin{tabular}{|l|l|l|p{2.5cm}|}
+\hline
+\textbf{Algorithm} & \textbf{Time} & \textbf{Space} & \textbf{Notes} \\
+\hline
+Decay Fitting & $O(n \cdot I)$ & $O(n)$ & Nonlinear opt. \\
+MMD Transfer & $O(EB n^2d^2)$ & $O(n)$ & E epochs, B batches \\
+CW-ACI & $O(n \log n)$ & $O(n)$ & Sort + search \\
+\hline
+\end{tabular}
+}
+\end{center}
 
----
 
-	\textbf{Appendix E End}
 

@@ -105,8 +105,8 @@ Factor investing generates systematic excess returns, but these returns decay ov
 \textbf{Contribution 1: Game-Theoretic Model of Crowding Decay} (Theorems 1-3).
 We derive a mechanistic explanation of factor alpha decay from game-theoretic equilibrium. Rational investors' optimal exit timing generates hyperbolic decay: $\alpha(t) = K/(1+\lambda t)$. We prove heterogeneous decay across factor types and validate on 61 years of Fama-French data (1963--2024). Judgment factors decay 2.4$\times$ faster than mechanical factors ($p<0.001$), with out-of-sample predictive power reaching 55\% ($R^2$).
 
-\textbf{Contribution 2: Regime-Conditional Domain Adaptation} (Theorem 5).
-We introduce Temporal-MMD, a regime-aware domain adaptation framework respecting financial market structure (bull/bear, high/low volatility). Unlike standard Maximum Mean Discrepancy, Temporal-MMD conditions on regimes, improving transfer efficiency from 43\% (naive) to 64\% across seven developed markets (UK, Japan, Germany, France, Canada, Australia, Switzerland).
+\textbf{Contribution 2: MMD-Based Domain Adaptation for Global Transfer} (Theorem 5).
+We apply Maximum Mean Discrepancy (MMD) domain adaptation to transfer US factor crowding insights globally. By aligning feature distributions between source (US) and target markets, MMD accounts for economic differences while preserving predictive power. Transfer efficiency improves from 43\% (naive) to 60\% across seven developed markets (UK, Japan, Germany, France, Canada, Australia, Switzerland).
 
 \textbf{Contribution 3: Crowding-Weighted Conformal Prediction} (Theorem 6).
 We extend adaptive conformal inference with crowding signals while preserving coverage guarantees. Our CW-ACI framework produces prediction sets that adapt to crowding levels. In dynamic portfolio hedging, this improves Sharpe ratio by 54\% (0.67$\to$1.03) and reduces tail risk by 60--70\% during major crashes, with Value-at-Risk declining from --1.2\% to --0.53\%.
@@ -117,9 +117,9 @@ The three contributions form an integrated framework: game theory explains why c
 
 % Keywords
 \keywords{
-Factor Investing, Alpha Decay and Crowding, Game Theory \& Equilibrium,
-Domain Adaptation \& Transfer Learning, Conformal Prediction \& Uncertainty Quantification,
-Portfolio Risk Management
+factor investing, alpha decay, crowding dynamics, game theory, equilibrium analysis,
+domain adaptation, transfer learning, conformal prediction, uncertainty quantification,
+portfolio risk management, factor crashes
 }
 
 % ============================================================================
@@ -130,32 +130,53 @@ Portfolio Risk Management
 \label{sec:intro}
 \input{sections/01_introduction.tex}
 
-\section{Related Work}
+\section{Related work}
 \label{sec:related}
+
+This section reviews the three literature streams most relevant to our work: factor crowding and alpha decay, domain adaptation in finance, and conformal prediction for market risk. We show how our contributions address specific gaps in each stream.
+
 \input{sections/02_related_work.tex}
 
-\section{Background and Preliminaries}
+\section{Background and preliminaries}
 \label{sec:background}
+
+This section establishes notation, definitions, and mathematical preliminaries for game theory, domain adaptation, and conformal prediction. Readers familiar with these areas may skip to the specific contributions starting in Section 4.
+
 \input{sections/03_background.tex}
 
-\section{Game-Theoretic Model of Crowding Dynamics}
+\section{Game-theoretic model of crowding dynamics}
 \label{sec:gametheory}
+
+This section develops the core theoretical contribution: a game-theoretic foundation for factor alpha decay. We show how rational investors' strategic allocation decisions, when aggregated, generate hyperbolic decay of factor alpha.
+
 \input{sections/04_game_theory.tex}
 
-\section{Empirical Validation on US Markets}
+\section{Empirical validation on US markets}
 \label{sec:empirical}
+
+This section validates the game-theoretic model developed in Section 4 using real data from Fama and French (FF) factors (1963-2024). We estimate decay parameters $K_i$ and $\lambda_i$ for each factor and test the heterogeneity hypothesis.
+
 \input{sections/05_us_empirical.tex}
 
-\section{Global Domain Adaptation with Regime-Conditional Temporal-MMD}
+\section{Global domain adaptation via MMD}
 \label{sec:domainadapt}
+
+We apply domain adaptation techniques to transfer factor crowding insights from US markets to seven developed markets. Using Maximum Mean Discrepancy (MMD), we align feature distributions between source and target markets while preserving the predictive power of the game-theoretic crowding model.
+
 \input{sections/06_domain_adaptation.tex}
 
-\section{Tail Risk Prediction and Crowding-Weighted Conformal Inference}
+\section{Tail risk prediction and crowding-weighted conformal inference}
 \label{sec:tailrisk}
+
+We develop methods for predicting factor crashes and managing portfolio tail risk. We introduce Crowding-Weighted Adaptive Conformal Inference (CW-ACI), integrating crowding signals with distribution-free uncertainty quantification, and demonstrate its application in dynamic portfolio hedging.
+
 \input{sections/07_tail_risk_aci.tex}
 
-\section{Robustness, Extensions, and Discussion}
+\section{Robustness, extensions, and discussion}
 \label{sec:robustness}
+
+This section examines the robustness of our main results across different model specifications, time periods, and assumptions. We test sensitivity to crowding proxy choices, regime definitions, and parameter stability, and discuss extensions to other asset classes and markets.
+
 \input{sections/08_robustness.tex}
 
 \section{Conclusion}
@@ -163,32 +184,40 @@ Portfolio Risk Management
 \input{sections/09_conclusion.tex}
 
 % ============================================================================
+% ACKNOWLEDGMENTS
+% ============================================================================
+
+\acks{
+The author thanks the Korea Advanced Institute of Science and Technology (KAIST) for computational resources. This research was supported in part by grants from [funding agency, if applicable]. The author is grateful to [advisor/committee members, if applicable] for valuable discussions and feedback. All data used in this research are publicly available from the Kenneth French Data Library and other sources as documented in Appendix D.
+}
+
+% ============================================================================
 % APPENDICES
 % ============================================================================
 
 \appendix
 
-\section{Proofs of Game-Theoretic Model}
+\section{Proofs of game-theoretic model}
 \label{appx:gametheory}
 \input{appendices/A_game_theory_proofs.tex}
 
-\section{Domain Adaptation Theory}
+\section{Domain adaptation theory}
 \label{appx:domainadapt}
 \input{appendices/B_domain_adaptation_theory.tex}
 
-\section{Conformal Prediction Theory}
+\section{Conformal prediction theory}
 \label{appx:conformal}
 \input{appendices/C_conformal_prediction_proofs.tex}
 
-\section{Data Documentation}
+\section{Data documentation}
 \label{appx:data}
 \input{appendices/D_data_documentation.tex}
 
-\section{Algorithm Pseudocode}
+\section{Algorithm pseudocode}
 \label{appx:algorithms}
 \input{appendices/E_algorithm_pseudocode.tex}
 
-\section{Supplementary Robustness Tests}
+\section{Supplementary robustness tests}
 \label{appx:robustness}
 \input{appendices/F_supplementary_robustness.tex}
 
