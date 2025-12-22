@@ -2,13 +2,13 @@
 
 ## Pre-Submission TODO
 
-- [ ] **Join SoFiE** ($10 student membership) → Waives $65 JoFE submission fee
+- [ ] **Join SoFiE** ($10 student membership) → Waives $65 JFEC submission fee
   - Link: https://sofie.stern.nyu.edu/membership
   - Benefits: JFEC online access, conference discounts, travel grants
 
 ---
 
-## Primary Target: JoFE Special Issue
+## Primary Target: JFEC Special Issue
 
 **Journal of Financial Econometrics - Special Issue on Machine Learning**
 - **Deadline:** March 1, 2026
@@ -16,7 +16,7 @@
 - **Submission Fee:** $65 (waived with SoFiE membership)
 - **Fit:** Excellent - ML methods for financial econometrics
 
-### Why JoFE?
+### Why JFEC?
 1. Special issue specifically on ML in finance
 2. Conformal prediction is novel in this space
 3. Strong empirical contribution with 62 years of data
@@ -79,20 +79,20 @@
 
 ## Submission Strategy
 
-### Option A: JoFE Only (Conservative)
+### Option A: JFEC Only (Conservative)
 1. Join SoFiE by January 2026
-2. Submit to JoFE special issue by March 1, 2026
+2. Submit to JFEC special issue by March 1, 2026
 3. Wait for decision (~6-9 months)
 
 ### Option B: Parallel Submission Prep (Aggressive)
-1. Submit to JoFE special issue (March 2026)
+1. Submit to JFEC special issue (March 2026)
 2. If rejected, immediately submit to Quantitative Finance
 3. Prepare JFDS version as backup
 
 ### Option C: Dual Track (If Allowed)
-Check if working paper on SSRN is allowed before JoFE submission
+Check if working paper on SSRN is allowed before JFEC submission
 - Post to SSRN for visibility
-- Submit to JoFE
+- Submit to JFEC
 - Build citations while under review
 
 ---
@@ -104,7 +104,7 @@ Check if working paper on SSRN is allowed before JoFE submission
 | Jan 2025 | Join SoFiE ($10) |
 | Feb 2025 | Post to SSRN (optional) |
 | Feb 2026 | Final polish, prepare cover letter |
-| Mar 1, 2026 | Submit to JoFE |
+| Mar 1, 2026 | Submit to JFEC |
 | Sep 2026 | Expected decision |
 | Dec 2026 | Revision (if R&R) |
 
@@ -113,5 +113,5 @@ Check if working paper on SSRN is allowed before JoFE submission
 ## References
 
 - Fantazzini, D. (2024). Adaptive Conformal Inference for Computing Market Risk Measures. *J. Risk & Financial Management*, 17(6), 248.
-- JoFE Special Issue CFP: https://academic.oup.com/jfec
+- JFEC Special Issue CFP: https://academic.oup.com/jfec
 - SoFiE Membership: https://sofie.stern.nyu.edu/membership

@@ -1,0 +1,18 @@
+% LIMITATIONS SECTION
+% To be added before or integrated into Conclusion
+
+\subsection{Limitations}
+
+We acknowledge several limitations of our approach:
+
+\textbf{No Theoretical Coverage Guarantee.} CW-ACI weights nonconformity scores based on test-point characteristics, which breaks the exchangeability assumption underlying standard conformal prediction guarantees. Our coverage improvements are empirical rather than theoretical. Future work could investigate coverage properties under specific distributional assumptions (e.g., heteroskedastic time series with bounded volatility ratios).
+
+\textbf{Signal Proxy Limitations.} Our volatility signal is based on trailing absolute returns---a simple and transparent proxy that correlates with realized volatility (average $\rho = 0.69$). More sophisticated signals, such as option-implied volatility, ETF flow data, or direct crowding measures from prime broker data, could potentially improve performance. Our current proxy should be viewed as a proof-of-concept demonstrating that signal-adaptive conformal prediction improves conditional coverage.
+
+\textbf{Comparison to Simple Baselines.} Naive volatility scaling achieves comparable performance to CW-ACI (93.1\% vs. 92.4\% high-signal coverage). The contribution of CW-ACI is therefore not that it dramatically outperforms simple alternatives, but that it provides a principled framework within the conformal prediction literature. Practitioners may prefer naive scaling for its simplicity; researchers may prefer CW-ACI for its theoretical grounding and extensibility.
+
+\textbf{Regime Change vs. Heteroskedasticity.} Our subperiod analysis reveals that the under-coverage of standard CP is partly a regime-change phenomenon: within-regime coverage is near-nominal. CW-ACI helps when calibration data comes from different volatility regimes than test data---a realistic scenario, but one that could also be addressed through rolling calibration windows or other time-series methods.
+
+\textbf{Monthly Data Only.} Our analysis uses monthly factor returns. The dynamics of coverage and volatility adaptation may differ at daily or higher frequencies, where volatility clustering is more pronounced but calibration windows shorter.
+
+\textbf{Factor Focus.} We examine only Fama-French factors. Extension to individual stocks, other asset classes (fixed income, commodities, cryptocurrencies), or international markets remains for future work.

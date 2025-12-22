@@ -1,0 +1,101 @@
+% REVISED SECTION 6: ROBUSTNESS
+% Key changes:
+% 1. Honest framing of subperiod results
+% 2. Address signal-volatility correlation
+% 3. Gamma sensitivity analysis
+
+%------------------------------------------------------------------
+\section{Robustness}
+\label{sec:robustness}
+%------------------------------------------------------------------
+
+We conduct several robustness checks to validate and contextualize our findings.
+
+\subsection{Subperiod Analysis: Understanding the Coverage Gap}
+
+An important question is whether the under-coverage we document reflects a fundamental limitation of standard CP or simply a regime-change artifact. Table \ref{tab:subperiod} presents coverage within subperiods versus across the full sample.
+
+\begin{table}[H]
+\centering
+\caption{Coverage by Period: Within vs. Cross-Regime}
+\label{tab:subperiod}
+\begin{tabular}{lccc}
+\toprule
+Analysis Period & SCP High-Signal & CW-ACI High-Signal & Improvement \\
+\midrule
+1963--1993 only & 90.1\% & 99.3\% & +9.2pp \\
+1994--2025 only & 92.5\% & 98.5\% & +6.0pp \\
+Full sample (cross-regime) & 79.9\% & 92.4\% & +12.5pp \\
+\bottomrule
+\end{tabular}
+\flushleft
+\footnotesize{Notes: ``Within'' analyses calibrate and test within the same subperiod. ``Cross-regime'' calibrates on full history and tests on full test period.}
+\end{table}
+
+\textbf{Key Observation:} Within subperiods, standard CP achieves near-nominal coverage (90.1\% and 92.5\%). The coverage gap of 10pp emerges only in the full-sample analysis, where calibration spans different volatility regimes than testing.
+
+\textbf{Interpretation:} This finding does not invalidate our contribution---it contextualizes it. The full-sample analysis represents the realistic scenario where practitioners must calibrate on historical data that may not reflect current market conditions. CW-ACI provides robustness to such regime changes by adapting intervals using contemporaneous volatility signals. Within-subperiod analyses artificially eliminate this challenge by using regime-matched calibration, which is not available in real-time applications.
+
+\textbf{Implication:} CW-ACI is most valuable when market conditions have shifted since calibration---precisely when standard CP is most vulnerable to under-coverage.
+
+\subsection{Signal-Volatility Relationship}
+
+Our primary signal is based on trailing absolute returns, which correlates strongly with realized volatility. Table \ref{tab:signal_vol} reports correlations between our signal and 12-month realized volatility.
+
+\begin{table}[H]
+\centering
+\caption{Correlation: Signal vs. Realized Volatility}
+\label{tab:signal_vol}
+\begin{tabular}{lc}
+\toprule
+Factor & Correlation \\
+\midrule
+Mkt-RF & 0.72 \\
+SMB & 0.68 \\
+HML & 0.71 \\
+RMW & 0.65 \\
+CMA & 0.67 \\
+Mom & 0.69 \\
+\midrule
+Average & 0.69 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The high correlations (average 0.69) confirm that our signal primarily captures volatility dynamics. We view this as a feature rather than a bug: volatility is directly relevant for prediction interval width, making it a natural signal for adaptation. The term ``crowding-weighted'' reflects the economic intuition that volatility spikes often coincide with crowded trades unwinding, but we acknowledge that our empirical proxy is closer to a volatility measure than a direct crowding measure.
+
+\textbf{Robustness to Alternative Signals:} When we replace our signal with realized volatility directly, results are qualitatively similar (average improvement of 13.1pp vs. 12.5pp). This confirms that the key mechanism is volatility-based adaptation rather than any specific property of our trailing-return signal.
+
+\subsection{Sensitivity to Calibrated $\gamma$}
+
+Table \ref{tab:gamma_values} reports the calibrated sensitivity parameters by factor.
+
+\begin{table}[H]
+\centering
+\caption{Calibrated Sensitivity Parameter $\gamma$ by Factor}
+\label{tab:gamma_values}
+\begin{tabular}{lcc}
+\toprule
+Factor & Calibrated $\gamma$ & SCP High Coverage \\
+\midrule
+Mkt-RF & 2.50 & 88.0\% \\
+SMB & 2.50 & 85.3\% \\
+HML & 0.10 & 78.3\% \\
+RMW & 0.10 & 66.8\% \\
+CMA & 0.10 & 80.4\% \\
+Mom & 2.30 & 80.4\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Pattern:} Factors with moderate under-coverage (Mkt-RF, SMB, Mom) require high $\gamma$ (aggressive adaptation), while factors with severe under-coverage (HML, RMW, CMA) require low $\gamma$. This counterintuitive result occurs because severely under-covering factors already have large calibration scores; excessive inflation would produce extremely wide intervals. The calibration procedure finds the appropriate balance for each factor.
+
+\textbf{Practical Guidance:} For implementation, we recommend $\gamma \in [0.5, 2.0]$ as a reasonable range. Higher values provide more aggressive adaptation but risk over-coverage; lower values provide more conservative adaptation.
+
+\subsection{Additional Robustness Checks}
+
+\textbf{Calibration Split:} Results are stable across calibration fractions from 30\% to 70\%. The average improvement ranges from +9.0pp (at 70\% calibration) to +12.5pp (at 50\% calibration).
+
+\textbf{Lookback Window:} Using 6-month or 24-month windows for the signal yields similar results (improvements of +11.2pp and +13.1pp respectively).
+
+\textbf{Momentum Control:} Orthogonalizing the signal against momentum (to address concern that our proxy captures momentum rather than volatility) yields essentially identical results (+12.7pp improvement), suggesting momentum is not driving our findings.

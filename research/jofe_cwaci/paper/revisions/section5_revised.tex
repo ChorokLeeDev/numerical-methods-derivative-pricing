@@ -1,0 +1,103 @@
+% REVISED SECTION 5: EMPIRICAL ANALYSIS
+% Key changes:
+% 1. Include Mkt-RF (all 6 factors)
+% 2. Report standard errors
+% 3. Compare to baselines
+% 4. Statistical significance tests
+% 5. Honest framing of results
+
+%------------------------------------------------------------------
+\section{Empirical Analysis}
+\label{sec:empirical}
+%------------------------------------------------------------------
+
+\subsection{Data and Setup}
+
+We use monthly factor returns from the Kenneth French Data Library covering July 1963 to October 2025 (748 months). Our analysis includes six factors: Mkt-RF (market), SMB (size), HML (value), RMW (profitability), CMA (investment), and Momentum.
+
+\textbf{Volatility Signal.} We construct a volatility signal based on trailing 12-month absolute returns:
+\begin{equation}
+    V_t = \frac{|\sum_{s=t-11}^{t} r_s|}{\text{median}(|\sum_{s=\tau-11}^{\tau} r_s|_{\tau \leq t})}
+\end{equation}
+This signal captures periods of elevated price movement, which correlate with realized volatility. We use the term ``crowding signal'' throughout, acknowledging that our proxy primarily captures volatility dynamics rather than direct measures of investor crowding (such as fund flows or short interest).
+
+\textbf{Calibration.} We use a 50/50 split between calibration and test periods. The point predictor is the sample mean from the calibration period. Target coverage is 90\% ($\alpha = 0.1$). We calibrate the sensitivity parameter $\gamma$ to achieve approximately 90\% overall coverage, then examine conditional coverage by signal regime.
+
+\subsection{Main Results}
+
+Table \ref{tab:main_revised} presents coverage by signal regime for each factor, comparing CW-ACI to three baselines: standard conformal prediction (SCP), Gibbs-Cand\`{e}s adaptive conformal inference (G-ACI), and naive volatility scaling (Naive).
+
+\begin{table}[H]
+\centering
+\caption{Coverage by Method and Signal Regime}
+\label{tab:main_revised}
+\begin{tabular}{lcccccc}
+\toprule
+& \multicolumn{2}{c}{Standard CP} & \multicolumn{2}{c}{CW-ACI (Calibrated)} & \multirow{2}{*}{Gain} & \multirow{2}{*}{p-value} \\
+Factor & High Signal & Low Signal & High Signal & Low Signal & & \\
+\midrule
+Mkt-RF & 88.0\% (2.4) & 89.2\% (2.3) & 99.5\% (0.5) & 92.4\% (1.9) & +11.4pp & $<$0.001 \\
+SMB & 85.3\% (2.6) & 93.5\% (1.8) & 97.8\% (1.1) & 95.1\% (1.6) & +12.5pp & $<$0.001 \\
+HML & 78.3\% (3.0) & 92.4\% (1.9) & 90.2\% (2.2) & 97.3\% (1.2) & +12.0pp & 0.002 \\
+RMW & 66.8\% (3.5) & 91.4\% (2.1) & 82.1\% (2.8) & 97.8\% (1.1) & +15.2pp & $<$0.001 \\
+CMA & 80.4\% (2.9) & 92.4\% (1.9) & 90.2\% (2.2) & 98.9\% (0.8) & +9.8pp & 0.008 \\
+Mom & 80.4\% (2.9) & 89.7\% (2.2) & 94.6\% (1.7) & 90.8\% (2.1) & +14.1pp & $<$0.001 \\
+\midrule
+Average & 79.9\% & 91.4\% & 92.4\% & 95.4\% & +12.5pp & --- \\
+\bottomrule
+\end{tabular}
+\flushleft
+\footnotesize{Notes: Standard errors in parentheses. High signal = above-median volatility signal. P-values from two-proportion z-test comparing CW-ACI to SCP in high-signal periods.}
+\end{table}
+
+The results reveal substantial under-coverage of standard CP during high-signal periods:
+
+\begin{itemize}
+    \item \textbf{Standard CP under-covers systematically.} During high-signal periods, standard CP achieves only 79.9\% average coverage versus the 90\% target---a gap of 10.1 percentage points. The worst case is RMW, where coverage drops to 66.8\%.
+
+    \item \textbf{CW-ACI improves coverage significantly.} CW-ACI achieves 92.4\% average coverage during high-signal periods, an improvement of 12.5 percentage points. The improvement is statistically significant for all six factors (p$<$0.01).
+
+    \item \textbf{Coverage gap reduced.} Under standard CP, high-signal periods have 11.5pp lower coverage than low-signal periods. Under CW-ACI, this gap shrinks to 3.0pp.
+\end{itemize}
+
+\subsection{Comparison to Alternative Methods}
+
+Table \ref{tab:baselines} compares CW-ACI to alternative adaptive methods during high-signal periods.
+
+\begin{table}[H]
+\centering
+\caption{High-Signal Coverage: Method Comparison}
+\label{tab:baselines}
+\begin{tabular}{lcccc}
+\toprule
+Factor & Standard CP & G-ACI & Naive Scaling & CW-ACI \\
+\midrule
+Mkt-RF & 88.0\% & 89.1\% & 99.5\% & 99.5\% \\
+SMB & 85.3\% & 88.0\% & 97.3\% & 97.8\% \\
+HML & 78.3\% & 82.1\% & 93.5\% & 90.2\% \\
+RMW & 66.8\% & 78.3\% & 83.2\% & 82.1\% \\
+CMA & 80.4\% & 83.7\% & 92.4\% & 90.2\% \\
+Mom & 80.4\% & 88.0\% & 92.9\% & 94.6\% \\
+\midrule
+Average & 79.9\% & 84.9\% & 93.1\% & 92.4\% \\
+\bottomrule
+\end{tabular}
+\flushleft
+\footnotesize{Notes: G-ACI = Gibbs-Cand\`{e}s Adaptive Conformal Inference. Naive Scaling = intervals scaled by signal/median(signal).}
+\end{table}
+
+Key comparisons:
+
+\begin{itemize}
+    \item \textbf{CW-ACI vs. Gibbs-Cand\`{e}s ACI:} CW-ACI achieves 92.4\% versus 84.9\% for G-ACI, an improvement of 7.5pp. G-ACI adapts based on recent coverage errors but does not use forward-looking volatility signals, which explains its weaker performance in high-signal periods.
+
+    \item \textbf{CW-ACI vs. Naive Scaling:} Naive volatility scaling achieves 93.1\%, slightly outperforming CW-ACI (92.4\%). This suggests that simple signal-based scaling captures most of the benefit. However, CW-ACI provides a more principled framework grounded in conformal prediction, with clear connections to the nonconformity score literature.
+\end{itemize}
+
+\subsection{Discussion}
+
+Our results demonstrate that signal-adaptive methods substantially improve conditional coverage for factor returns. The improvement is economically meaningful: for a risk manager using prediction intervals to set position limits, reducing the violation rate from 20\% to 8\% during volatile periods represents a significant improvement in risk control.
+
+\textbf{Honest Assessment.} We note that naive volatility scaling performs comparably to CW-ACI. This is not surprising given that our signal is essentially a volatility proxy. The contribution of CW-ACI is not that it dramatically outperforms simple alternatives, but rather that it provides a principled framework for signal-adaptive conformal prediction that (1) connects to the established conformal literature, (2) is easy to implement and interpret, and (3) achieves robust coverage across market conditions.
+
+\textbf{Limitations.} Our method does not provide theoretical coverage guarantees; the weighting breaks exchangeability of nonconformity scores. The improvement is empirical. Additionally, our volatility signal is simple and may not capture all relevant dynamics. More sophisticated signals (e.g., option-implied volatility, ETF flows) could potentially improve results further.
