@@ -1,0 +1,593 @@
+PROBLEMATIC LANGUAGE AUDIT
+======================================================================
+
+File: main.tex, Line 106
+Pattern: derive
+Match: derive
+Context: We derive a mechanistic explanation of factor alpha decay from game-theoretic equilibrium. Rational 
+----------------------------------------
+File: main.tex, Line 103
+Pattern: novel
+Match: novel
+Context: Factor investing generates systematic excess returns, but these returns decay over time as capital f
+----------------------------------------
+File: main.tex, Line 106
+Pattern: prove
+Match: We prove
+Context: We derive a mechanistic explanation of factor alpha decay from game-theoretic equilibrium. Rational 
+----------------------------------------
+File: main.tex, Line 3
+Pattern: game_theoretic
+Match: Game-Theoretic
+Context: % A Game-Theoretic Model of Alpha Decay with Global Transfer and Risk Management
+----------------------------------------
+File: main.tex, Line 84
+Pattern: game_theoretic
+Match: Game-Theoretic
+Context: A Game-Theoretic Model of Alpha Decay \\
+----------------------------------------
+File: main.tex, Line 105
+Pattern: game_theoretic
+Match: Game-Theoretic
+Context: \textbf{Contribution 1: Game-Theoretic Model of Crowding Decay} (Theorems 1-3).
+----------------------------------------
+File: main.tex, Line 106
+Pattern: game_theoretic
+Match: game-theoretic
+Context: We derive a mechanistic explanation of factor alpha decay from game-theoretic equilibrium. Rational 
+----------------------------------------
+File: main.tex, Line 147
+Pattern: game_theoretic
+Match: Game-theoretic
+Context: \section{Game-theoretic model of crowding dynamics}
+----------------------------------------
+File: main.tex, Line 150
+Pattern: game_theoretic
+Match: game-theoretic
+Context: This section develops the core theoretical contribution: a game-theoretic foundation for factor alph
+----------------------------------------
+File: main.tex, Line 157
+Pattern: game_theoretic
+Match: game-theoretic
+Context: This section validates the game-theoretic model developed in Section 4 using real data from Fama and
+----------------------------------------
+File: main.tex, Line 164
+Pattern: game_theoretic
+Match: game-theoretic
+Context: We apply domain adaptation techniques to transfer factor crowding insights from US markets to seven 
+----------------------------------------
+File: main.tex, Line 200
+Pattern: game_theoretic
+Match: game-theoretic
+Context: \section{Proofs of game-theoretic model}
+----------------------------------------
+File: main.tex, Line 112
+Pattern: guarantee
+Match: guarantees
+Context: We extend adaptive conformal inference with crowding signals while preserving coverage guarantees. O
+----------------------------------------
+File: main.tex, Line 143
+Pattern: establish
+Match: establishes
+Context: This section establishes notation, definitions, and mathematical preliminaries for game theory, doma
+----------------------------------------
+File: sections/03_background.tex, Line 69
+Pattern: derive
+Match: derive
+Context: The Nash equilibrium determines optimal exit timing: at what crowding level does $\pi_j$ become nega
+----------------------------------------
+File: sections/03_background.tex, Line 81
+Pattern: guarantee
+Match: guarantees
+Context: MMD has attractive properties: it's easy to compute, has theoretical guarantees on convergence, and 
+----------------------------------------
+File: sections/03_background.tex, Line 101
+Pattern: guarantee
+Match: Guarantee
+Context: 5. \textbf{Guarantee}: If exchangeability holds, then $P(y_{n+1} \in \mathcal{C}(x_{n+1})) \geq 1 - 
+----------------------------------------
+File: sections/07_tail_risk_aci.tex, Line 64
+Pattern: guarantee
+Match: guarantees
+Context: Before introducing the algorithm, we highlight the key assumption required for CW-ACI's theoretical 
+----------------------------------------
+File: sections/07_tail_risk_aci.tex, Line 80
+Pattern: guarantee
+Match: guarantees
+Context: CW-ACI incorporates crowding information while preserving statistical guarantees.
+----------------------------------------
+File: sections/07_tail_risk_aci.tex, Line 94
+Pattern: guarantee
+Match: guaranteed
+Context: 7. \textbf{Output}: Prediction set $\mathcal{C}(x_{n+1})$ with guaranteed coverage under Assumption 
+----------------------------------------
+File: sections/07_tail_risk_aci.tex, Line 96
+Pattern: guarantee
+Match: Guarantee
+Context: \begin{theorem}[Coverage Guarantee under Crowding Weighting]
+----------------------------------------
+File: sections/07_tail_risk_aci.tex, Line 97
+Pattern: guarantee
+Match: guarantee
+Context: \label{thm:coverage-guarantee}
+----------------------------------------
+File: sections/07_tail_risk_aci.tex, Line 107
+Pattern: guarantee
+Match: guarantee
+Context: \item Standard result (Angelopoulos \& Bates, 2021): Conformal prediction with exchangeable data has
+----------------------------------------
+File: sections/06_domain_adaptation.tex, Line 105
+Pattern: derive
+Match: derived
+Context: In the game-theoretic model (Section 4), we derived that the decay rate depends on fundamental econo
+----------------------------------------
+File: sections/06_domain_adaptation.tex, Line 3
+Pattern: game_theoretic
+Match: game-theoretic
+Context: The game-theoretic model developed in Section 4 and validated in Section 5 is based on US data (Fama
+----------------------------------------
+File: sections/06_domain_adaptation.tex, Line 82
+Pattern: game_theoretic
+Match: game-theoretic
+Context: \textbf{Interpretation}: Standard MMD provides a principled approach for transferring US factor crow
+----------------------------------------
+File: sections/06_domain_adaptation.tex, Line 103
+Pattern: game_theoretic
+Match: game-theoretic
+Context: \subsection{Connection to game-theoretic model}
+----------------------------------------
+File: sections/06_domain_adaptation.tex, Line 105
+Pattern: game_theoretic
+Match: game-theoretic
+Context: In the game-theoretic model (Section 4), we derived that the decay rate depends on fundamental econo
+----------------------------------------
+File: sections/06_domain_adaptation.tex, Line 113
+Pattern: game_theoretic
+Match: game-theoretic
+Context: MMD-based domain adaptation serves as the operational bridge between the game-theoretic model and pr
+----------------------------------------
+File: sections/06_domain_adaptation.tex, Line 104
+Pattern: mechanism
+Match: Mechanisms
+Context: \textbf{Global Universality of Crowding Mechanisms}
+----------------------------------------
+File: sections/06_domain_adaptation.tex, Line 111
+Pattern: mechanism
+Match: mechanism
+Context: These parameters are determined by deeper economic forces: information production, capital market st
+----------------------------------------
+File: sections/06_domain_adaptation.tex, Line 113
+Pattern: mechanism
+Match: mechanisms
+Context: MMD-based domain adaptation serves as the operational bridge between the game-theoretic model and pr
+----------------------------------------
+File: sections/06_domain_adaptation.tex, Line 113
+Pattern: mechanism
+Match: mechanism
+Context: MMD-based domain adaptation serves as the operational bridge between the game-theoretic model and pr
+----------------------------------------
+File: sections/06_domain_adaptation.tex, Line 114
+Pattern: mechanism
+Match: mechanism
+Context: \textbf{Synergy}: Game theory explains why crowding should transfer across markets (universal econom
+----------------------------------------
+File: sections/06_domain_adaptation.tex, Line 92
+Pattern: guarantee
+Match: guarantees
+Context: \textbf{Implication}: By minimizing MMD during domain adaptation, we reduce the gap between source a
+----------------------------------------
+File: sections/06_domain_adaptation.tex, Line 20
+Pattern: establish
+Match: established
+Context: Domain adaptation techniques address distribution mismatch by learning representations that are inva
+----------------------------------------
+File: sections/09_conclusion.tex, Line 3
+Pattern: derive
+Match: derived
+Context: We provided the first mechanistic explanation of factor alpha decay from first principles. By modeli
+----------------------------------------
+File: sections/09_conclusion.tex, Line 67
+Pattern: derive
+Match: derive
+Context: 1. First to derive factor decay function from game-theoretic equilibrium
+----------------------------------------
+File: sections/09_conclusion.tex, Line 67
+Pattern: first_to
+Match: First to
+Context: 1. First to derive factor decay function from game-theoretic equilibrium
+----------------------------------------
+File: sections/09_conclusion.tex, Line 68
+Pattern: first_to
+Match: First to
+Context: 2. First to systematically apply MMD domain adaptation for global factor transfer
+----------------------------------------
+File: sections/09_conclusion.tex, Line 69
+Pattern: first_to
+Match: First to
+Context: 3. First to prove coverage guarantees for domain-knowledge-weighted conformal prediction
+----------------------------------------
+File: sections/09_conclusion.tex, Line 55
+Pattern: novel
+Match: novel
+Context: This integration is novel. Prior work addresses each problem in isolation. Our unified framework sho
+----------------------------------------
+File: sections/09_conclusion.tex, Line 69
+Pattern: prove
+Match: prove
+Context: 3. First to prove coverage guarantees for domain-knowledge-weighted conformal prediction
+----------------------------------------
+File: sections/09_conclusion.tex, Line 2
+Pattern: game_theoretic
+Match: Game-Theoretic
+Context: \textbf{Contribution 1: Game-Theoretic Model of Factor Crowding Decay}
+----------------------------------------
+File: sections/09_conclusion.tex, Line 52
+Pattern: game_theoretic
+Match: Game-theoretic
+Context: 1. \textbf{Understand} crowding and factor decay $\rightarrow$ Game-theoretic model explains the mec
+----------------------------------------
+File: sections/09_conclusion.tex, Line 67
+Pattern: game_theoretic
+Match: game-theoretic
+Context: 1. First to derive factor decay function from game-theoretic equilibrium
+----------------------------------------
+File: sections/09_conclusion.tex, Line 98
+Pattern: game_theoretic
+Match: Game-Theoretic
+Context: 2. \textbf{Game-Theoretic Assumptions}: The model assumes rational investors, symmetric information,
+----------------------------------------
+File: sections/09_conclusion.tex, Line 112
+Pattern: game_theoretic
+Match: game-theoretic
+Context: 2. \textbf{Agent-Based Models}: Simulate heterogeneous investors (loss-averse, herding, leveraged) t
+----------------------------------------
+File: sections/09_conclusion.tex, Line 121
+Pattern: game_theoretic
+Match: game-theoretic
+Context: Theory without practice is sterile: elegant mathematical frameworks that don't address real problems
+----------------------------------------
+File: sections/09_conclusion.tex, Line 169
+Pattern: game_theoretic
+Match: game-theoretic
+Context: 1. A game-theoretic model explaining decay mechanistically
+----------------------------------------
+File: sections/09_conclusion.tex, Line 19
+Pattern: mechanism
+Match: mechanism
+Context: 1. It moves beyond documenting crowding effects to explaining their mechanism
+----------------------------------------
+File: sections/09_conclusion.tex, Line 52
+Pattern: mechanism
+Match: mechanism
+Context: 1. \textbf{Understand} crowding and factor decay $\rightarrow$ Game-theoretic model explains the mec
+----------------------------------------
+File: sections/09_conclusion.tex, Line 94
+Pattern: mechanism
+Match: mechanisms
+Context: Our work unites these three areas around a core principle: domain structure matters. Financial marke
+----------------------------------------
+File: sections/09_conclusion.tex, Line 26
+Pattern: guarantee
+Match: guarantees
+Context: \item \textbf{Theorem~\ref{thm:domain-adaptation-bound}}: Domain adaptation error bound showing MMD 
+----------------------------------------
+File: sections/09_conclusion.tex, Line 40
+Pattern: guarantee
+Match: guarantee
+Context: \item \textbf{Theorem~\ref{thm:coverage-guarantee}}: Proof that crowding-weighted weighting preserve
+----------------------------------------
+File: sections/09_conclusion.tex, Line 40
+Pattern: guarantee
+Match: guarantee
+Context: \item \textbf{Theorem~\ref{thm:coverage-guarantee}}: Proof that crowding-weighted weighting preserve
+----------------------------------------
+File: sections/09_conclusion.tex, Line 47
+Pattern: guarantee
+Match: guarantees
+Context: 1. It integrates domain knowledge (crowding signals) with statistical rigor (coverage guarantees)
+----------------------------------------
+File: sections/09_conclusion.tex, Line 69
+Pattern: guarantee
+Match: guarantees
+Context: 3. First to prove coverage guarantees for domain-knowledge-weighted conformal prediction
+----------------------------------------
+File: sections/09_conclusion.tex, Line 160
+Pattern: guarantee
+Match: guarantee
+Context: \item \textbf{Appendix C}: Proofs of Theorem 6 (conformal coverage guarantee)
+----------------------------------------
+File: sections/09_conclusion.tex, Line 107
+Pattern: establish
+Match: establish
+Context: 2. \textbf{Causal Inference}: Use natural experiments (regulatory changes, fund closures) to establi
+----------------------------------------
+File: sections/01_introduction.tex, Line 18
+Pattern: derive
+Match: derive
+Context: We derive mechanistic explanation from first principles. Modeling investors as strategic agents, we 
+----------------------------------------
+File: sections/01_introduction.tex, Line 26
+Pattern: novel
+Match: novel
+Context: These contributions are unified: game theory explains mechanism → domain adaptation enables global t
+----------------------------------------
+File: sections/01_introduction.tex, Line 17
+Pattern: game_theoretic
+Match: Game-Theoretic
+Context: \textbf{Contribution 1: Game-Theoretic Model of Crowding Decay (Section 4)} \\
+----------------------------------------
+File: sections/01_introduction.tex, Line 7
+Pattern: mechanism
+Match: Mechanism
+Context: \textbf{(1) Decay Mechanism}: Factors decay at different rates, but which factors and why? Momentum 
+----------------------------------------
+File: sections/01_introduction.tex, Line 26
+Pattern: mechanism
+Match: mechanism
+Context: These contributions are unified: game theory explains mechanism → domain adaptation enables global t
+----------------------------------------
+File: sections/01_introduction.tex, Line 24
+Pattern: guarantee
+Match: guarantees
+Context: We integrate crowding signals into distribution-free uncertainty quantification. CW-ACI produces nar
+----------------------------------------
+File: sections/01_introduction.tex, Line 18
+Pattern: show_that
+Match: show that
+Context: We derive mechanistic explanation from first principles. Modeling investors as strategic agents, we 
+----------------------------------------
+File: sections/04_game_theory.tex, Line 28
+Pattern: derive
+Match: Derivation
+Context: \subsection{Derivation of hyperbolic decay}
+----------------------------------------
+File: sections/04_game_theory.tex, Line 55
+Pattern: derive
+Match: derived
+Context: This is a first-order linear ODE with time-varying coefficients. Under reasonable boundary condition
+----------------------------------------
+File: sections/04_game_theory.tex, Line 124
+Pattern: game_theoretic
+Match: game-theoretic
+Context: The game-theoretic model has practical implications:
+----------------------------------------
+File: sections/02_related_work.tex, Line 11
+Pattern: derive
+Match: deriving
+Context: We address this gap by deriving a game-theoretic model where rational investors' optimal exit timing
+----------------------------------------
+File: sections/02_related_work.tex, Line 74
+Pattern: novel
+Match: novel
+Context: This integration is novel. Prior work treats each problem in isolation. We show that they are natura
+----------------------------------------
+File: sections/02_related_work.tex, Line 22
+Pattern: prove
+Match: prove
+Context: Zaffran et al. (2022) extend conformal prediction to handle distribution shift in time-series foreca
+----------------------------------------
+File: sections/02_related_work.tex, Line 34
+Pattern: prove
+Match: proving
+Context: Angelopoulos and Bates \cite{Angelopoulos2021} provide comprehensive coverage of conformal predictio
+----------------------------------------
+File: sections/02_related_work.tex, Line 37
+Pattern: prove
+Match: prove
+Context: Romano et al. \cite{Romano2019} prove that conformal methods can adapt to changing data distribution
+----------------------------------------
+File: sections/02_related_work.tex, Line 44
+Pattern: prove
+Match: We prove
+Context: We introduce Crowding-Weighted Adaptive Conformal Inference (CW-ACI), which weights nonconformity sc
+----------------------------------------
+File: sections/02_related_work.tex, Line 11
+Pattern: game_theoretic
+Match: game-theoretic
+Context: We address this gap by deriving a game-theoretic model where rational investors' optimal exit timing
+----------------------------------------
+File: sections/02_related_work.tex, Line 11
+Pattern: game_theoretic
+Match: game-theoretic
+Context: We address this gap by deriving a game-theoretic model where rational investors' optimal exit timing
+----------------------------------------
+File: sections/02_related_work.tex, Line 29
+Pattern: game_theoretic
+Match: game-theoretic
+Context: We apply MMD-based domain adaptation to transfer US factor crowding insights globally. By aligning f
+----------------------------------------
+File: sections/02_related_work.tex, Line 11
+Pattern: mechanism
+Match: mechanism
+Context: We address this gap by deriving a game-theoretic model where rational investors' optimal exit timing
+----------------------------------------
+File: sections/02_related_work.tex, Line 17
+Pattern: guarantee
+Match: guarantees
+Context: 2. \textbf{Maximum Mean Discrepancy (MMD)} (Gretton et al., 2012): Minimize a kernel-based distance 
+----------------------------------------
+File: sections/02_related_work.tex, Line 22
+Pattern: guarantee
+Match: guarantees
+Context: Zaffran et al. (2022) extend conformal prediction to handle distribution shift in time-series foreca
+----------------------------------------
+File: sections/02_related_work.tex, Line 32
+Pattern: guarantee
+Match: guarantees
+Context: Conformal prediction \cite{Vovk2015} is a framework for constructing prediction sets with finite-sam
+----------------------------------------
+File: sections/02_related_work.tex, Line 33
+Pattern: guarantee
+Match: guaranteed
+Context: The basic algorithm is simple: (1) fit a model to historical data, (2) for each test point, compute 
+----------------------------------------
+File: sections/02_related_work.tex, Line 34
+Pattern: guarantee
+Match: guarantees
+Context: Angelopoulos and Bates \cite{Angelopoulos2021} provide comprehensive coverage of conformal predictio
+----------------------------------------
+File: sections/02_related_work.tex, Line 38
+Pattern: guarantee
+Match: guarantees
+Context: Chernozhukov et al. \cite{Chernozhukov2021} show how the framework accommodates domain-specific stru
+----------------------------------------
+File: sections/02_related_work.tex, Line 39
+Pattern: guarantee
+Match: guarantees
+Context: \textbf{What is Known}: Conformal prediction provides powerful distribution-free uncertainty quantif
+----------------------------------------
+File: sections/02_related_work.tex, Line 42
+Pattern: guarantee
+Match: guarantees
+Context: Moreover, integration of domain knowledge risks breaking statistical guarantees. How can we incorpor
+----------------------------------------
+File: sections/02_related_work.tex, Line 42
+Pattern: guarantee
+Match: guarantee
+Context: Moreover, integration of domain knowledge risks breaking statistical guarantees. How can we incorpor
+----------------------------------------
+File: sections/02_related_work.tex, Line 44
+Pattern: guarantee
+Match: guarantee
+Context: We introduce Crowding-Weighted Adaptive Conformal Inference (CW-ACI), which weights nonconformity sc
+----------------------------------------
+File: sections/02_related_work.tex, Line 7
+Pattern: establish
+Match: established
+Context: \textbf{What is Known}: The empirical reality of crowding and its negative impact on factor returns 
+----------------------------------------
+File: sections/02_related_work.tex, Line 74
+Pattern: show_that
+Match: show that
+Context: This integration is novel. Prior work treats each problem in isolation. We show that they are natura
+----------------------------------------
+File: sections/08_robustness.tex, Line 23
+Pattern: derive
+Match: derivation
+Context: \textbf{Finding}: Hyperbolic decay consistently outperforms exponential decay (6 BIC points on avera
+----------------------------------------
+File: sections/08_robustness.tex, Line 1
+Pattern: game_theoretic
+Match: game-theoretic
+Context: \subsection{Robustness of game-theoretic model}
+----------------------------------------
+File: sections/08_robustness.tex, Line 63
+Pattern: guarantee
+Match: guarantee
+Context: \textbf{Finding}: Sigmoid weighting (baseline) provides the best balance between coverage guarantee 
+----------------------------------------
+File: sections/08_robustness.tex, Line 66
+Pattern: guarantee
+Match: Guarantee
+Context: \textbf{Coverage Guarantee Test} (Target = 95%):
+----------------------------------------
+File: sections/08_robustness.tex, Line 71
+Pattern: guarantee
+Match: Guarantee
+Context: \textbf{Horizon} & \textbf{Empirical Coverage} & \textbf{\# Test Points} & \textbf{Meets Guarantee?}
+----------------------------------------
+File: sections/08_robustness.tex, Line 92
+Pattern: guarantee
+Match: guarantee
+Context: \textbf{Finding}: CW-ACI maintains coverage guarantee across all horizons. Hedging benefit decreases
+----------------------------------------
+File: sections/05_us_empirical.tex, Line 23
+Pattern: mechanism
+Match: mechanism
+Context: An important consideration is whether our crowding proxy creates reverse causality or feedback loops
+----------------------------------------
+File: appendices/B_domain_adaptation_theory.tex, Line 221
+Pattern: prove
+Match: proves
+Context: Appendix B provides theoretical foundations for MMD-based domain adaptation. Theorem 5 proves that r
+----------------------------------------
+File: appendices/B_domain_adaptation_theory.tex, Line 115
+Pattern: establish
+Match: establishes
+Context: This section establishes convergence properties of the empirical MMD estimator used in domain adapta
+----------------------------------------
+File: appendices/D_data_documentation.tex, Line 214
+Pattern: game_theoretic
+Match: Game-Theoretic
+Context: \subsubsection{Game-Theoretic Model}
+----------------------------------------
+File: appendices/E_algorithm_pseudocode.tex, Line 5
+Pattern: game_theoretic
+Match: Game-theoretic
+Context: \subsection{Game-theoretic model: decay parameter estimation}
+----------------------------------------
+File: appendices/E_algorithm_pseudocode.tex, Line 256
+Pattern: guarantee
+Match: guaranteed
+Context: \textbf{Purpose}: Construct prediction sets with guaranteed coverage that adapt to crowding levels.
+----------------------------------------
+File: appendices/F_supplementary_robustness.tex, Line 334
+Pattern: game_theoretic
+Match: game-theoretic
+Context: 5. Can agent-based models validate our game-theoretic predictions?
+----------------------------------------
+File: appendices/C_conformal_prediction_proofs.tex, Line 48
+Pattern: prove
+Match: Prove
+Context: \textbf{Step 3: Prove exchangeability is preserved}
+----------------------------------------
+File: appendices/C_conformal_prediction_proofs.tex, Line 215
+Pattern: prove
+Match: proves
+Context: Theorem 6 proves that crowding-weighted conformal prediction preserves the coverage guarantee of sta
+----------------------------------------
+File: appendices/C_conformal_prediction_proofs.tex, Line 5
+Pattern: guarantee
+Match: guarantee
+Context: \subsection{Theorem 6: coverage guarantee under crowding weighting}
+----------------------------------------
+File: appendices/C_conformal_prediction_proofs.tex, Line 7
+Pattern: guarantee
+Match: Guarantee
+Context: \textbf{Theorem 6} \textit{(Coverage Guarantee with Crowding Weights)}: Consider the crowding-weight
+----------------------------------------
+File: appendices/C_conformal_prediction_proofs.tex, Line 98
+Pattern: guarantee
+Match: guarantee
+Context: \textbf{Conclusion}: The crowding-weighted conformal prediction set maintains the coverage guarantee
+----------------------------------------
+File: appendices/C_conformal_prediction_proofs.tex, Line 215
+Pattern: guarantee
+Match: guarantee
+Context: Theorem 6 proves that crowding-weighted conformal prediction preserves the coverage guarantee of sta
+----------------------------------------
+File: appendices/A_game_theory_proofs.tex, Line 2
+Pattern: game_theoretic
+Match: game-theoretic
+Context: This appendix provides complete formal proofs of the three main theorems in the game-theoretic model
+----------------------------------------
+File: appendices/A_game_theory_proofs.tex, Line 70
+Pattern: establish
+Match: establish
+Context: To establish monotonicity, we apply the Implicit Function Theorem to the equilibrium condition $F(C,
+----------------------------------------
+File: appendices/A_game_theory_proofs.tex, Line 77
+Pattern: establish
+Match: establish
+Context: This completes the monotonicity argument. We proceed to establish:
+----------------------------------------
+File: appendices/A_game_theory_proofs.tex, Line 149
+Pattern: establish
+Match: establishes
+Context: This establishes that factors with higher barriers to entry (larger $\lambda_0$) exhibit faster obse
+----------------------------------------
+File: appendices/A_game_theory_proofs.tex, Line 171
+Pattern: establish
+Match: Establish
+Context: \textbf{Step 1: Establish decay rate formula}
+----------------------------------------
+File: appendices/A_game_theory_proofs.tex, Line 48
+Pattern: show_that
+Match: show that
+Context: We need to show that $F(C, t) = 0$ has a solution $C^*(t)$ for each $t$.
+----------------------------------------
+File: appendices/A_game_theory_proofs.tex, Line 58
+Pattern: show_that
+Match: show that
+Context: We show that $F(C, t)$ is strictly increasing in $C$:
+----------------------------------------
