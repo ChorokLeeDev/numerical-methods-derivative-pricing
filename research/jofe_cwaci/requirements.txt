@@ -1,0 +1,13 @@
+# Requirements for CW-ACI Replication Package
+# Crowding-Aware Conformal Prediction for Factor Return Uncertainty
+
+# Core scientific computing
+numpy>=1.21
+pandas>=1.3
+scipy>=1.7
+
+# Visualization
+matplotlib>=3.4
+
+# Data download
+pandas-datareader>=0.10

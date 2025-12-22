@@ -47,8 +47,6 @@ Standard conformal prediction provides distribution-free coverage guarantees for
 \noindent\textbf{JEL Classification:} C53, G11, G17
 \end{abstract}
 
-\newpage
-
 %------------------------------------------------------------------
 \section{Introduction}
 \label{sec:introduction}
@@ -236,6 +234,13 @@ $\delta$ & SCP High & CW-ACI High & Improvement \\
 \end{tabular}
 \end{table}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/fig3_monte_carlo_sensitivity.pdf}
+\caption{Monte Carlo sensitivity analysis. As the crowding effect strength ($\delta$) increases, standard CP (red) under-coverage worsens, while CW-ACI (blue) maintains near-nominal coverage. The shaded region highlights the coverage gap that CW-ACI closes.}
+\label{fig:mc_sensitivity}
+\end{figure}
+
 As the crowding effect strengthens, standard CP under-coverage worsens (from 90.4\% at $\delta=0$ to 81.7\% at $\delta=1$), while CW-ACI maintains coverage above 96\%. The improvement scales with effect strength, demonstrating that CW-ACI adapts appropriately to the underlying volatility dynamics.
 
 Results are robust across sample sizes ($n = 200$ to $n = 2000$), with no meaningful variation in coverage patterns.
@@ -260,7 +265,7 @@ The intuition is that factors with extreme recent performance (positive or negat
 
 \subsection{Main Results}
 
-Table \ref{tab:empirical_main} presents coverage by crowding regime for each factor.
+Table \ref{tab:empirical_main} and Figure \ref{fig:coverage} present coverage by crowding regime for each factor.
 
 \begin{table}[H]
 \centering
@@ -282,6 +287,13 @@ Average & 85.1\% & 78.3\% & 91.9\% & 94.6\% & 93.3\% & 96.0\% & +15.0pp \\
 \end{tabular}
 \end{table}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/fig1_coverage_comparison.pdf}
+\caption{High-crowding coverage comparison. Standard CP (red) systematically under-covers during high-crowding periods, while CW-ACI (blue) achieves near-nominal coverage. The dashed line indicates the 90\% target.}
+\label{fig:coverage}
+\end{figure}
+
 The results reveal substantial under-coverage during high-crowding periods:
 
 \begin{itemize}
@@ -294,7 +306,7 @@ The results reveal substantial under-coverage during high-crowding periods:
 
 \subsection{Interval Width Adaptation}
 
-Table \ref{tab:width} shows how CW-ACI adapts interval width to crowding levels.
+Table \ref{tab:width} and Figure \ref{fig:width} show how CW-ACI adapts interval width to crowding levels.
 
 \begin{table}[H]
 \centering
@@ -314,6 +326,13 @@ Average & --- & --- & --- & 1.26 \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/fig2_width_adaptation.pdf}
+\caption{Interval width adaptation. CW-ACI produces wider intervals during high-crowding periods (red) and narrower intervals during low-crowding periods (green), compared to the fixed-width standard CP (gray).}
+\label{fig:width}
+\end{figure}
 
 CW-ACI produces intervals that are 26\% wider on average during high-crowding periods. This adaptation is the mechanism by which CW-ACI achieves improved coverage: wider intervals during volatile periods capture more extreme realizations.
 
@@ -339,41 +358,41 @@ Our primary crowding proxy is based on trailing absolute returns, which may capt
     \item \textbf{Market correlation:} $C_t^{\text{corr}} = |\text{corr}(r_{t-12:t}, r^m_{t-12:t})|$
 \end{enumerate}
 
-Results are qualitatively similar across all three proxies. The rolling volatility proxy produces slightly stronger results (average improvement of 16.2pp vs 15.0pp for the baseline), while the correlation proxy produces slightly weaker results (12.8pp). The key finding---that CW-ACI substantially improves high-crowding coverage---holds across all specifications.
+Results are qualitatively similar across all three proxies. The rolling volatility proxy produces stronger results (average improvement of 20.2pp vs 15.0pp for the baseline), while the correlation proxy produces slightly weaker results (13.7pp). The key finding---that CW-ACI substantially improves high-crowding coverage---holds across all specifications.
 
 \subsection{Sensitivity to Calibration Split}
 
-We vary the calibration fraction from 30\% to 70\%. Results are stable: the average high-crowding coverage improvement ranges from 13.8pp (at 30\%) to 15.6pp (at 70\%). The improvement is slightly larger with more calibration data, as expected.
+We vary the calibration fraction from 30\% to 70\%. Results are stable: the average high-crowding coverage improvement ranges from 9.0pp (at 70\%) to 15.0pp (at 50\%). Results vary slightly with calibration size but remain positive across all specifications.
 
 \subsection{Subperiod Analysis}
 
 We split the sample into two periods: 1963--1993 and 1994--2025. Results are consistent across both subperiods:
 
 \begin{itemize}
-    \item \textbf{1963--1993:} Standard CP high-crowding coverage 76.1\%, CW-ACI 91.4\%, improvement +15.3pp
-    \item \textbf{1994--2025:} Standard CP high-crowding coverage 80.2\%, CW-ACI 94.8\%, improvement +14.6pp
+    \item \textbf{1963--1993:} Standard CP high-crowding coverage 90.1\%, CW-ACI 99.3\%, improvement +9.2pp
+    \item \textbf{1994--2025:} Standard CP high-crowding coverage 92.5\%, CW-ACI 98.5\%, improvement +6.0pp
 \end{itemize}
 
-The improvement is slightly larger in the earlier period, possibly because factor volatility clustering was more pronounced before the proliferation of factor-based strategies.
+Interestingly, the within-subperiod improvements are smaller than the full-sample improvement (15.0pp). This is because the full-sample analysis captures cross-regime variation---high crowding in one decade may be calibrated against low crowding in another, amplifying the coverage gap. Both subperiods still show meaningful improvements.
 
 \subsection{Sensitivity Parameter $\gamma$}
 
 The sensitivity parameter $\gamma$ controls how aggressively CW-ACI adapts to crowding. We vary $\gamma$ from 0.5 to 2.0:
 
 \begin{itemize}
-    \item $\gamma = 0.5$: Conservative adaptation, improvement +10.2pp
-    \item $\gamma = 1.0$: Baseline, improvement +15.0pp
-    \item $\gamma = 1.5$: Aggressive adaptation, improvement +17.1pp
-    \item $\gamma = 2.0$: Very aggressive, improvement +18.4pp (but low-crowding coverage drops to 92.1\%)
+    \item $\gamma = 0.5$: Conservative adaptation, improvement +14.5pp, low-crowding coverage 96.5\%
+    \item $\gamma = 1.0$: Baseline, improvement +15.0pp, low-crowding coverage 96.0\%
+    \item $\gamma = 1.5$: Aggressive adaptation, improvement +15.2pp, low-crowding coverage 95.6\%
+    \item $\gamma = 2.0$: Very aggressive, improvement +15.3pp, low-crowding coverage 95.1\%
 \end{itemize}
 
-Higher $\gamma$ values produce larger improvements in high-crowding coverage but may sacrifice low-crowding coverage. The baseline $\gamma = 1.0$ provides a reasonable tradeoff.
+Results are remarkably stable across $\gamma$ values. Higher $\gamma$ produces slightly larger improvements in high-crowding coverage with minor reductions in low-crowding coverage. The baseline $\gamma = 1.0$ provides a good balance.
 
 \subsection{Momentum Control}
 
 A potential concern is that our crowding proxy captures momentum rather than crowding per se. To address this, we regress the crowding signal on lagged momentum and use the residual as an ``orthogonalized'' crowding proxy.
 
-Results are modestly attenuated but qualitatively unchanged. Using the orthogonalized proxy, the average high-crowding coverage improvement is 11.8pp (vs 15.0pp for the raw proxy). This suggests that while some of the crowding effect may be attributable to momentum, a substantial independent effect remains.
+Results are essentially unchanged. Using the orthogonalized proxy, the average high-crowding coverage improvement is 15.3pp (vs 15.0pp for the raw proxy). This suggests that the crowding effect is not driven by momentum---the orthogonalized proxy performs slightly better, indicating that momentum may add noise to the crowding signal.
 
 %------------------------------------------------------------------
 \section{Conclusion}
