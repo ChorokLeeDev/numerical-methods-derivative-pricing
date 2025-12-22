@@ -28,7 +28,7 @@
 \title{Crowding-Aware Conformal Prediction for Factor Return Uncertainty}
 
 \author{
-Chorok Lee\thanks{Korea Advanced Institute of Science and Technology (KAIST). Email: [email]. I thank [acknowledgments].}
+Chorok Lee\thanks{Korea Advanced Institute of Science and Technology (KAIST). Email: choroklee@kaist.ac.kr}
 }
 
 \date{\today}
@@ -38,12 +38,12 @@ Chorok Lee\thanks{Korea Advanced Institute of Science and Technology (KAIST). Em
 \maketitle
 
 \begin{abstract}
-Standard conformal prediction provides distribution-free coverage guarantees for prediction intervals. However, when applied to factor returns, we find empirical coverage drops to 67--77\% during high-crowding periods, well below the nominal 90\% target. We introduce Crowding-Weighted Adaptive Conformal Inference (CW-ACI), which produces wider prediction intervals when crowding signals are elevated. Using 62 years of Fama-French data (1963--2025), we show that CW-ACI achieves 83--95\% coverage during high-crowding periods while maintaining nominal coverage overall. The method adapts interval width by 20--25\% based on crowding levels. Monte Carlo simulations confirm these findings under controlled conditions. Our results suggest that uncertainty quantification in factor investing should account for crowding dynamics, and that simple signal-weighted adjustments can substantially improve coverage properties.
+Standard conformal prediction under-covers factor returns during high-crowding periods, achieving only 78\% coverage versus the 90\% target. We introduce Crowding-Weighted Adaptive Conformal Inference (CW-ACI), which adapts interval width based on crowding signals. Using 62 years of Fama-French data, CW-ACI improves high-crowding coverage to 93\%---a 15 percentage point gain. Monte Carlo simulations confirm these findings. Our results suggest uncertainty quantification in factor investing should account for crowding dynamics.
 
-\vspace{0.5cm}
-\noindent\textbf{Keywords:} Conformal prediction, uncertainty quantification, factor investing, crowding, coverage guarantee
+\vspace{0.3cm}
+\noindent\textbf{Keywords:} Conformal prediction, uncertainty quantification, factor investing, crowding
 
-\vspace{0.5cm}
+\vspace{0.3cm}
 \noindent\textbf{JEL Classification:} C53, G11, G17
 \end{abstract}
 
