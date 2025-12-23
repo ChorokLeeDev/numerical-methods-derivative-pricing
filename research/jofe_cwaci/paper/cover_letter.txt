@@ -1,0 +1,37 @@
+Dear Editors,
+
+I am pleased to submit our manuscript entitled "Volatility-Adaptive Conformal Prediction for Factor Return Uncertainty" for consideration for publication in Quantitative Finance.
+
+SUMMARY
+
+This paper documents a practical problem and provides a simple solution for uncertainty quantification in factor investing. We show that standard conformal prediction—a popular distribution-free method for constructing prediction intervals—systematically under-covers factor returns during high-volatility periods. Using 62 years of Fama-French data, we find that coverage drops from the nominal 90% target to just 74% during volatile markets. We demonstrate this is fundamentally a regime-change problem: standard conformal prediction works well within stable periods but fails when calibration and test data span different volatility regimes.
+
+Our main contribution is showing that a simple fix—scaling prediction intervals by realized volatility—fully restores coverage to the target level. This approach requires only one additional line of code beyond standard conformal prediction, making it immediately practical for risk managers and portfolio analysts.
+
+KEY FINDINGS
+
+• Standard conformal prediction achieves only 74% coverage during high-volatility periods (vs. 90% target)
+• Simple volatility scaling restores coverage to 90%
+• More sophisticated locally-weighted methods provide only modest additional benefit
+• The problem arises from regime changes, not fundamental limitations of conformal prediction
+
+FIT WITH QUANTITATIVE FINANCE
+
+This work aligns well with the journal's focus on practical quantitative methods for financial applications. The paper bridges the gap between recent advances in distribution-free inference (conformal prediction) and the realities of financial data (heteroskedasticity, regime changes). Our emphasis on simple, interpretable solutions over complex methods reflects the practical orientation valued by your readership.
+
+REPRODUCIBILITY
+
+All code and data are publicly available. The analysis uses the Kenneth French Data Library, and we provide complete replication scripts.
+
+DECLARATIONS
+
+This manuscript has not been published elsewhere and is not under consideration by any other journal. All authors have approved the manuscript and agree with its submission to Quantitative Finance.
+
+Thank you for considering our submission. I look forward to hearing from you.
+
+Sincerely,
+
+Chorok Lee
+PhD Candidate
+Korea Advanced Institute of Science and Technology (KAIST)
+choroklee@kaist.ac.kr

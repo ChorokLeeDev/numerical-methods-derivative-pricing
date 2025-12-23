@@ -1,0 +1,20 @@
+\begin{table}[H]
+\centering
+\caption{High-Volatility Coverage: Conformal Prediction vs GARCH}
+\label{tab:garch_comparison}
+\begin{tabular}{lcccc}
+\toprule
+Factor & Standard CP & GARCH(1,1)-N & GARCH(1,1)-t & Vol-Scaled CP \\
+\midrule
+CMA & 74.9% & 82.9% & 83.4% & 91.4% \\
+HML & 72.2% & 82.4% & 85.0% & 88.8% \\
+Mkt-RF & 79.1% & 83.4% & 88.8% & 89.3% \\
+Mom & 72.7% & 81.3% & 84.5% & 92.5% \\
+RMW & 65.8% & 80.2% & 84.5% & 90.4% \\
+SMB & 81.2% & 87.1% & 90.9% & 97.3% \\
+\midrule
+\textbf{Average} & \textbf{74.3%} & \textbf{82.9%} & \textbf{86.2%} & \textbf{91.6%} \\
+\textbf{Gap from 90\%} & -15.7pp & -7.1pp & -3.8pp & +1.6pp \\
+\bottomrule
+\end{tabular}
+\end{table}

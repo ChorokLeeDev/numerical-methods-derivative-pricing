@@ -1,0 +1,29 @@
+\begin{table}[H]
+\centering
+\caption{Tests of I.I.D. Assumption on Standardized Residuals}
+\label{tab:iid_tests}
+\begin{tabular}{lcccccc}
+\toprule
+& \multicolumn{2}{c}{Autocorrelation} & \multicolumn{2}{c}{ARCH Effects} & \multicolumn{2}{c}{Independence} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
+Factor & LB(12) & $p$-value & LB$^2$(12) & $p$-value & Runs & $p$-value \\
+\midrule
+Mkt-RF & 5.7 & 0.930 & 14.7 & 0.256 & 0.18 & 0.854 \\
+SMB & 61.3 & \textbf{0.000} & 69.0 & \textbf{0.000} & -3.06 & \textbf{0.002} \\
+HML & 41.2 & \textbf{0.000} & 32.9 & \textbf{0.001} & -4.31 & \textbf{0.000} \\
+RMW & 38.3 & \textbf{0.000} & 30.3 & \textbf{0.002} & -2.84 & \textbf{0.005} \\
+CMA & 38.1 & \textbf{0.000} & 18.4 & 0.103 & -2.62 & \textbf{0.009} \\
+Mom & 10.1 & 0.608 & 41.4 & \textbf{0.000} & -0.92 & 0.357 \\
+\midrule
+Reject at 5\% & \multicolumn{2}{c}{4/6} & \multicolumn{2}{c}{4/6} & \multicolumn{2}{c}{4/6} \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\small
+\item Notes: LB(12) is Ljung-Box statistic at lag 12 testing for autocorrelation.
+LB$^2$(12) tests for ARCH effects (autocorrelation in squared residuals).
+Runs test examines independence of sign sequences.
+Bold $p$-values indicate rejection at 5\% level.
+Standardized residuals: $\hat{\epsilon}_t = (r_t - \bar{r}) / \hat{\sigma}_t$.
+\end{tablenotes}
+\end{table}

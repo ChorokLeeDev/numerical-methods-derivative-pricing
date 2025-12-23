@@ -1,0 +1,5 @@
+name,high_vol_coverage,low_vol_coverage,overall_coverage,avg_width
+Expanding-Standard,0.8009,0.9827,0.8918,0.0967
+Expanding-VolScaled,0.9015,0.8918,0.8966,0.0987
+Rolling-Standard,0.8101,0.9686,0.8893,0.1013
+Rolling-VolScaled,0.9069,0.8956,0.9012,0.1012

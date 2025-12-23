@@ -1,0 +1,5 @@
+method,overall_coverage,high_vol_coverage,low_vol_coverage,overall_width,high_vol_width,low_vol_width
+Standard CP,0.8556,0.7431,0.9679,0.0914,0.0914,0.0914
+Vol-Scaled CP,0.9073,0.9162,0.8984,0.1064,0.1461,0.0667
+"GARCH(1,1)-N",0.8792,0.8288,0.9296,0.101,0.1225,0.0795
+"GARCH(1,1)-t",0.9091,0.8618,0.9563,0.1124,0.1351,0.0897
