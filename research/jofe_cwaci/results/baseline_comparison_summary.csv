@@ -1,0 +1,6 @@
+method,overall,low_crowd,high_crowd,avg_width
+GARCH,0.949,0.945,0.929,0.138
+Bootstrap,0.876,0.918,0.776,0.105
+CQR,0.88,0.923,0.787,0.105
+Standard CP,0.866,0.915,0.754,0.1
+CW-ACI,0.951,0.943,0.945,0.146
