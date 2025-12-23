@@ -1,0 +1,5 @@
+threshold,vs_coverage,std_coverage,vs_n
+Median (>50%),0.9144,0.7406,187.0
+Tercile (>67%),0.9153,0.6694,124.0
+Quartile (>75%),0.9202,0.6277,94.0
+Decile (>90%),0.9474,0.5263,38.0

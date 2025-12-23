@@ -68,20 +68,21 @@ Since $F_{|\epsilon|}$ is strictly increasing, coverage decreases monotonically 
 
 \begin{corollary}[Coverage Gap Quantification]
 \label{cor:gap}
-Define the volatility ratio $\rho = \sigma_{\text{high}}/\sigma_{\text{low}}$ where $\sigma_{\text{high}}$ and $\sigma_{\text{low}}$ are typical high and low volatility levels. For Gaussian innovations ($\epsilon \sim N(0,1)$), the coverage gap during high-volatility periods is approximately:
+For Gaussian innovations, if calibration occurs at volatility $\sigma_{\text{cal}}$ and testing at $\sigma_{\text{test}} = \rho \cdot \sigma_{\text{cal}}$ with $\rho > 1$, the conditional coverage at test time is:
 \begin{equation}
-    \text{Coverage Gap} \approx (1-\alpha)\left(1 - \frac{1}{\rho}\right)
+    \text{Coverage} = 2\Phi\left(\frac{z_{1-\alpha/2}}{\rho}\right) - 1
 \end{equation}
+where $\Phi$ is the standard normal CDF and $z_{1-\alpha/2} \approx 1.645$ for $\alpha = 0.1$.
 \end{corollary}
 
 \begin{example}
-For $\rho = 2$ (high volatility is twice low volatility) with $\alpha = 0.1$:
+For $\rho = 2$ (test volatility twice calibration volatility) with $\alpha = 0.1$:
 \begin{itemize}
     \item Target coverage: 90\%
-    \item High-volatility coverage: $\approx$ 90\%$/2 = 45\%$
-    \item Coverage gap: $\approx$ 45 percentage points
+    \item Actual coverage: $2\Phi(1.645/2) - 1 = 2\Phi(0.82) - 1 \approx 59\%$
+    \item Coverage gap: $\approx$ 31 percentage points
 \end{itemize}
-In practice, the empirical gap (16pp in our data) is smaller because the volatility ratio varies smoothly rather than discretely.
+In practice, the empirical gap (16pp in our data) is smaller because calibration includes mixed volatility periods rather than purely low-volatility data.
 \end{example}
 
 \subsection{Volatility-Scaled CP Achieves Uniform Conditional Coverage}
@@ -179,19 +180,15 @@ where the last step uses a Taylor expansion.
 
 \begin{corollary}[Coverage Loss Bound]
 \label{cor:loss}
-For Gaussian innovations with $\alpha = 0.1$, the coverage loss due to volatility estimation error $\delta$ is bounded by:
-\begin{equation}
-    \text{Coverage Loss} \lesssim 1.76 \cdot \delta
-\end{equation}
-For example, 10\% relative volatility estimation error ($\delta = 0.1$) costs at most $\approx$18 percentage points of coverage.
+For Gaussian innovations with $\alpha = 0.1$, the first-order coverage loss due to volatility estimation error $\delta$ is approximately $0.68\delta$. Ten percent relative volatility estimation error ($\delta = 0.1$) costs approximately 7 percentage points of coverage in the worst case.
 \end{corollary}
 
 \begin{proof}
-For $|\epsilon| \sim |N(0,1)|$ (half-normal), at $\alpha = 0.1$: $q_{0.1} \approx 1.645$ and $f_{|\epsilon|}(q_{0.1}) \approx 0.107$. Thus:
+For $|\epsilon| \sim |N(0,1)|$ (half-normal), at $\alpha = 0.1$: $q_{0.1} \approx 1.645$ and $f_{|\epsilon|}(q_{0.1}) \approx 0.207$. Thus:
 \begin{equation}
-    2 \cdot f_{|\epsilon|}(q_\alpha) \cdot q_\alpha \approx 2 \times 0.107 \times 1.645 \approx 0.35
+    2 \cdot f_{|\epsilon|}(q_\alpha) \cdot q_\alpha \approx 2 \times 0.207 \times 1.645 \approx 0.68
 \end{equation}
-This gives coverage loss $\lesssim 0.35\delta$. For our stated bound of $1.76\delta$, we use a more conservative analysis accounting for higher-order terms.
+The first-order coverage loss is bounded by $0.68\delta$. In practice, the bound may be somewhat looser due to higher-order terms and finite-sample effects.
 \end{proof}
 
 \subsection{Extension to Unknown Mean}
