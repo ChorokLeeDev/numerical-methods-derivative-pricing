@@ -1,0 +1,27 @@
+\begin{table}[H]
+\centering
+\caption{Fair GARCH Comparison: Effect of Refitting Frequency and Asymmetry}
+\label{tab:fair_garch}
+\begin{tabular}{lccccc}
+\toprule
+Factor & Std CP & GARCH-t & GARCH-t$^{m}$ & GJR-t$^{m}$ & Vol-CP \\
+\midrule
+CMA & 74.9% & 83.4% & 84.5% & 84.5% & 91.4% \\
+HML & 72.2% & 85.0% & 88.8% & 89.3% & 88.8% \\
+Mkt-RF & 79.1% & 88.8% & 93.0% & 94.1% & 89.3% \\
+Mom & 72.7% & 84.5% & 89.8% & 88.8% & 92.5% \\
+RMW & 65.8% & 84.5% & 88.8% & 88.8% & 90.4% \\
+SMB & 81.2% & 90.9% & 92.5% & 91.9% & 97.3% \\
+\midrule
+\textbf{Average} & \textbf{74.3%} & \textbf{86.2%} & \textbf{89.6%} & \textbf{89.6%} & \textbf{91.6%} \\
+\textbf{-15.7pp}
+\textbf{-3.8pp}
+\textbf{-0.4pp}
+\textbf{-0.4pp}
+\textbf{+1.6pp}
+\bottomrule
+\end{tabular}
+\begin{flushleft}
+\small\textit{Note:} $^{m}$ indicates monthly refitting. GARCH-t uses Student-t innovations. GJR adds asymmetric term for leverage effects.
+\end{flushleft}
+\end{table}

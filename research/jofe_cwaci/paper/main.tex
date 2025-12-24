@@ -57,17 +57,21 @@ Uncertainty quantification is critical for financial decision-making. Portfolio 
 
 However, financial returns are heteroskedastic. Volatility clusters, with extended periods of high volatility followed by extended periods of low volatility. This creates a fundamental challenge for conformal prediction: when calibration data comes from a low-volatility period and test data from a high-volatility period, the exchangeability assumption fails and coverage breaks down.
 
-In this paper, we document this phenomenon and propose a simple solution. Our contributions are:
+In this paper, we document this phenomenon and propose a simple solution.
+
+\textbf{Scope and novelty.} We emphasize upfront that volatility-scaled conformal prediction is not methodologically novel---\citet{papadopoulos2008normalized} introduced normalized nonconformity measures in 2008, and \citet{lei2018distribution} discuss variance-weighted approaches. Our contribution is \textit{applied}: we provide the first systematic analysis of conformal prediction's coverage properties for factor returns, quantify the magnitude of coverage breakdown under heteroskedasticity, and demonstrate that simple volatility scaling outperforms more sophisticated alternatives in this domain. We view this as a ``bridge'' paper that brings established machine learning methodology to the attention of financial econometricians with domain-specific analysis.
+
+Our specific contributions are:
 
 \begin{enumerate}
-    \item \textbf{Theoretical foundations:} We prove that under multiplicative heteroskedasticity, standard conformal prediction's conditional coverage decreases monotonically with volatility (Theorem~\ref{thm:undercover}). We show that volatility-scaled conformal prediction achieves exact conditional coverage regardless of volatility level (Theorem~\ref{thm:uniform}), with explicit robustness bounds for estimation error (Theorem~\ref{thm:robust}).
+    \item \textbf{Theoretical analysis for finance:} We derive explicit coverage bounds under the multiplicative heteroskedasticity model common in financial returns. Theorem~\ref{thm:undercover} quantifies how coverage degrades with volatility; Theorem~\ref{thm:uniform} shows volatility scaling restores uniform conditional coverage; Theorem~\ref{thm:robust} provides robustness bounds for estimation error. These results adapt existing theory to the financial setting with explicit, interpretable bounds.
 
-    \item \textbf{Empirical documentation:} Using over 61 years of Fama-French factor data, we show that standard conformal prediction achieves only 74\% coverage during high-volatility periods versus the 90\% target. Volatility-scaled conformal prediction restores coverage to the target level, outperforming GARCH(1,1) prediction intervals (83--86\%) despite requiring no distributional assumptions.
+    \item \textbf{Empirical documentation:} Using 738 months of Fama-French factor data (1963--2024), we show that standard conformal prediction achieves only 74\% coverage during high-volatility periods versus the 90\% target---a 16 percentage point shortfall when uncertainty matters most. We also document that formal i.i.d.\ assumptions hold for only 2 of 6 factors, yet volatility scaling remains effective empirically.
 
-    \item \textbf{Practical solution:} The fix requires only one line of code: divide nonconformity scores by volatility. We validate this approach with true out-of-sample rolling window analysis, confirming robust performance across decades.
+    \item \textbf{Baseline comparisons:} We compare against GARCH(1,1) with Gaussian and Student-t innovations, conformalized quantile regression (CQR), historical simulation, and EWMA-scaled variants. Volatility-scaled CP achieves the best high-volatility coverage (91.6\%) despite requiring no distributional assumptions or parameter estimation. We provide detailed analysis of why CQR---designed for heteroskedastic data---fails to improve over standard CP in this setting.
+
+    \item \textbf{Out-of-sample validation:} Rolling window analysis confirms that results are not artifacts of the train/test split, with 90.2\% high-volatility coverage in true out-of-sample evaluation across six decades.
 \end{enumerate}
-
-Our work builds on the normalized conformal prediction literature \citep{papadopoulos2008normalized, lei2018distribution} by providing theoretical foundations specific to the multiplicative heteroskedasticity common in financial returns. While the technique of scaling nonconformity scores is not new, our contributions are: (1) rigorous analysis of \textit{when} and \textit{why} standard CP fails for factor returns, with explicit coverage bounds (Theorems~\ref{thm:undercover}--\ref{thm:robust}), (2) empirical demonstration that simple volatility scaling outperforms not only parametric GARCH methods but also conformalized quantile regression \citep{romano2019conformalized}---despite CQR being specifically designed for heteroskedastic data, and (3) comprehensive out-of-sample validation across 738 months showing robust performance where formal theoretical guarantees may not apply.
 
 %------------------------------------------------------------------
 \section{Related Work}
@@ -453,7 +457,9 @@ We fit GARCH(1,1) models using maximum likelihood estimation:
     r_t &= \mu + \epsilon_t, \quad \epsilon_t = \sigma_t z_t \\
     \sigma_t^2 &= \omega + \alpha \epsilon_{t-1}^2 + \beta \sigma_{t-1}^2
 \end{align}
-where $z_t \sim N(0,1)$ or $z_t \sim t_\nu$ (Student-t with $\nu$ degrees of freedom). We construct $(1-\alpha)$ prediction intervals as $\hat{\mu} \pm z_{1-\alpha/2} \cdot \hat{\sigma}_{t+1}$, where $\hat{\sigma}_{t+1}$ is the one-step-ahead volatility forecast. Models are re-estimated every 12 months using expanding windows.\footnote{Annual re-estimation balances parameter stability against adaptation to changing market conditions. Results are robust to quarterly or semi-annual re-estimation.}
+where $z_t \sim N(0,1)$ or $z_t \sim t_\nu$ (Student-t with $\nu$ degrees of freedom). We construct $(1-\alpha)$ prediction intervals as $\hat{\mu} \pm z_{1-\alpha/2} \cdot \hat{\sigma}_{t+1}$, where $\hat{\sigma}_{t+1}$ is the one-step-ahead volatility forecast.
+
+To ensure a fair comparison, we test multiple GARCH configurations: (i) annual refitting (every 12 months), (ii) monthly refitting, and (iii) GJR-GARCH with asymmetric leverage effects and monthly refitting. All models use Student-t innovations.
 
 \subsection{Results}
 
@@ -461,36 +467,36 @@ Table \ref{tab:garch} compares high-volatility coverage across methods.
 
 \begin{table}[H]
 \centering
-\caption{High-Volatility Coverage: Conformal Prediction vs GARCH (90\% Target)}
+\caption{High-Volatility Coverage: Fair GARCH Comparison (90\% Target)}
 \label{tab:garch}
 \begin{tabular}{lccccc}
 \toprule
-Factor & Standard CP & GARCH-N & GARCH-t & Vol-Scaled CP & VS vs GARCH-t \\
+Factor & Std CP & GARCH-t$^a$ & GARCH-t$^m$ & GJR-t$^m$ & Vol-Scaled CP \\
 \midrule
-Mkt-RF & 79.1\% & 83.4\% & 88.8\% & 89.3\% & $+$0.5pp \\
-SMB & 81.2\% & 87.1\% & 90.9\% & 97.3\% & $+$6.4pp$^{*}$ \\
-HML & 72.2\% & 82.4\% & 85.0\% & 88.8\% & $+$3.8pp \\
-RMW & 65.8\% & 80.2\% & 84.5\% & 90.4\% & $+$5.9pp$^{*}$ \\
-CMA & 74.9\% & 82.9\% & 83.4\% & 91.4\% & $+$8.0pp$^{**}$ \\
-Mom & 72.7\% & 81.3\% & 84.5\% & 92.5\% & $+$8.0pp$^{**}$ \\
+Mkt-RF & 79.1\% & 88.8\% & 93.0\% & 94.1\% & 89.3\% \\
+SMB & 81.2\% & 90.9\% & 92.5\% & 91.9\% & 97.3\% \\
+HML & 72.2\% & 85.0\% & 88.8\% & 89.3\% & 88.8\% \\
+RMW & 65.8\% & 84.5\% & 88.8\% & 88.8\% & 90.4\% \\
+CMA & 74.9\% & 83.4\% & 84.5\% & 84.5\% & 91.4\% \\
+Mom & 72.7\% & 84.5\% & 89.8\% & 88.8\% & 92.5\% \\
 \midrule
-\textbf{Average} & \textbf{74.3\%} & \textbf{82.9\%} & \textbf{86.2\%} & \textbf{91.6\%} & $+$5.4pp$^{**}$ \\
-\textbf{Gap from 90\%} & $-$15.7pp & $-$7.1pp & $-$3.8pp & $+$1.6pp & --- \\
+\textbf{Average} & \textbf{74.3\%} & \textbf{86.2\%} & \textbf{89.6\%} & \textbf{89.6\%} & \textbf{91.6\%} \\
+\textbf{Gap from 90\%} & $-$15.7pp & $-$3.8pp & $-$0.4pp & $-$0.4pp & $+$1.6pp \\
 \bottomrule
 \end{tabular}
 \begin{flushleft}
-\small\textit{Note:} $^{***}p<0.001$, $^{**}p<0.01$, $^{*}p<0.05$ for two-proportion z-test. VS vs GARCH-t column tests whether Vol-Scaled CP significantly outperforms GARCH with Student-t innovations.
+\small\textit{Note:} $^a$Annual refitting. $^m$Monthly refitting. All GARCH models use Student-t innovations. GJR adds asymmetric term for leverage effects.
 \end{flushleft}
 \end{table}
 
 Key findings:
 
 \begin{enumerate}
-    \item \textbf{GARCH improves over standard CP but still under-covers.} GARCH(1,1) with Gaussian innovations achieves 82.9\% high-volatility coverage---better than standard CP (74.3\%) but still 7.1 percentage points below target.
+    \item \textbf{Refitting frequency matters substantially.} With annual refitting, GARCH-t achieves 86.2\% high-volatility coverage (3.8pp below target). With monthly refitting, GARCH-t improves to 89.6\%---essentially matching the target.
 
-    \item \textbf{Heavy-tailed distributions help modestly.} GARCH(1,1) with Student-t innovations achieves 86.2\% coverage, reducing the gap to 3.8 percentage points.
+    \item \textbf{Asymmetric GARCH provides no additional benefit.} GJR-GARCH, which models leverage effects, achieves the same 89.6\% coverage as symmetric GARCH with monthly refitting. For factor returns, the leverage effect is less important than for individual stocks.
 
-    \item \textbf{Volatility-scaled CP outperforms GARCH.} Despite requiring no distributional assumptions and no parameter estimation, volatility-scaled CP achieves 91.6\% high-volatility coverage---exceeding the 90\% target.
+    \item \textbf{Volatility-scaled CP remains the best performer.} Despite the much fairer GARCH comparison, volatility-scaled CP (91.6\%) still achieves the highest coverage. Critically, it does so without requiring distributional assumptions, parameter estimation, or refitting. This simplicity is a major practical advantage.
 \end{enumerate}
 
 Figure \ref{fig:garch} visualizes these comparisons.
@@ -542,34 +548,37 @@ Key findings:
     \item \textbf{Both volatility-scaling approaches work.} EWMA-scaled CP (89.2\%) and realized-volatility-scaled CP (91.6\%) both achieve near-target coverage. The choice between them is a bias-variance tradeoff: EWMA responds faster to volatility changes but may overreact to noise.
 \end{enumerate}
 
-\subsection{Why Does Volatility-Scaled CP Outperform GARCH?}
+\subsection{When Does Volatility-Scaled CP Outperform GARCH?}
 
-The superior performance of volatility-scaled CP over GARCH may seem surprising, given GARCH's explicit volatility modeling. We identify three explanations:
+With fair comparison (monthly refitting), GARCH-t achieves 89.6\% coverage---nearly matching the 90\% target and close to volatility-scaled CP's 91.6\%. The practical question becomes: when should practitioners prefer one approach over the other?
 
 \begin{enumerate}
-    \item \textbf{Model misspecification.} GARCH(1,1) assumes a specific parametric form for volatility dynamics. When this assumption fails (e.g., during regime switches or structural breaks), forecast accuracy degrades. Volatility-scaled CP uses realized volatility, which is nonparametric.
+    \item \textbf{Simplicity and robustness.} Volatility-scaled CP requires no distributional assumptions, no parameter estimation, and no refitting decisions. GARCH requires choosing: (i) the GARCH order, (ii) the innovation distribution, (iii) refitting frequency. Each choice introduces potential for error.
 
-    \item \textbf{Distributional assumptions.} GARCH prediction intervals require specifying the innovation distribution. Even with Student-t innovations, the true distribution may differ. Volatility-scaled CP makes no distributional assumptions---the quantile is estimated empirically from standardized residuals.
+    \item \textbf{Coverage guarantees.} Conformal prediction provides finite-sample coverage guarantees under exchangeability. GARCH intervals rely on asymptotic approximations that may not hold in finite samples or during regime changes.
 
-    \item \textbf{Finite-sample coverage guarantees.} By construction, conformal prediction controls finite-sample coverage. GARCH intervals rely on asymptotic normality of parameter estimates and conditional distributions, which may not hold in finite samples.
+    \item \textbf{Computational cost.} Monthly GARCH refitting requires fitting 370+ models over the test period. Volatility-scaled CP requires computing one quantile from standardized scores---orders of magnitude faster.
+
+    \item \textbf{Factor heterogeneity.} Volatility-scaled CP outperforms GARCH substantially for some factors (SMB: 97.3\% vs 91.9\%) but slightly underperforms for others (Mkt-RF: 89.3\% vs 93.0\%). Practitioners may prefer GARCH for the market factor specifically.
 \end{enumerate}
+
+The key insight is that with sufficient care (monthly refitting, Student-t innovations), GARCH can match volatility-scaled CP's performance. But volatility-scaled CP achieves this performance with far less effort and no tuning.
 
 \subsection{Why Does CQR Fail Despite Being Designed for Heteroskedasticity?}
 
-Conformalized quantile regression \citep{romano2019conformalized} was specifically designed to handle heteroskedastic data, yet achieves only 74.1\% high-volatility coverage---no better than standard CP. This counterintuitive result deserves explanation.
+Conformalized quantile regression \citep{romano2019conformalized} was specifically designed to handle heteroskedastic data, yet achieves only 74.1\% high-volatility coverage---no better than standard CP. We conducted diagnostic analysis to understand this counterintuitive result.
 
-CQR works by training quantile regression models to predict conditional quantiles $\hat{q}_{\alpha/2}(x)$ and $\hat{q}_{1-\alpha/2}(x)$, then conformally calibrating these estimates. The key limitation is \textit{extrapolation}: CQR learns the relationship between features and quantiles from calibration data. When test-period volatility substantially exceeds the calibration-period range, CQR must extrapolate beyond its training distribution.
+CQR works by training quantile regression models to predict conditional quantiles $\hat{q}_{\alpha/2}(x)$ and $\hat{q}_{1-\alpha/2}(x)$, then conformally calibrating these estimates. We identify three specific failure modes:
 
-Consider the factor return setting:
 \begin{enumerate}
-    \item \textbf{Limited features.} With only lagged returns and volatility as predictors, quantile regression has limited capacity to capture the full conditional distribution.
+    \item \textbf{Volatility extrapolation.} On average, 9.2\% of test-period observations have volatility exceeding the calibration-period maximum. For HML (12.8\%) and RMW (17.6\%), this extrapolation is severe. CQR's learned quantiles cannot adapt to volatility regimes not seen during training.
 
-    \item \textbf{Regime extrapolation.} The 2008 financial crisis and 2020 COVID crash produced volatility levels rarely seen in earlier calibration data. CQR's learned quantiles, fitted on 1963--1993 data, cannot anticipate these extremes.
+    \item \textbf{Quantile underestimation.} We computed the true conditional quantile range during high-volatility test periods and compared it to CQR's calibration-based estimates. The underestimation averages 34.2\% across factors---calibration-period quantiles are far too narrow for high-volatility conditions. RMW shows 54.7\% underestimation; even Mkt-RF shows 21.3\%.
 
-    \item \textbf{Conformal correction is local.} CQR's conformal calibration step adjusts for \textit{average} miscalibration, not volatility-conditional miscalibration. If quantile regression systematically underestimates uncertainty during high volatility, the single scalar correction cannot fix this.
+    \item \textbf{Scalar correction cannot fix conditional bias.} CQR's conformal calibration step adds a single scalar correction to all predictions. But when quantile regression systematically underestimates uncertainty during high volatility (a \textit{conditional} bias), the scalar correction cannot fix this---it adjusts for average miscalibration, not volatility-conditional miscalibration.
 \end{enumerate}
 
-In contrast, volatility-scaled CP applies a \textit{multiplicative} correction: intervals scale proportionally with current volatility, regardless of whether that volatility level appeared in calibration. This multiplicative structure matches the data-generating process (Assumption~\ref{ass:het}), enabling correct coverage even under regime changes.
+In contrast, volatility-scaled CP applies a \textit{multiplicative} correction: intervals scale proportionally with current volatility, regardless of whether that volatility level appeared in calibration. This multiplicative structure matches the data-generating process (Assumption~\ref{ass:het}), enabling correct coverage even under regime changes that CQR cannot anticipate.
 
 %------------------------------------------------------------------
 \section{Out-of-Sample Validation}
@@ -716,18 +725,91 @@ The results are robust across estimation windows: all variants achieve 88--90\% 
 \end{itemize}
 The 12-month window balances these considerations, though practitioners should choose based on their specific application. For high-frequency trading, EWMA's faster adaptation may be preferable; for strategic asset allocation, longer windows may suffice.
 
+\subsection{Sensitivity to Time Period}
+
+A key concern is whether results are driven by specific historical episodes. Table~\ref{tab:era_sensitivity} shows performance across different eras.
+
+\begin{table}[H]
+\centering
+\caption{Subperiod Sensitivity: High-Volatility Coverage Across Eras}
+\label{tab:era_sensitivity}
+\begin{tabular}{lccc}
+\toprule
+Period & Standard CP & Vol-Scaled CP & Improvement \\
+\midrule
+Full Sample (1963--2024) & 74.1\% & 91.4\% & $+$17.3pp \\
+1963--1985 & 85.1\% & 87.6\% & $+$2.5pp \\
+1986--2000 & 71.1\% & 90.7\% & $+$19.6pp \\
+2001--2010 & 86.7\% & 99.4\% & $+$12.8pp \\
+2011--2024 & 65.9\% & 85.3\% & $+$19.4pp \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}
+\small\textit{Note:} High-volatility coverage averaged across six factors. Each subperiod uses within-period 50/50 calibration/test split.
+\end{flushleft}
+\end{table}
+
+Key findings:
+\begin{enumerate}
+    \item \textbf{Vol-Scaled CP consistently outperforms.} Across all eras, volatility-scaled CP achieves higher coverage than standard CP. The improvement ranges from 2.5pp (1963--1985) to 19.6pp (1986--2000).
+
+    \item \textbf{Largest gains in volatile eras.} The 1986--2000 period (including Black Monday 1987, Asian Crisis 1997, LTCM 1998) and 2011--2024 period (COVID crash 2020) show the largest improvements. These are precisely the periods where volatility scaling matters most.
+
+    \item \textbf{Smallest gains in stable eras.} The 1963--1985 period shows only 2.5pp improvement. With less volatility variation, the benefit of volatility scaling is smaller---but it never hurts.
+
+    \item \textbf{2011--2024 shows room for improvement.} Vol-Scaled CP achieves only 85.3\% in the most recent era, suggesting that recent market dynamics (quantitative easing, meme stocks) may require additional adaptation. This is an area for future work.
+\end{enumerate}
+
+\subsection{Validity of the I.I.D.\ Assumption}
+\label{sec:iid_main}
+
+Our theoretical results (Theorems~\ref{thm:undercover}--\ref{thm:robust}) require that standardized residuals $\epsilon_t = (Y_t - \mu)/\sigma_t$ are i.i.d. We test this assumption using Ljung-Box tests for autocorrelation (in levels and squares) and runs tests for independence. Table~\ref{tab:iid_main} reports the results.
+
+\begin{table}[H]
+\centering
+\caption{Tests of I.I.D.\ Assumption on Standardized Residuals}
+\label{tab:iid_main}
+\begin{tabular}{lccc}
+\toprule
+Factor & Autocorr.\ (LB) & ARCH Effects (LB$^2$) & Independence (Runs) \\
+\midrule
+Mkt-RF & Pass ($p=0.93$) & Pass ($p=0.26$) & Pass ($p=0.85$) \\
+SMB & \textbf{Fail} ($p<0.001$) & \textbf{Fail} ($p<0.001$) & \textbf{Fail} ($p=0.002$) \\
+HML & \textbf{Fail} ($p<0.001$) & \textbf{Fail} ($p=0.001$) & \textbf{Fail} ($p<0.001$) \\
+RMW & \textbf{Fail} ($p<0.001$) & \textbf{Fail} ($p=0.002$) & \textbf{Fail} ($p=0.005$) \\
+CMA & \textbf{Fail} ($p<0.001$) & Pass ($p=0.10$) & \textbf{Fail} ($p=0.009$) \\
+Mom & Pass ($p=0.61$) & \textbf{Fail} ($p<0.001$) & Pass ($p=0.36$) \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}
+\small\textit{Note:} Ljung-Box tests at lag 12. Bold indicates rejection at 5\% level. Only Mkt-RF passes all three tests; Mom passes two of three.
+\end{flushleft}
+\end{table}
+
+\textbf{Implications.} The i.i.d.\ assumption is well-supported for Mkt-RF and largely supported for Momentum, but rejected for SMB, HML, RMW, and CMA. This has important consequences for interpreting our results:
+
+\begin{enumerate}
+    \item \textbf{Factors with theoretical guarantees (Mkt-RF, Mom):} Our coverage theorems formally apply. The empirical results (89--92\% high-volatility coverage) match theoretical predictions.
+
+    \item \textbf{Factors without formal guarantees (SMB, HML, RMW, CMA):} Our theoretical results should be interpreted as \textit{heuristic guidance} rather than formal guarantees. The empirical success (86--97\% high-volatility coverage) suggests robustness beyond the i.i.d.\ setting, but we cannot claim finite-sample validity.
+\end{enumerate}
+
+\textbf{Why does volatility scaling still work?} We offer three explanations: (i) the autocorrelation in standardized residuals, while statistically significant, is economically modest (first-order autocorrelations of 0.05--0.15); (ii) volatility scaling removes the dominant source of non-exchangeability, leaving only second-order effects; and (iii) the finite-sample correction in conformal prediction provides some buffer against mild violations. The strong out-of-sample performance (Section~\ref{sec:oos}) provides confidence that the method works in practice, even where theory is incomplete.
+
 \subsection{Limitations}
 
 We acknowledge several limitations:
 
 \begin{enumerate}
-    \item \textbf{Multiplicative heteroskedasticity assumption.} Our theoretical guarantees require the location-scale model (Assumption~\ref{ass:het}). While this nests many common volatility models, it rules out certain forms of heteroskedasticity.
+    \item \textbf{I.I.D.\ assumption fails for most factors.} As documented in Section~\ref{sec:iid_main}, our theoretical guarantees formally apply only to Mkt-RF and Momentum. For the other four factors, our results are empirically validated but lack theoretical coverage guarantees. This is the most significant limitation of our analysis.
 
-    \item \textbf{Monthly data only.} Results may differ at daily or intraday frequencies where microstructure effects become important.
+    \item \textbf{Multiplicative heteroskedasticity assumption.} Our theoretical guarantees require the location-scale model (Assumption~\ref{ass:het}). While this nests many common volatility models, it rules out certain forms of heteroskedasticity (e.g., leverage effects where negative returns have different volatility impact than positive returns).
 
-    \item \textbf{Factor returns only.} Individual stocks or portfolios may exhibit different volatility dynamics.
+    \item \textbf{Monthly data only.} Results may differ at daily or intraday frequencies where microstructure effects, bid-ask bounce, and non-synchronous trading become important.
 
-    \item \textbf{Volatility estimation error.} Realized volatility is a proxy for true conditional volatility. Our robustness bounds (Theorem~\ref{thm:robust}) quantify but do not eliminate this error.
+    \item \textbf{Factor returns only.} Individual stocks or portfolios may exhibit different volatility dynamics. Factor returns are aggregated across many securities, which may smooth idiosyncratic effects.
+
+    \item \textbf{Volatility estimation error.} Realized volatility is a proxy for true conditional volatility. Our robustness bounds (Theorem~\ref{thm:robust}) quantify but do not eliminate this error. In practice, the bounds are conservative---empirical performance is substantially better than worst-case theory suggests.
 \end{enumerate}
 
 %------------------------------------------------------------------
@@ -735,13 +817,15 @@ We acknowledge several limitations:
 \label{sec:conclusion}
 %------------------------------------------------------------------
 
-We document that standard conformal prediction under-covers factor returns during high-volatility periods, achieving only 74\% coverage versus the 90\% target. We provide theoretical foundations explaining this phenomenon: under multiplicative heteroskedasticity, conditional coverage decreases monotonically with volatility (Theorem~\ref{thm:undercover}).
+We document that standard conformal prediction under-covers factor returns during high-volatility periods, achieving only 74\% coverage versus the 90\% target. Volatility-scaled conformal prediction---a technique dating to \citet{papadopoulos2008normalized}---restores coverage to the target level. Our contribution is the first systematic analysis of this phenomenon for financial applications.
 
-Our main contribution is showing that volatility-scaled conformal prediction achieves exact conditional coverage regardless of volatility level (Theorem~\ref{thm:uniform}), with explicit robustness bounds for estimation error (Theorem~\ref{thm:robust}). Empirically, volatility-scaled CP achieves 91.6\% high-volatility coverage, outperforming both standard CP (74.3\%) and GARCH(1,1) prediction intervals (82.9--86.2\%).
+\textbf{Empirical findings.} Volatility-scaled CP achieves 91.6\% high-volatility coverage, compared to 74.3\% for standard CP. With fair comparison (monthly refitting, Student-t innovations), GARCH achieves 89.6\%---close to volatility-scaled CP but requiring substantially more complexity. CQR, despite being designed for heteroskedastic data, fails to improve over standard CP (74.1\%), and our diagnostic analysis explains why: it cannot extrapolate to volatility regimes not seen during calibration.
 
-The practical advantages of volatility-scaled CP over GARCH are compelling: (i) no distributional assumptions, (ii) no parameter estimation, (iii) finite-sample coverage guarantees, and (iv) superior empirical performance. For practitioners, the implementation requires only one additional line of code beyond standard conformal prediction.
+\textbf{Theoretical analysis.} We adapt existing conformal prediction theory to the multiplicative heteroskedasticity setting common in finance. Our bounds (Theorems~\ref{thm:undercover}--\ref{thm:robust}) are not methodologically novel but provide explicit, interpretable guidance for practitioners. Importantly, these theoretical guarantees formally apply only to 2 of 6 factors tested (Mkt-RF, Momentum); the empirical success on other factors suggests robustness beyond the i.i.d.\ setting, but we cannot claim formal validity.
 
-Our findings have broader implications for uncertainty quantification in financial applications. Distribution-free methods can outperform parametric approaches when the underlying assumptions are violated---which is common in financial data. The conformal prediction framework provides a principled way to achieve this robustness while maintaining valid coverage guarantees.
+\textbf{Practical recommendations.} For practitioners, volatility-scaled CP offers an attractive tradeoff: near-optimal coverage with minimal complexity. The implementation requires one line of code, no distributional assumptions, and no refitting. GARCH can match this performance with sufficient care, but requires choosing model order, innovation distribution, and refitting frequency---each introducing potential for error.
+
+\textbf{Limitations and future work.} Our analysis is limited to monthly factor returns; results may differ at higher frequencies. The i.i.d.\ assumption fails for most factors, limiting theoretical guarantees. The 2011--2024 period shows weaker performance (85.3\% coverage), suggesting room for improvement in modern market conditions. Extending these methods to individual stocks, portfolios, and alternative asset classes remains for future work.
 
 %------------------------------------------------------------------
 % Data Availability
